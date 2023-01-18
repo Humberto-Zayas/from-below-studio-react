@@ -7,6 +7,7 @@ import logo from './logo.svg';
 import Header from "./components/navbar"; 
 import Hero from './components/hero';
 import Services from './components/services';
+import Pricing from './components/pricing';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
      <Header></Header>
      <Hero></Hero>
      <Services></Services>
+     <Pricing></Pricing>
     </div>
   );
 }

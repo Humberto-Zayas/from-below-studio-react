@@ -24,7 +24,6 @@ function Services() {
             <Item>
               <h4>RECORDING SERVICES</h4>
               <p>
-
                  From Below records songs, mixtapes, EP's and audiobooks for artists of multiple genres.
                  Industry quality recording booth, microphone and outboard gear. Fits guitar, bass, keyboards and many other instruments.
                  Plug and play your laptop and setup to our interface.
