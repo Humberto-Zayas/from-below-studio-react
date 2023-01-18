@@ -6,12 +6,14 @@ import logo from './logo.svg';
 
 import Header from "./components/navbar"; 
 import Hero from './components/hero';
+import Services from './components/services';
 
 function App() {
   return (
     <div>
      <Header></Header>
      <Hero></Hero>
+     <Services></Services>
     </div>
   );
 }
