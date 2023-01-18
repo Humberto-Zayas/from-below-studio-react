@@ -51,33 +51,40 @@ function Pricing() {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Recording" {...a11yProps(0)} />
-          <Tab label="Mixing" {...a11yProps(1)} />
+    <>
+      <h3>Pricing</h3>
+      <p>
+        Rates apply for single recording sessions and mixing services. Bundle packages available as well.
+      </p>
+      <Box sx={{ width: '100%' }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+            <Tab label="Recording" {...a11yProps(0)} />
+            <Tab label="Mixing" {...a11yProps(1)} />
 
-        </Tabs>
+          </Tabs>
+        </Box>
+        <TabPanel value={value} index={0}>
+          <Grid container spacing={2}>
+            <Grid lg={4} md={4} sm={12} xs={12}>
+              <BasicTable />
+            </Grid>
+            <Grid lg={4} md={4} sm={12} xs={12}>
+              <BasicTable />
+            </Grid>
+            <Grid lg={4} md={4} sm={12} xs={12}>
+              <BasicTable />
+            </Grid>
+          </Grid>
+
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <BasicTable />
+        </TabPanel>
+
       </Box>
-      <TabPanel value={value} index={0}>
-        <Grid container spacing={2}>
-          <Grid lg={4} md={4} sm={12} xs={12}>
-            <BasicTable />
-          </Grid>
-          <Grid lg={4} md={4} sm={12} xs={12}>
-            <BasicTable />
-          </Grid>
-          <Grid lg={4} md={4} sm={12} xs={12}>
-            <BasicTable />
-          </Grid>
-        </Grid>
-        
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <BasicTable />
-      </TabPanel>
+    </>
 
-    </Box>
   );
 }
 
