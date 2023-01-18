@@ -1,11 +1,3 @@
-import React from "react";
-// import { Link } from "react-router-dom";
-// import '../../css/nav.css';
-
-
-// import auth from "../../utils/auth";
-
-
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
