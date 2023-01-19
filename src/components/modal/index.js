@@ -5,7 +5,6 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Unstable_Grid2';
 
 const style = {
   position: 'absolute',
@@ -19,21 +18,14 @@ const style = {
   p: 4,
 };
 
-export default function Subfooter() {
+export default function TransitionsModal() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  return (
-    <>
-      <Grid container spacing={2}>
-        <Grid lg={8} md={8} sm={12} xs={12}>
-          Visa Logo
-        </Grid>
-        <Grid lg={4} md={4} sm={12} xs={12}>
-          <p><span onClick={handleOpen}>Studio Policy</span> | <span>Contact</span></p>
 
-        </Grid>
-      </Grid>
+  return (
+    // <div>
+    //   <Button onClick={handleOpen}>Open modal</Button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -56,6 +48,6 @@ export default function Subfooter() {
           </Box>
         </Fade>
       </Modal>
-    </>
-  )
+    // </div>
+  );
 }
