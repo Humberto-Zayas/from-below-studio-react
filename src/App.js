@@ -3,8 +3,8 @@ import logo from './logo.svg';
 // import './css/normalize.css';
 // import './css/util.css';
 // import './css/frombelow.css';
-
-import Header from "./components/navbar"; 
+import Container from '@mui/material/Container';
+import Header from "./components/navbar";
 import Hero from './components/hero';
 import Services from './components/services';
 import Pricing from './components/pricing';
@@ -15,12 +15,14 @@ import Subfooter from './components/subfooter';
 function App() {
   return (
     <div>
-     <Header></Header>
-     <Hero></Hero>
-     <Services></Services>
-     <Pricing></Pricing>
-     <About></About>
-     <Subfooter></Subfooter>
+      <Header></Header>
+      <Container maxWidth="lg">
+        <Hero></Hero>
+        <Services></Services>
+        <Pricing></Pricing>
+        <About></About>
+        <Subfooter></Subfooter>
+      </Container>
     </div>
   );
 }
