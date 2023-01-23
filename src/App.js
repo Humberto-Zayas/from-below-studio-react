@@ -3,26 +3,26 @@ import logo from './logo.svg';
 // import './css/normalize.css';
 // import './css/util.css';
 // import './css/frombelow.css';
+
+import Home from "./pages/Home"
+
 import Container from '@mui/material/Container';
 import Header from "./components/navbar";
-import Hero from './components/hero';
-import Services from './components/services';
-import Pricing from './components/pricing';
-import About from './components/about';
-import Subfooter from './components/subfooter';
 
+
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
     <div>
       <Header></Header>
-      <Container maxWidth="lg">
-        <Hero></Hero>
-        <Services></Services>
-        <Pricing></Pricing>
-        <About></About>
-        <Subfooter></Subfooter>
-      </Container>
+      <Router>
+        <Container maxWidth="lg">
+          <Routes>
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </Container>
+      </Router>
     </div>
   );
 }
