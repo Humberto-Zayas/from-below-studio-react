@@ -1,4 +1,8 @@
+import React from "react";
+
 import AppBar from '@mui/material/AppBar';
+import { Link } from "react-router-dom";
+
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -9,26 +13,21 @@ import MenuIcon from '@mui/icons-material/Menu';
 import logo from '../../images/fbs-logo-demo.png'
 console.log(logo);
 
+
 // Nav Function Start ///
 function Nav() {
 
   return (
-      <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
+          
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
+            <Link to="/">Home </Link>
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Link to="/stepper">Stepper </Link>
+          </Typography>
         </Toolbar>
       </AppBar>
     </Box>
