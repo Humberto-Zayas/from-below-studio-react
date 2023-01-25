@@ -99,7 +99,7 @@ export default function HorizontalLinearStepper() {
             <Box>
             <h3>Pick a date</h3>
             <StaticDatePickerDemo value={value} handleClick={handlePageChange}></StaticDatePickerDemo>
-            {value.toString()}
+            The current date chosen is: {value.toString()}
           </Box>
           }
           {activeStep === 1 && 

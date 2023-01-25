@@ -24,7 +24,9 @@ export default function StaticDatePickerDemo(props) {
       <StaticDatePicker
         disablePast
         displayStaticWrapperAs="desktop"
-        openTo="year"
+        views={["day"]}
+        // openTo="year"
+        openTo="day"
         value={value}
         onChange={(newValue) => {
           props.handleClick(newValue);
