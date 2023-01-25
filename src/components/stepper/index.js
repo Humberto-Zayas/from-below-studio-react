@@ -9,16 +9,19 @@ import dayjs from 'dayjs';
 
 import StaticDatePickerDemo from '../staticDateTimePicker';
 
-const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad'];
+const steps = ['Pick A Session', 'Enter Your Information', 'Review and Submit'];
 
 export default function HorizontalLinearStepper() {
+
+  
+
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
 
   const handlePageChange = (value) => setValue(value); // event to pass
-  const [value, setValue] = React.useState(dayjs(new Date())); // value to bind and update
+  // const [value, setValue] = React.useState(dayjs(new Date())); // value to bind and update
+  const [value, setValue] = React.useState(''); // value to bind and update
 
-  console.log(value);
 
   const isStepOptional = (step) => {
     return step === 1;
@@ -98,7 +101,11 @@ export default function HorizontalLinearStepper() {
           {activeStep === 0 && 
             <Box>
             <h3>Pick a date</h3>
-            <StaticDatePickerDemo value={value} handleClick={handlePageChange}></StaticDatePickerDemo>
+            <StaticDatePickerDemo 
+              value={value} 
+              handleClick={handlePageChange}
+             
+            />
             The current date chosen is: {value.toString()}
           </Box>
           }
