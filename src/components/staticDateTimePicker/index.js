@@ -22,6 +22,7 @@ export default function StaticDatePickerDemo(props) {
     // </LocalizationProvider>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <StaticDatePicker
+        disablePast
         displayStaticWrapperAs="desktop"
         openTo="year"
         value={value}

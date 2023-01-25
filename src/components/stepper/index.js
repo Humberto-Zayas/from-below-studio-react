@@ -16,7 +16,7 @@ export default function HorizontalLinearStepper() {
   const [skipped, setSkipped] = React.useState(new Set());
 
   const handlePageChange = (value) => setValue(value); // event to pass
-  const [value, setValue] = React.useState(dayjs('2022-04-07')); // value to bind and update
+  const [value, setValue] = React.useState(dayjs(new Date())); // value to bind and update
 
   console.log(value);
 
