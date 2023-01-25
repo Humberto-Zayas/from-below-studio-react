@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 
 import StaticDatePickerDemo from '../staticDateTimePicker';
+import ContactForm from '../contactForm';
 
 const steps = ['Pick A Session', 'Enter Your Information', 'Review and Submit'];
 
@@ -23,9 +24,6 @@ export default function HorizontalLinearStepper() {
   const [value, setValue] = React.useState(''); // value to bind and update
 
 
-  const isStepOptional = (step) => {
-    return step === 1;
-  };
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
@@ -46,20 +44,7 @@ export default function HorizontalLinearStepper() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
+ 
 
   const handleReset = () => {
     setActiveStep(0);
@@ -71,14 +56,7 @@ export default function HorizontalLinearStepper() {
         {steps.map((label, index) => {
           const stepProps = {};
           const labelProps = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = (
-              <Typography variant="caption">Optional</Typography>
-            );
-          }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
+         
           return (
             <Step key={label} {...stepProps}>
               <StepLabel {...labelProps}>{label}</StepLabel>
@@ -112,7 +90,7 @@ export default function HorizontalLinearStepper() {
           {activeStep === 1 && 
             <Box>
             <h3>Enter Details</h3>
-            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+            <ContactForm/>
           </Box>
           }
           {activeStep === 2 && 
@@ -136,12 +114,7 @@ export default function HorizontalLinearStepper() {
               Back
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
-            {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                Skip
-              </Button>
-            )}
-
+            
             <Button onClick={handleNext}>
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
             </Button>

@@ -23,9 +23,6 @@ export default function BootlegStepper() {
     if (activeStep <= 4) {
       setTimeout(() => handleNext(), 3000);
     } 
-    // else if (activeStep >= 5) {
-    //   setTimeout(() => handleBack(), 1000);
-    // }
   }
   
   React.useEffect(() => {
