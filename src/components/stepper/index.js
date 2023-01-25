@@ -1,79 +1,146 @@
 import * as React from 'react';
-import { useRef } from 'react';
-import { useTheme } from '@mui/material/styles';
-import MobileStepper from '@mui/material/MobileStepper';
+import Box from '@mui/material/Box';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import Typography from '@mui/material/Typography';
+import dayjs from 'dayjs';
 
-export default function Stepper() {
-  const effectRan = useRef(false);
-  const theme = useTheme();
+import StaticDatePickerDemo from '../staticDateTimePicker';
+
+const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad'];
+
+export default function HorizontalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
+  const [skipped, setSkipped] = React.useState(new Set());
+
+  const handlePageChange = (value) => setValue(value); // event to pass
+  const [value, setValue] = React.useState(dayjs('2022-04-07')); // value to bind and update
+
+  console.log(value);
+
+  const isStepOptional = (step) => {
+    return step === 1;
+  };
+
+  const isStepSkipped = (step) => {
+    return skipped.has(step);
+  };
 
   const handleNext = () => {
+    let newSkipped = skipped;
+    if (isStepSkipped(activeStep)) {
+      newSkipped = new Set(newSkipped.values());
+      newSkipped.delete(activeStep);
+    }
+
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped(newSkipped);
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const incrementStepper = () => {
-    if (activeStep <= 4) {
-      setTimeout(() => handleNext(), 6000);
+  const handleSkip = () => {
+    if (!isStepOptional(activeStep)) {
+      // You probably want to guard against something like this,
+      // it should never occur unless someone's actively trying to break something.
+      throw new Error("You can't skip a step that isn't optional.");
     }
-  }
-  
-  React.useEffect(() => {
-    console.log('effect ran')
 
-    //variation two
-    if (effectRan.current === true) {
-     incrementStepper()
-    }
-    return () => {
-      console.log('unmounted');
-      effectRan.current = true;
-      } //clean up function??? idk man...
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped((prevSkipped) => {
+      const newSkipped = new Set(prevSkipped.values());
+      newSkipped.add(activeStep);
+      return newSkipped;
+    });
+  };
 
-    //variation 1 
-    // if (effectRan.current === false) {
-    //  incrementStepper() // in place of if statement above...
-    //  return () => {
-    //   console.log('unmounted');
-    //   effectRan.current = true;
-    //   } //clean up function??? idk man...
-    // }
-  });
+  const handleReset = () => {
+    setActiveStep(0);
+  };
 
   return (
-    <MobileStepper
-      variant="progress"
-      steps={6}
-      position="static"
-      activeStep={activeStep}
-      sx={{ maxWidth: '100%', flexGrow: 1, mt: 10 }}
-      nextButton={
-        <Button size="small" onClick={handleNext} disabled={activeStep === 5}>
-          Next
-          {theme.direction === 'rtl' ? (
-            <KeyboardArrowLeft />
-          ) : (
-            <KeyboardArrowRight />
-          )}
-        </Button>
-      }
-      backButton={
-        <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-          {theme.direction === 'rtl' ? (
-            <KeyboardArrowRight />
-          ) : (
-            <KeyboardArrowLeft />
-          )}
-          Back
-        </Button>
-      }
-    />
+    <Box sx={{ width: '100%', mt: 11 }}>
+      <Stepper activeStep={activeStep}>
+        {steps.map((label, index) => {
+          const stepProps = {};
+          const labelProps = {};
+          if (isStepOptional(index)) {
+            labelProps.optional = (
+              <Typography variant="caption">Optional</Typography>
+            );
+          }
+          if (isStepSkipped(index)) {
+            stepProps.completed = false;
+          }
+          return (
+            <Step key={label} {...stepProps}>
+              <StepLabel {...labelProps}>{label}</StepLabel>
+            </Step>
+          );
+        })}
+      </Stepper>
+      {activeStep === steps.length ? (
+        <React.Fragment>
+          <Typography sx={{ mt: 2, mb: 1 }}>
+            All steps completed - you&apos;re finished
+          </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+            <Box sx={{ flex: '1 1 auto' }} />
+            <Button onClick={handleReset}>Reset</Button>
+          </Box>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          {activeStep === 0 && 
+            <Box>
+            <h3>Pick a date</h3>
+            <StaticDatePickerDemo value={value} handleClick={handlePageChange}></StaticDatePickerDemo>
+            {value.toString()}
+          </Box>
+          }
+          {activeStep === 1 && 
+            <Box>
+            <h3>Enter Details</h3>
+            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+          </Box>
+          }
+          {activeStep === 2 && 
+            <Box>
+            <h3>Review</h3>
+            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+          </Box>
+          }
+          {/* <Box>
+            <h3>The Stuff Goes Here</h3>
+            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+          </Box> */}
+
+          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+            <Button
+              color="inherit"
+              disabled={activeStep === 0}
+              onClick={handleBack}
+              sx={{ mr: 1 }}
+            >
+              Back
+            </Button>
+            <Box sx={{ flex: '1 1 auto' }} />
+            {isStepOptional(activeStep) && (
+              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
+                Skip
+              </Button>
+            )}
+
+            <Button onClick={handleNext}>
+              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+            </Button>
+          </Box>
+        </React.Fragment>
+      )}
+    </Box>
   );
 }

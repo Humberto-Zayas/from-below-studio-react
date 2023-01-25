@@ -5,6 +5,7 @@ import logo from './logo.svg';
 // import './css/frombelow.css';
 
 import Home from "./pages/Home"
+import BootlegStepper from "./components/bootlegstepper"
 import Stepper from "./components/stepper"
 
 
@@ -23,6 +24,7 @@ function App() {
         <Container maxWidth="lg">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/bootlegstepper" element={<BootlegStepper />} />
             <Route path="/stepper" element={<Stepper />} />
           </Routes>
         </Container>

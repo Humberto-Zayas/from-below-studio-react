@@ -26,6 +26,9 @@ function Nav() {
             <Link to="/">Home </Link>
           </Typography>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Link to="/bootlegstepper">Bootleg Stepper </Link>
+          </Typography>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link to="/stepper">Stepper </Link>
           </Typography>
         </Toolbar>
