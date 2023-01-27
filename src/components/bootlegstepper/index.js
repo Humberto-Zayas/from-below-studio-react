@@ -6,6 +6,11 @@ import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
+import Timer from '../timer';
+
+import Locate from '../locate';
+import UserList from '../locateFilter';
+
 export default function BootlegStepper() {
   const effectRan = useRef(false);
   const theme = useTheme();
@@ -22,20 +27,20 @@ export default function BootlegStepper() {
   const incrementStepper = () => {
     if (activeStep <= 4) {
       setTimeout(() => handleNext(), 3000);
-    } 
+    }
   }
-  
+
   React.useEffect(() => {
     console.log('effect ran')
 
     //variation 2
     if (effectRan.current === true) {
-     incrementStepper()
+      incrementStepper()
     }
     return () => {
       console.log('unmounted');
       effectRan.current = true;
-      } //clean up function??? idk man...
+    } //clean up function??? idk man...
 
     //variation 1 
     // if (effectRan.current === false) {
@@ -48,32 +53,38 @@ export default function BootlegStepper() {
   });
 
   return (
-    <MobileStepper
-      variant="progress"
-      steps={6}
-      position="static"
-      activeStep={activeStep}
-      sx={{ maxWidth: '100%', flexGrow: 1, mt: 10 }}
-      nextButton={
-        <Button size="small" onClick={handleNext} disabled={activeStep === 5}>
-          Next
-          {theme.direction === 'rtl' ? (
-            <KeyboardArrowLeft />
-          ) : (
-            <KeyboardArrowRight />
-          )}
-        </Button>
-      }
-      backButton={
-        <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-          {theme.direction === 'rtl' ? (
-            <KeyboardArrowRight />
-          ) : (
-            <KeyboardArrowLeft />
-          )}
-          Back
-        </Button>
-      }
-    />
+    <>
+      <Timer time={60} />
+      <MobileStepper
+        variant="progress"
+        steps={6}
+        position="static"
+        activeStep={activeStep}
+        sx={{ maxWidth: '100%', flexGrow: 1, mt: 10 }}
+        nextButton={
+          <Button size="small" onClick={handleNext} disabled={activeStep === 5}>
+            Next
+            {theme.direction === 'rtl' ? (
+              <KeyboardArrowLeft />
+            ) : (
+              <KeyboardArrowRight />
+            )}
+          </Button>
+        }
+        backButton={
+          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+            {theme.direction === 'rtl' ? (
+              <KeyboardArrowRight />
+            ) : (
+              <KeyboardArrowLeft />
+            )}
+            Back
+          </Button>
+        }
+      />
+      <Locate></Locate>
+      <UserList></UserList>
+    </>
+
   );
 }

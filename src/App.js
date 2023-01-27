@@ -7,7 +7,7 @@ import logo from './logo.svg';
 import Home from "./pages/Home"
 import BootlegStepper from "./components/bootlegstepper"
 import Stepper from "./components/stepper"
-
+// import Calendar from './components/calendar';
 
 import Container from '@mui/material/Container';
 import Header from "./components/navbar";
@@ -26,6 +26,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/bootlegstepper" element={<BootlegStepper />} />
             <Route path="/stepper" element={<Stepper />} />
+            {/* <Route path="/calendar" element={<Calendar />} /> */}
           </Routes>
         </Container>
       </Router>

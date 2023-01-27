@@ -73,9 +73,9 @@ export default function ContactForm() {
           <MenuItem value={30}>Thirty</MenuItem>
         </Select>
       </FormControl>
-      <Box sx={{ mt: 3 }}>
+      {/* <Box sx={{ mt: 3 }}>
         <Button variant="contained">Send</Button>
-      </Box>
+      </Box> */}
     </>
   )
 }
