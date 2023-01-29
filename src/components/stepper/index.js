@@ -53,9 +53,7 @@ export default function HorizontalLinearStepper() {
     } else if (value.target.name === 'referral') {
       setFormState({ ...formState, referral: value.target.value })
     }
-    // setActiveStep(3)
   }
-  console.log('finished form: ', formState);
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
@@ -94,7 +92,7 @@ export default function HorizontalLinearStepper() {
   };
 
   return (
-    <Box sx={{ width: '100%', mt: 11 }}>
+    <Box sx={{ width: '100%', mt: 1 }}>
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => {
           const stepProps = {};
@@ -120,7 +118,7 @@ export default function HorizontalLinearStepper() {
         <React.Fragment>
           {activeStep === 0 &&
             <>
-              <Box sx={{ mt: 10 }}>
+              <Box sx={{ mt: 1 }}>
                 <BasicDatePicker
                   value={value}
                   handleClick={handleDatePick}
@@ -129,12 +127,12 @@ export default function HorizontalLinearStepper() {
             </>
           }
           {activeStep === 1 &&
-            <Box sx={{ mt: 10 }}>
+            <Box sx={{ mt: 1 }}>
               <SelectableHours selectHours={handleHoursPicked} />
             </Box>
           }
           {activeStep === 2 &&
-            <Box sx={{ mt: 10 }}>
+            <Box sx={{ mt: 1 }}>
               <ContactForm formCapture={handleFormFinished} date={value} hours={hours} />
             </Box>
           }

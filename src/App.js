@@ -25,8 +25,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/bootlegstepper" element={<BootlegStepper />} />
-            <Route path="/stepper" element={<Stepper />} />
-            {/* <Route path="/calendar" element={<Calendar />} /> */}
+            
           </Routes>
         </Container>
       </Router>

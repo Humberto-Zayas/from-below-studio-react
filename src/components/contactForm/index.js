@@ -31,7 +31,7 @@ export default function ContactForm(props) {
   return (
     <>
       <form>
-        <FormControl sx={{ mt: 1 }} fullWidth>
+        <FormControl sx={{ mt: 3 }} fullWidth>
           <TextField
             name="name"
             sx={{ mb: 3 }}
@@ -41,7 +41,7 @@ export default function ContactForm(props) {
             onChange={(event) => handleChange(event)}
             required
           />
-          <br></br>
+          
           <TextField
             name="email"
             sx={{ mb: 3 }}
@@ -51,7 +51,6 @@ export default function ContactForm(props) {
             onChange={(event) => handleChange(event)}
             required
           />
-          <br></br>
 
           <TextField
             name="phoneNumber"
@@ -62,7 +61,7 @@ export default function ContactForm(props) {
             onChange={(event) => handleChange(event)}
             required
           />
-          <br></br>
+
           <TextField
             name="message"
             sx={{ mb: 3 }}
@@ -70,10 +69,9 @@ export default function ContactForm(props) {
             label="Message"
             variant="outlined"
             onChange={(event) => handleChange(event)}
-
             required
           />
-          <br></br>
+
           <FormControl sx={{ mb: 5 }}>
             <InputLabel style={{ background: 'white' }} id="demo-simple-select-label">How did you hear about us?</InputLabel>
             <Select
@@ -102,7 +100,7 @@ export default function ContactForm(props) {
             }}
             value={props.date.toISOString().split('T')[0]}
           />
-          <br></br>
+          
           <TextField
             sx={{ mb: 3 }}
             id="outlined-basic"
