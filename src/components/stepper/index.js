@@ -30,13 +30,13 @@ export default function HorizontalLinearStepper() {
 
   const handleDatePick = (value) => { // passable function to get date picked
     setValue(value); // event to pass
-    setFormState({...formState, date: value.toISOString().split('T')[0]}); //
+    setFormState({ ...formState, date: value.toISOString().split('T')[0] }); //
     setActiveStep(1)
   }
 
   const handleHoursPicked = (value) => { // passable function to hour select list
     setHours(value);
-    setFormState({...formState, hours: value})
+    setFormState({ ...formState, hours: value })
     setActiveStep(2)
   }
 
@@ -67,10 +67,19 @@ export default function HorizontalLinearStepper() {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
-    
+
     if (formState.name && formState.email && formState.phoneNumber && formState.message && formState.referral) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      setSkipped(newSkipped);      
+      setSkipped(newSkipped);
+      setFormState({
+        name: null,
+        email: null,
+        phoneNumber: null,
+        message: null,
+        referral: null,
+        date: null,
+        hours: null
+      });
     } else {
       alert("Please fill out all fields before submitting the form.");
     }
