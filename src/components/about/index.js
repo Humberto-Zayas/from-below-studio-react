@@ -1,4 +1,5 @@
 import Grid from '@mui/material/Unstable_Grid2';
+import SwipeableTextMobileStepper from '../../components/SwipeableTextMobileStepper';
 
 
 export default function About() {
@@ -12,10 +13,10 @@ export default function About() {
       </p>
       <Grid container spacing={2}>
         <Grid lg={6} md={12} sm={12} xs={12}>
-          light box one
+          <SwipeableTextMobileStepper/>
         </Grid>
         <Grid lg={6} md={12} sm={12} xs={12}>
-          light box two
+          <SwipeableTextMobileStepper/>
         </Grid>
       </Grid>
     </>
