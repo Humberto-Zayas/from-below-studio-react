@@ -23,17 +23,12 @@ const style = {
 };
 
 function Hero() {
-  const [value, setValue] = React.useState(null);
   const [open, setOpen] = React.useState(false);
-
+  
+  // Modal functions
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [age, setAge] = React.useState('');
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
   return (
     <div>
       <h1>FROM BELOW STUDIO</h1>
@@ -56,7 +51,6 @@ function Hero() {
       >
         <Fade in={open}>
           <Box sx={style}>
-            
             <HorizontalLinearStepper></HorizontalLinearStepper>
           </Box>
         </Fade>
