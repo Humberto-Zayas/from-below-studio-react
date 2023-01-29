@@ -6,26 +6,56 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
-
-import StaticDatePickerDemo from '../staticDateTimePicker';
 import BasicDatePicker from '../BasicDatePicker';
 import ContactForm from '../contactForm';
 import SelectableHours from '../SelectableHours';
 
-const steps = ['Pick A Date', 'Pick Your Hours', 'Enter Your Information', 'Review and Submit'];
+const steps = ['Pick A Date', 'Pick Your Hours', 'Enter Your Information'];
 
 export default function HorizontalLinearStepper() {
-
-
-
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
-
-  const handlePageChange = (value) => setValue(value); // event to pass
   // const [value, setValue] = React.useState(dayjs(new Date())); // value to bind and update
-  const [value, setValue] = React.useState(''); // value to bind and update
+  const [value, setValue] = React.useState(''); // recording date chosen
+  const [hours, setHours] = React.useState(null); // recording hours chosen
+  const [formState, setFormState] = React.useState({
+    name: null,
+    email: null,
+    phoneNumber: null,
+    message: null,
+    referral: null,
+    date: null,
+    hours: null
+  });
 
+  const handleDatePick = (value) => { // passable function to get date picked
+    setValue(value); // event to pass
+    setFormState({...formState, date: value.toISOString().split('T')[0]}); //
+    setActiveStep(1)
+  }
 
+  const handleHoursPicked = (value) => { // passable function to hour select list
+    setHours(value);
+    setFormState({...formState, hours: value})
+    setActiveStep(2)
+  }
+
+  const handleFormFinished = (value) => { // passable function to contact form
+    console.log(value)
+    if (value.target.name === 'name') {
+      setFormState({ ...formState, name: value.target.value })
+    } else if (value.target.name === 'email') {
+      setFormState({ ...formState, email: value.target.value })
+    } else if (value.target.name === 'phoneNumber') {
+      setFormState({ ...formState, phoneNumber: value.target.value })
+    } else if (value.target.name === 'message') {
+      setFormState({ ...formState, message: value.target.value })
+    } else if (value.target.name === 'referral') {
+      setFormState({ ...formState, referral: value.target.value })
+    }
+    // setActiveStep(3)
+  }
+  console.log('finished form: ', formState);
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
@@ -37,16 +67,18 @@ export default function HorizontalLinearStepper() {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+    
+    if (formState.name && formState.email && formState.phoneNumber && formState.message && formState.referral) {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setSkipped(newSkipped);      
+    } else {
+      alert("Please fill out all fields before submitting the form.");
+    }
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
-
 
   const handleReset = () => {
     setActiveStep(0);
@@ -78,24 +110,27 @@ export default function HorizontalLinearStepper() {
       ) : (
         <React.Fragment>
           {activeStep === 0 &&
-            <Box>
-              <BasicDatePicker
-                value={value}
-                handleClick={handlePageChange}
-              />
-              {/* The current date chosen is: {value.toISOString().split('T')[0]} */}
-              The current date chosen is: {value!== '' && value.toISOString().split('T')[0]}
-            </Box>
+            <>
+              <Box sx={{ mt: 10 }}>
+                <BasicDatePicker
+                  value={value}
+                  handleClick={handleDatePick}
+                />
+                {/* The current date chosen is: {value.toISOString().split('T')[0]} */}
+              </Box>
+              <Box sx={{ mt: 10 }}>
+                The current date chosen is: {value !== '' && value.toISOString().split('T')[0]}
+              </Box>
+            </>
           }
           {activeStep === 1 &&
-            <Box>
-              <SelectableHours/>
+            <Box sx={{ mt: 10 }}>
+              <SelectableHours selectHours={handleHoursPicked} />
             </Box>
           }
           {activeStep === 2 &&
-            <Box>
-              
-              <ContactForm />
+            <Box sx={{ mt: 10 }}>
+              <ContactForm formCapture={handleFormFinished} date={value} hours={hours} />
             </Box>
           }
           {activeStep === 3 &&
@@ -104,7 +139,7 @@ export default function HorizontalLinearStepper() {
               <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
             </Box>
           }
-        
+
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button
               color="inherit"
@@ -115,10 +150,14 @@ export default function HorizontalLinearStepper() {
               Back
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
-
-            <Button onClick={handleNext}>
+            {activeStep === steps.length - 1 &&
+              <Button onClick={handleNext}>
+                Finish
+              </Button>
+            }
+            {/* <Button onClick={handleNext}>
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
+            </Button> */}
           </Box>
         </React.Fragment>
       )}
