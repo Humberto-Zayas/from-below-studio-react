@@ -125,10 +125,6 @@ export default function HorizontalLinearStepper() {
                   value={value}
                   handleClick={handleDatePick}
                 />
-                {/* The current date chosen is: {value.toISOString().split('T')[0]} */}
-              </Box>
-              <Box sx={{ mt: 10 }}>
-                The current date chosen is: {value !== '' && value.toISOString().split('T')[0]}
               </Box>
             </>
           }
