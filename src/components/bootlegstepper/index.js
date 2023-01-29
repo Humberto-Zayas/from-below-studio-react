@@ -10,6 +10,7 @@ import Timer from '../timer';
 
 import Locate from '../locate';
 import UserList from '../locateFilter';
+import MusicPlayer from '../MusicPlayer';
 
 export default function BootlegStepper() {
   const effectRan = useRef(false);
@@ -84,6 +85,7 @@ export default function BootlegStepper() {
       />
       <Locate></Locate>
       <UserList></UserList>
+      <MusicPlayer></MusicPlayer>
     </>
 
   );

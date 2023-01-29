@@ -34,33 +34,22 @@ export default function StaticDatePickerDemo(props) {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      {/* <StaticDatePicker
-        disablePast
-        displayStaticWrapperAs="desktop"
-        shouldDisableDate={getDisabledDates}
-        views={["day"]}
-        // openTo="year"
-        openTo="day"
-        value={value}
-        onChange={(newValue) => {
-          props.handleClick(newValue);
-          setValue(newValue)
-        }}
-        renderInput={(params) => <TextField {...params} />}
-      /> */}
       <DateTimePicker
         disablePast
         shouldDisableDate={getDisabledDates}
         renderInput={(props) => <TextField {...props} />}
         label="DateTimePicker"
         value={value}
+        
         shouldDisableTime={(date) =>
           disabledHours.includes(date)
         }
         onChange={(newValue) => {
+          console.log('on change ran')
           props.handleClick(newValue);
           setValue(newValue)
         }}
+        onAccept={() => console.log('on accept')}
       />
        <FormControlLabel
         control={
