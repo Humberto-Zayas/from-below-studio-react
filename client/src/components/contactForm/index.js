@@ -67,6 +67,8 @@ export default function ContactForm(props) {
             sx={{ mb: 3 }}
             id="outlined-basic"
             label="Message"
+            multiline
+            rows={4}
             variant="outlined"
             onChange={(event) => handleChange(event)}
             required
