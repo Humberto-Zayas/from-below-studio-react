@@ -1,26 +1,17 @@
 // const faker = require('faker'); 
 const userSeeds = require('./userSeed.json');
 const messageSeeds = require('./messageSeed.json');
+const daySeeds = require('./daySeed.json');
 const db = require('../config/connection');
-const {User, Message} = require('../models');
+const {User, Message, Availability, Day} = require('../models');
 
 db.once('open', async () => {
   try {
     await User.deleteMany({});
-
+    await Message.deleteMany({});
     await User.create(userSeeds);
-
-    // for (let i = 0; i < movieSeeds.length; i++) {
-    //   const { _id, thoughtAuthor } = await Movie.create(movieSeeds[i]);
-    //   const user = await User.findOneAndUpdate(
-    //     { username: thoughtAuthor },
-    //     {
-    //       $addToSet: {
-    //         savedMovie: _id,
-    //       },
-    //     }
-    //   );
-    // }
+    await Day.create(daySeeds);
+    
     for (let i = 0; i < messageSeeds.length; i++) {
       const { _id, username } = await Message.create(messageSeeds[i]);
       const user = await User.findOneAndUpdate(
@@ -32,6 +23,7 @@ db.once('open', async () => {
         }
       );
     }
+
   } catch (err) {
     console.error(err);
     process.exit(1);

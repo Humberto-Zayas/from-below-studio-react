@@ -1,0 +1,24 @@
+[
+  {
+    "date" : "2023-02-18", 
+    "disabled" : false,
+    "hours": [
+      "2 Hours/$70",
+      "4 Hours/$130",
+      "6 Hours/$200"
+    ]
+  },
+  {
+    "date" : "2023-02-19", 
+    "disabled" : true,
+    "hours": []
+  },
+  {
+    "date" : "2023-02-20", 
+    "disabled" : false,
+    "hours": [
+      "2 Hours/$70",
+      "4 Hours/$130"
+    ]
+  }
+]
