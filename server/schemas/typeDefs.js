@@ -12,12 +12,17 @@ const typeDefs = gql`
     recipient: String
   }
 
+  type Day {
+    _id: ID
+    date: String
+    disabed: Boolean
+    hours: [String]
+  }
+
   type User {
     _id: ID
     username: String
-   
     description: String
-    
     messages: [Message]
   }
 
@@ -38,6 +43,8 @@ const typeDefs = gql`
     usersById(_id: [ID!]): [User]
     messages: [Message!]  
     messagesToRecipient(username: String!, recipient: String!): [Message!]
+    day(date: String!): Day
+    days: [Day]
   }
   
   type Mutation {

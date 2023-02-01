@@ -1,4 +1,4 @@
-const { User, Message } = require("../models");
+const { User, Message, Day } = require("../models");
 const { AuthenticationError } = require("graphql-tag");
 const { signToken } = require("../utils/auth");
 const { PubSub } =  require('graphql-subscriptions');
@@ -12,11 +12,9 @@ const resolvers = {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
           .select("-__v -password");
-         
         // .populate('friends');
         return userData;
       }
-
       throw new AuthenticationError("Not logged in");
     },
     //Gets All Users//
@@ -30,7 +28,6 @@ const resolvers = {
         .select("-__v -password");
       // .populate('thoughts');
     },
-   
     usersById: async (parent,  args ) => {
       const stringifiedArgs = JSON.stringify(args._id);
       return User.find({ '_id': { $in: args._id } }).select("-__v -password");
@@ -53,13 +50,6 @@ const resolvers = {
       // }
       // throw new AuthenticationError("Not logged in");
     },
-    // kinks: async (parent, { username }) => {
-    //   const params = username ? { username } : {};
-    //   return Kink.find(params).sort({ createdAt: -1 });
-    // },
-    // kink: async (parent, { _id }) => {
-    //   return Kink.findOne({ _id });
-    // },
     //Get All Movies//
     // movies: async (parent, { username }) => {
     //   const params = username ? { username } : {};
@@ -69,6 +59,15 @@ const resolvers = {
     // movie: async (parent, { _id }) => {
     //   return Movie.findOne({ _id });
     // },
+    //Gets All Users//
+    days: async () => {
+      return Day.find()
+      // .populate('friends');
+    },
+    day: async (parent, { date }) => {
+      console.log('the date: ', date)
+      return Day.findOne({ date })
+    },
   },
   /// --- Mutation Start --- ///
   Mutation: {
@@ -76,13 +75,11 @@ const resolvers = {
     addUser: async (parent, args) => {
       const user = await User.create(args);
       const token = signToken(user);
-
       return { token, user };
     },
     editUser: async (parent, args, context) => {
       // const user = await User.create(args);
       // const token = signToken(user);
-
       // return { token, user };
       if (context.user) {
         const user = await User.findOneAndUpdate(
@@ -91,8 +88,6 @@ const resolvers = {
           { new: true }
         )
         const token = signToken(user);
-
-    
         return { token, user };
       }
       //Error if not logged in//
@@ -108,34 +103,15 @@ const resolvers = {
       }
       /// ---- Const searches for correct password ---///
       const correctPw = await user.isCorrectPassword(password);
-
       if (!correctPw) {
         throw new AuthenticationError("Incorrect credentials");
       }
-
       const token = signToken(user);
       return { token, user };
     },
-    // addKink: async (parent, args, context) => {
-    //   if (context.user) {
-    //     const kink = await Kink.create({ ...args, username: context.user.username });
-    
-    //     await User.findByIdAndUpdate(
-    //       { _id: context.user._id },
-    //       { $push: { kinks: kink._id } },
-    //       { new: true }
-    //     );
-    
-    //     return kink;
-    //   }
-    
-    //   throw new AuthenticationError('You need to be logged in!');
-    // },
-
     editUser: async (parent, args, context) => {
       // const user = await User.create(args);
       // const token = signToken(user);
-
       // return { token, user };
       if (context.user) {
         const user = await User.findOneAndUpdate(
@@ -144,8 +120,6 @@ const resolvers = {
           { new: true }
         )
         const token = signToken(user);
-
-    
         return { token, user };
       }
       //Error if not logged in//
@@ -171,11 +145,9 @@ const resolvers = {
     //   throw new AuthenticationError("You need to be logged in!");
     // },
     //Add friend by friendId, then added to friends array//
-
     // postMessage: async (parent, {text, recipient}, context) => {
     //   if (context.user) {
     //     const message = await Message.create({ username: context.user.username, text: text, recipient: recipient });
-    
     //     await User.findByIdAndUpdate(
     //       { _id: context.user._id },
     //       { $push: { messages: message } },
@@ -184,13 +156,11 @@ const resolvers = {
     //     pubsub.publish('MESSAGE_POSTED', { postCreated: message }); 
     //     return message;
     //   }
-    
     //   throw new AuthenticationError('You need to be logged in!');
     // }, 
     postMessage: async (parent, {username, text, recipient}, context) => {
       if (context.user) {
         const message = await Message.create({ username: username, text: text, recipient: recipient });
-    
         await User.findByIdAndUpdate(
           { _id: context.user._id },
           { $push: { messages: message } },
@@ -199,7 +169,6 @@ const resolvers = {
         pubsub.publish('MESSAGE_POSTED', { postCreated: message }); 
         return message;
       }
-    
       throw new AuthenticationError('You need to be logged in!');
     },  
   },
@@ -207,7 +176,6 @@ const resolvers = {
     messagePosted: {
       resolve: (payload) => payload.postCreated,
       subscribe: () => pubsub.asyncIterator('MESSAGE_POSTED'),
-             
     },
   },
 };

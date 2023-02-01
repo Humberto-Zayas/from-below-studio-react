@@ -11,6 +11,7 @@ import Pricing from '../components/pricing';
 import About from '../components/about';
 import Subfooter from '../components/subfooter';
 
+
 const Home = () => {
 
   return (
