@@ -5,6 +5,7 @@ import logo from './logo.svg';
 // import './css/frombelow.css';
 
 import Home from "./pages/Home"
+import Admin from "./pages/Admin"
 import BootlegStepper from "./components/bootlegstepper"
 import Stepper from "./components/stepper"
 // import Calendar from './components/calendar';
@@ -25,7 +26,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/bootlegstepper" element={<BootlegStepper />} />
-            
+            <Route path="/admin" element={<Admin />} />
           </Routes>
         </Container>
       </Router>

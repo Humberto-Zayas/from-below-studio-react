@@ -5,11 +5,7 @@ import MobileStepper from '@mui/material/MobileStepper';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-
 import Timer from '../timer';
-
-import Locate from '../locate';
-import UserList from '../locateFilter';
 import MusicPlayer from '../MusicPlayer';
 
 export default function BootlegStepper() {
@@ -83,8 +79,7 @@ export default function BootlegStepper() {
           </Button>
         }
       />
-      <Locate></Locate>
-      <UserList></UserList>
+      
       <MusicPlayer></MusicPlayer>
     </>
 
