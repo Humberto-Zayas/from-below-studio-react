@@ -13,7 +13,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function Services() {
   return (
-    <>
+    <div className='section' id="Services">
       <h3>SERVICES</h3>
       <p>
         From Below offers recording and audio mixing services. The studio is also available for production uses.
@@ -53,7 +53,7 @@ function Services() {
 
         </Grid>
       </Box>
-    </>
+    </div>
   )
 }
 

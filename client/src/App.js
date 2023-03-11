@@ -1,8 +1,8 @@
 import logo from './logo.svg';
 // import './App.css';
-// import './css/normalize.css';
-// import './css/util.css';
-// import './css/frombelow.css';
+import './css/normalize.css';
+import './css/util.css';
+import './css/frombelow.css';
 
 import Home from "./pages/Home"
 import Admin from "./pages/Admin"
@@ -16,13 +16,15 @@ import Header from "./components/navbar";
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+
+
 function App() {
   return (
-    <div>
+    <div id="Home">
       
       <Router>
       <Header></Header>
-        <Container maxWidth="lg">
+        <Container sx={{ pt: 10}} maxWidth="lg">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/bootlegstepper" element={<BootlegStepper />} />

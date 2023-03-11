@@ -14,7 +14,11 @@ export default function BasicDatePicker(props) {
       "2023-01-27",
       "2023-01-28",
       "2023-01-31",
-      "2023-02-01"
+      "2023-02-01",
+      "2023-03-02",
+      "2023-03-05",
+      "2023-03-18",
+      "2023-03-19",
     ]
     return blackoutDates.includes(date.toISOString().split('T')[0]);
   }

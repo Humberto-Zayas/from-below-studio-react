@@ -30,7 +30,7 @@ function Hero() {
   const handleClose = () => setOpen(false);
 
   return (
-    <div>
+    <div className='section'>
       <h1>FROM BELOW STUDIO</h1>
       <h2>New Jersey Recording Studio</h2>
       <p>(609)-469-4340</p>

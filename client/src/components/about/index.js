@@ -4,7 +4,7 @@ import SwipeableTextMobileStepper from '../../components/SwipeableTextMobileStep
 
 export default function About() {
   return (
-    <>
+    <div className='section' id="About">
       <h3>
         ABOUT FROM BELOW STUDIO
       </h3>
@@ -19,6 +19,6 @@ export default function About() {
           <SwipeableTextMobileStepper/>
         </Grid>
       </Grid>
-    </>
+    </div>
   )
 }

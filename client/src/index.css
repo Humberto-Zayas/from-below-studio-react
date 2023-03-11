@@ -7,6 +7,28 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  scroll-behavior: smooth;
+}
+
+.shontainer {
+  display: flex;
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
+}
+
+.shontainer > :first-child {
+  margin-left: 0; /* Remove left margin from first item */
+}
+
+.shontainer > * {
+  margin-right: auto; /* Add automatic left margin to all items except the first one */
+}
+
+.section {
+  height: 100vh;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

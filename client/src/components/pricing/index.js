@@ -51,7 +51,7 @@ function Pricing() {
   };
 
   return (
-    <>
+    <div className='section' id="Pricing">
       <h3>Pricing</h3>
       <p>
         Rates apply for single recording sessions and mixing services. Bundle packages available as well.
@@ -83,7 +83,7 @@ function Pricing() {
         </TabPanel>
 
       </Box>
-    </>
+    </div>
 
   );
 }
