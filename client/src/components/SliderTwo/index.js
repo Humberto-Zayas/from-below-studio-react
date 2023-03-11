@@ -10,13 +10,7 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 
-import img1 from '../../images/_JP_6513.jpg'
-import img2 from '../../images/_JP_6496.jpg'
-import img3 from '../../images/_JP_6476.jpg'
-import img4 from '../../images/_JP_6466.jpg'
-import img5 from '../../images/_JP_6461.jpg'
-import img6 from '../../images/_JP_6454.jpg'
-import img7 from '../../images/_JP_6442.jpg'
+import img1 from '../../images/_JP_6436.jpg'
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -27,31 +21,22 @@ const images = [
   },
   {
     label: 'Bird',
-    imgPath: img2
+    imgPath:
+      'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
   },
   {
     label: 'Bali, Indonesia',
-    imgPath: img3
+    imgPath:
+      'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250',
   },
-  // {
-  //   label: 'Goč, Serbia',
-  //   imgPath: img4
-  // },
-  // {
-  //   label: 'Goč, Serbia',
-  //   imgPath: img5
-  // },
-  // {
-  //   label: 'Goč, Serbia',
-  //   imgPath: img6
-  // },
   {
     label: 'Goč, Serbia',
-    imgPath: img7
+    imgPath:
+      'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
   },
 ];
 
-function SwipeableTextMobileStepper() {
+function SliderTwo() {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = images.length;
@@ -78,14 +63,14 @@ function SwipeableTextMobileStepper() {
           alignItems: 'center',
           height: 50,
           pl: 2,
-          textAlign: 'center',
           position: 'relative',
           top: '50px',
+          textAlign: 'center',
           zIndex: 1,
           bgcolor: 'rgba(0,0,0,0.75)',
         }}
       >
-        <Typography style={{width: '100%'}} className='heading-11'>THE STUDIO</Typography>
+        <Typography style={{width: '100%'}} className='heading-11'>OUTBOARD GEAR & PLUGINS</Typography>
       </Paper>
       <AutoPlaySwipeableViews
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -119,7 +104,8 @@ function SwipeableTextMobileStepper() {
         activeStep={activeStep}
         nextButton={
           <Button
-            size="small"
+            
+            size="large"
             onClick={handleNext}
             disabled={activeStep === maxSteps - 1}
           >
@@ -132,7 +118,7 @@ function SwipeableTextMobileStepper() {
           </Button>
         }
         backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+          <Button size="large" onClick={handleBack} disabled={activeStep === 0}>
             {theme.direction === 'rtl' ? (
               <KeyboardArrowRight />
             ) : (
@@ -146,4 +132,4 @@ function SwipeableTextMobileStepper() {
   );
 }
 
-export default SwipeableTextMobileStepper;
+export default SliderTwo;

@@ -1,5 +1,6 @@
 import Grid from '@mui/material/Unstable_Grid2';
 import SwipeableTextMobileStepper from '../../components/SwipeableTextMobileStepper';
+import SliderTwo from '../../components/SliderTwo';
 import Container from '@mui/material/Container';
 import Subfooter from '../../components/subfooter';
 
@@ -19,7 +20,7 @@ export default function About() {
             <SwipeableTextMobileStepper />
           </Grid>
           <Grid lg={6} md={12} sm={12} xs={12}>
-            <SwipeableTextMobileStepper />
+            <SliderTwo />
           </Grid>
         </Grid>
         <div className="about-divider"></div>

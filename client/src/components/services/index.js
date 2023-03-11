@@ -24,6 +24,7 @@ function Services() {
             <Grid lg={6} md={12} sm={12} xs={12}>
               <Item>
                 <h4 className='heading-17'>RECORDING <span className='text-span-20'>SERVICES</span></h4>
+                <div style={{marginBottom: '2em'}} class="div-block-30"></div>
                 <div class="div-block-57">
                   <div class="div-block-55">
                     <p class="service-icon"></p>
@@ -111,6 +112,7 @@ function Services() {
             <Grid lg={6} md={12} sm={12} xs={12}>
               <Item>
                 <h4 className='heading-17'>MIXING <span className='text-span-20'>SERVICES</span></h4>
+                <div style={{marginBottom: '2em'}} class="div-block-30"></div>
                 <div class="div-block-57">
                   <div class="div-block-55">
                     <p class="service-icon"></p>
