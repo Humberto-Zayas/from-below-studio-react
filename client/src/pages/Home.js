@@ -1,4 +1,3 @@
-import logo from '../logo.svg';
 // import './App.css';
 // import './css/normalize.css';
 // import './css/util.css';
@@ -9,7 +8,7 @@ import Services from '../components/services';
 import Pricing from '../components/pricing';
 import About from '../components/about';
 import Subfooter from '../components/subfooter';
-
+import Footer from '../components/Footer';
 
 const Home = () => {
 
@@ -19,7 +18,7 @@ const Home = () => {
       <Services></Services>
       <Pricing></Pricing>
       <About></About>
-      <Subfooter></Subfooter>
+      <Footer></Footer>
     </>
 
   )

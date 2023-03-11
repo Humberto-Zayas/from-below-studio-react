@@ -30,12 +30,13 @@ function Hero() {
   const handleClose = () => setOpen(false);
 
   return (
-    <div className='section'>
-      <h1>FROM BELOW STUDIO</h1>
-      <h2>New Jersey Recording Studio</h2>
-      <p>(609)-469-4340</p>
+    <div className='section hero'>
+      <h1 className='hero-h1 heading oswald'><span className='text-span'>FROM BELOW</span> <span className='text-span-2'>STUDIO</span></h1>
+     
+      <h2 className='heading-2 sub-cta'>New Jersey Recording Studio</h2>
+      <p><a href="tel:+1-609-469-4340" className='link-3'>(609)-469-4340</a></p>
       <Stack spacing={2} direction="row">
-        <Button onClick={handleOpen} variant="contained"><CalendarMonthIcon />Book Your Session</Button>
+        <span className='fbs-button' onClick={handleOpen} variant="contained"><CalendarMonthIcon />Book Your Session</span>
       </Stack>
 
       <Modal

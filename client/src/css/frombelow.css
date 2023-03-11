@@ -475,18 +475,18 @@ body, html {
 }
 
 .recording-pricing-1-desktop {
-  display: inline-block;
+  /* display: inline-block;
   width: 373px;
   margin-right: 10px;
   margin-bottom: 0px;
-  padding-left: 0px;
+  padding-left: 0px; */
   border: 1px solid #383838;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.55)), to(rgba(0, 0, 0, 0.55))), url('../images/bg_pic1.jpg');
-  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url('../images/bg_pic1.jpg');
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.55)), to(rgba(0, 0, 0, 0.55))), url('../images/pricing-bg-edit1.jpeg');
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url('../images/pricing-bg-edit1.jpeg');
   background-position: 0px 0px, 0px 50%;
   background-size: auto, 1139px;
   background-repeat: repeat, no-repeat;
-  text-align: center;
+  /* text-align: center; */
 }
 
 .list-item-2 {
@@ -534,13 +534,13 @@ body, html {
 }
 
 .recording-pricing-2-desktop {
-  display: inline-block;
+  /* display: inline-block;
   width: 373px;
   margin-bottom: 0px;
-  padding-left: 0px;
+  padding-left: 0px; */
   border: 1px solid #383838;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.55)), to(rgba(0, 0, 0, 0.55))), url('../images/bg_pic1.jpg');
-  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url('../images/bg_pic1.jpg');
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.55))), url('../images/pricing-bg-edit1.jpeg');
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url('../images/pricing-bg-edit1.jpeg');
   background-position: 0px 0px, 50% 50%;
   background-size: auto, 1139px;
   background-repeat: repeat, no-repeat;
@@ -562,14 +562,14 @@ body, html {
 }
 
 .recording-pricing-3-desktop {
-  display: inline-block;
+  /* display: inline-block;
   width: 373px;
   margin-bottom: 0px;
   margin-left: 10px;
-  padding-left: 0px;
+  padding-left: 0px; */
   border: 1px solid #383838;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.55)), to(rgba(0, 0, 0, 0.55))), url('../images/bg_pic1.jpg');
-  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url('../images/bg_pic1.jpg');
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.55)), to(rgba(0, 0, 0, 0.55))), url('../images/pricing-bg-edit1.jpeg');
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url('../images/pricing-bg-edit1.jpeg');
   background-position: 0px 0px, 100% 50%;
   background-size: auto, 1139px;
   background-repeat: repeat, no-repeat;

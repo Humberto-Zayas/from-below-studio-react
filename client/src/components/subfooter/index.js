@@ -6,6 +6,7 @@ import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
+import Container from '@mui/material/Container';
 
 const style = {
   position: 'absolute',
@@ -25,15 +26,17 @@ export default function Subfooter() {
   const handleClose = () => setOpen(false);
   return (
     <>
-      <Grid container spacing={2}>
-        <Grid lg={8} md={8} sm={12} xs={12}>
-          Visa Logo
-        </Grid>
-        <Grid lg={4} md={4} sm={12} xs={12}>
-          <p><span onClick={handleOpen}>Studio Policy</span> | <span>Contact</span></p>
+      <Container maxWidth="lg">
+        <Grid container spacing={2}>
+          <Grid lg={8} md={8} sm={12} xs={12}>
+            Visa Logo
+          </Grid>
+          <Grid lg={4} md={4} sm={12} xs={12}>
+            <p><span onClick={handleOpen}>Studio Policy</span> | <span>Contact</span></p>
 
+          </Grid>
         </Grid>
-      </Grid>
+      </Container>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

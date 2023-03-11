@@ -24,13 +24,13 @@ function App() {
       
       <Router>
       <Header></Header>
-        <Container sx={{ pt: 10}} maxWidth="lg">
+        {/* <Container sx={{ pt: 10}} maxWidth="lg"> */}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/bootlegstepper" element={<BootlegStepper />} />
             <Route path="/admin" element={<Admin />} />
           </Routes>
-        </Container>
+        {/* </Container> */}
       </Router>
     </div>
   );

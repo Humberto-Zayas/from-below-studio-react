@@ -16,7 +16,7 @@ import { Link as ScrollLink, animateScroll as scroll } from 'react-scroll';
 
 import fbslogo from '../../images/fbs-red-logo.jpeg'
 
-const pages = ['Home', 'Services', 'Pricing', 'About', 'Contact'];
+const pages = ['Home', 'Services', 'Pricing', 'About', 'Contact', 'CALL: 609-469-4340'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
