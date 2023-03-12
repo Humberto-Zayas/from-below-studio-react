@@ -125,9 +125,24 @@ const resolvers = {
       //Error if not logged in//
       throw new AuthenticationError('You need to be logged in!');
     },
+    addDay: async (parent, args, context) => {
+      const checkDate = await Day.findOne(
+        { date: args.date }
+      )
+      if (!checkDate) {
+        console.log('date doesnt exist: ', checkDate)
+         const date = await Day.create(args);
+        return date;
+      } else {
+        // console.log('date already exists: ', checkDate)
+        throw new Error('date already exists: ', checkDate)
+      }
+      // const date = await Day.create(args);
+      // return date;
+    },
     editDay: async (parent, args, context) => {
       console.log('editDay args: ', args)
-      // if (context.user) {
+      if (context.user) {
         const date = await Day.findOneAndUpdate(
           { date: args.date },
           // args,
@@ -135,10 +150,10 @@ const resolvers = {
           { new: true }
         )
         console.log('MongoDB update response: ', date);
-        // console.log('MongoDB update error: ', err);     
+           
         return date;
-      // }
-      // throw new AuthenticationError('You need to be logged in!');
+      }
+      throw new AuthenticationError('You need to be logged in!');
     },
     //Add A New Movie///
     // addMovie: async (parent, args, context) => {

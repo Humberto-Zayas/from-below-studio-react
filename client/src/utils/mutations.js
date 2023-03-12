@@ -25,6 +25,19 @@ export const EDIT_USER = gql`
   }
 `;
 
+export const EDIT_DAY = gql`
+  mutation editDay($date: String!, $disabled: Boolean, $hours: [String]) {
+    editDay(date: $date, disabled: $disabled, hours: $hours) {
+      day {
+        _id
+        date
+        disabled
+        hours
+      }
+    }
+  }
+`;
+
 export const LOGIN_USER = gql`
   mutation login($email: String!, $password: String!) {
     login(email: $email, password: $password) {

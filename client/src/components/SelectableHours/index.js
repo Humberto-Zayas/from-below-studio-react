@@ -20,8 +20,10 @@ export default function SelectableHours(props) {
 
   return (
     <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      <List component="nav" aria-label="Recording Package Selection">
+      <List className='recording-pricing-2-desktop' component="nav" aria-label="Recording Package Selection">
         <ListItemButton
+         
+          
           selected={selectedIndex === 0}
           onClick={(event) => handleListItemClick(event, 0)}
         >

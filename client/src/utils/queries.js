@@ -40,6 +40,17 @@ query messages {
 }
 `;
 
+export const QUERY_DAYS = gql`
+  query days {
+    days {
+      _id
+      date
+      disabled
+      hours
+    }
+  }
+`;
+
 export const QUERY_DAY = gql`
 query day($date: string) {
   day(date: $date) {

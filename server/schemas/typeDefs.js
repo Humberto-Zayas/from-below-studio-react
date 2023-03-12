@@ -51,6 +51,7 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
     editUser(username: String, description: String, ): Auth
+    addDay(date: String!, disabled: Boolean!, hours: [String]): Day
     editDay(date: String!, disabled: Boolean, hours: [String]): Day
     postMessage(username: String, text: String, recipient: String): Message
   }
