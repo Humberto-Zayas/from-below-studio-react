@@ -125,6 +125,21 @@ const resolvers = {
       //Error if not logged in//
       throw new AuthenticationError('You need to be logged in!');
     },
+    editDay: async (parent, args, context) => {
+      console.log('editDay args: ', args)
+      // if (context.user) {
+        const date = await Day.findOneAndUpdate(
+          { date: args.date },
+          // args,
+          { $set: { disabled: args.disabled, hours: args.hours } },
+          { new: true }
+        )
+        console.log('MongoDB update response: ', date);
+        // console.log('MongoDB update error: ', err);     
+        return date;
+      // }
+      // throw new AuthenticationError('You need to be logged in!');
+    },
     //Add A New Movie///
     // addMovie: async (parent, args, context) => {
     //   if (context.user) {
