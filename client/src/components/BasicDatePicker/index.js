@@ -27,10 +27,10 @@ export default function BasicDatePicker(props) {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
         disablePast
-        
         shouldDisableDate={getDisabledDates}
-        label="Basic example"
+        label="Choose a date"
         value={value}
+        maxDate={'2023-04-19'}
         onChange={(newValue) => {
           console.log('on change ran')
           props.handleClick(newValue);

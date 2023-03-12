@@ -222,7 +222,7 @@ body, html {
 
 .text-span {
   color: #fff;
-  font-weight: 100;
+  font-weight: 300;
   text-shadow: 1px 1px 6px #000;
 }
 
@@ -757,6 +757,7 @@ body, html {
   font-size: 12px;
   line-height: 25px;
   text-shadow: 1px 1px 6px #000;
+  cursor: pointer;
 }
 
 .nav-link:hover {
@@ -1021,6 +1022,10 @@ body, html {
   background-position: 0px 0px, 0px 0px;
   background-size: auto, cover;
   box-shadow: 1px 1px 3px 0 #000;
+}
+
+.div-block-42:focus-visible {
+  outline: none;
 }
 
 .radio-button-field-2 {
@@ -1538,7 +1543,7 @@ body, html {
   margin-top: 0px;
   font-family: Lato, sans-serif;
   color: #ebebeb;
-  font-weight: 200;
+  font-weight: 300;
   text-align: center;
 }
 
@@ -2152,7 +2157,7 @@ body, html {
   font-family: Lato, sans-serif;
   color: #ebebeb;
   font-size: 32px;
-  font-weight: 100;
+  font-weight: 300;
   text-shadow: 1px 1px 10px #000;
 }
 
@@ -2725,8 +2730,8 @@ html.w-mod-js *[data-ix="pricing-item-reveal-8"] {
   }
 
   .recording-pricing-1-desktop {
-    display: none;
-    width: 100%;
+    /* display: none; */
+    width: 100% !important;
     margin-bottom: 10px;
   }
 
@@ -2744,8 +2749,8 @@ html.w-mod-js *[data-ix="pricing-item-reveal-8"] {
   }
 
   .recording-pricing-2-desktop {
-    display: none;
-    width: 100%;
+   /* display: none; */
+   width: 100% !important;
     margin-bottom: 10px;
   }
 
@@ -2755,8 +2760,8 @@ html.w-mod-js *[data-ix="pricing-item-reveal-8"] {
   }
 
   .recording-pricing-3-desktop {
-    display: none;
-    width: 100%;
+    /* display: none; */
+    width: 100% !important;
     margin-bottom: 0px;
     margin-left: 0px;
   }
@@ -2769,8 +2774,8 @@ html.w-mod-js *[data-ix="pricing-item-reveal-8"] {
   }
 
   .mixing-pricing-2-desktop {
-    display: none;
-    width: 100%;
+    /* display: none; */
+    width: 100% !important;
   }
 
   .heading-13 {

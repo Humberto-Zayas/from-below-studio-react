@@ -34,7 +34,13 @@ export default function ContactForm(props) {
         <FormControl sx={{ mt: 3 }} fullWidth>
           <TextField
             name="name"
-            sx={{ mb: 3 }}
+            sx={{
+              mb: 3,
+              color: 'white',
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'rgba(255, 255, 255, 0.23)',
+              }
+            }}
             id="outlined-basic"
             label="Enter Your Name"
             variant="outlined"
@@ -44,7 +50,13 @@ export default function ContactForm(props) {
           
           <TextField
             name="email"
-            sx={{ mb: 3 }}
+            sx={{
+              mb: 3,
+              color: 'white',
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'rgba(255, 255, 255, 0.23)',
+              },
+            }}
             id="outlined-basic"
             label="Enter Your Email"
             variant="outlined"
@@ -54,7 +66,13 @@ export default function ContactForm(props) {
 
           <TextField
             name="phoneNumber"
-            sx={{ mb: 3 }}
+            sx={{
+              mb: 3,
+              color: 'white',
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'rgba(255, 255, 255, 0.23)',
+              },
+            }}
             id="outlined-basic"
             label="Enter Your Phone Number"
             variant="outlined"
@@ -64,7 +82,13 @@ export default function ContactForm(props) {
 
           <TextField
             name="message"
-            sx={{ mb: 3 }}
+            sx={{
+              mb: 3,
+              color: 'white',
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'rgba(255, 255, 255, 0.23)',
+              },
+            }}
             id="outlined-basic"
             label="Message"
             multiline
@@ -75,8 +99,15 @@ export default function ContactForm(props) {
           />
 
           <FormControl sx={{ mb: 5 }}>
-            <InputLabel style={{ background: 'white' }} id="demo-simple-select-label">How did you hear about us?</InputLabel>
+            <InputLabel id="demo-simple-select-label">How did you hear about us?</InputLabel>
             <Select
+            sx={{
+             
+              color: 'white',
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'rgba(255, 255, 255, 0.23)',
+              },
+            }}
               defaultValue=""
               name="referral"
               labelId="demo-simple-select-label"
@@ -93,7 +124,13 @@ export default function ContactForm(props) {
             </Select>
           </FormControl>
           <TextField
-            sx={{ mb: 3 }}
+            sx={{
+              mb: 3,
+              color: 'white',
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'rgba(255, 255, 255, 0.23)',
+              },
+            }}
             id="outlined-basic"
             label="Date Chosen"
             variant="outlined"
@@ -104,7 +141,13 @@ export default function ContactForm(props) {
           />
           
           <TextField
-            sx={{ mb: 3 }}
+            sx={{
+              mb: 3,
+              color: 'white',
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'rgba(255, 255, 255, 0.23)',
+              },
+            }}
             id="outlined-basic"
             label="hours"
             variant="outlined"

@@ -53,16 +53,22 @@ function Pricing() {
 
   return (
     <div className='section pricing' id="Pricing">
-      <Container style={{textAlign: 'center'}}  maxWidth="lg">
+      <Container style={{ textAlign: 'center' }} maxWidth="lg">
         <h3 className='heading-13'>PRICING</h3>
         <p className='text-block-13'>
           Rates apply for single recording sessions and mixing services. Bundle packages available as well.
         </p>
         <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'center' }}>
-            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-              <Tab style={{color: 'white'}} label="Recording" {...a11yProps(0)} />
-              <Tab style={{color: 'white'}} label="Mixing" {...a11yProps(1)} />
+            <Tabs TabIndicatorProps={{style: {background:'red'}}} value={value} onChange={handleChange} aria-label="basic tabs example">
+              <Tab style={{
+                color: 'white', fontFamily: `Dosis, sans-serif`,
+                fontWeight: 600
+              }} label="Recording" {...a11yProps(0)} />
+              <Tab style={{
+                color: 'white', fontFamily: `Dosis, sans-serif`,
+                fontWeight: 600
+              }} label="Mixing" {...a11yProps(1)} />
 
             </Tabs>
           </Box>
@@ -153,7 +159,7 @@ function Pricing() {
               <li className="list-item-2">Session/Project Bounce</li>
               <li className="list-item-2">3 Revisions Included</li>
               <li className="last-item-button list-item-2">
-                <span  className="text-span-8">CONTACT</span>
+                <span className="text-span-8">CONTACT</span>
               </li>
             </ul>
           </TabPanel>

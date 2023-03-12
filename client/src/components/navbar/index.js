@@ -17,6 +17,30 @@ import { Link as ScrollLink, animateScroll as scroll } from 'react-scroll';
 import fbslogo from '../../images/fbs-red-logo.jpeg'
 
 const pages = ['Home', 'Services', 'Pricing', 'About', 'Contact', 'CALL: 609-469-4340'];
+
+// const pages = [
+//   {
+//     name: 'Home',
+//     offset: 0,
+//   },
+//   {
+//     name: 'Services',
+//     offset: 0,
+//   },
+//   {
+//     name: 'Pricing',
+//     offset: 0,
+//   },
+//   {
+//     name: 'About',
+//     offset: -100,
+//   },
+//   {
+//     name: 'Contact',
+//     offset: 0,
+//   }
+// ]
+
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -46,7 +70,7 @@ function ResponsiveAppBar() {
       const windowSize = window.innerHeight;
       
       let opacity = window.scrollY;
-      console.log(opacity/windowSize)
+      // console.log(opacity/windowSize)
       setOpacity(opacity/windowSize * 2)
       // console.log(opacity)
       if (scrollPosition > 300) {
@@ -148,6 +172,7 @@ function ResponsiveAppBar() {
                   className="nav-link w-nav-link"
                   to={page}
                   smooth={true}
+                  offset={-100}
                   duration={1000}
                   key={page}
                   onClick={handleCloseNavMenu}

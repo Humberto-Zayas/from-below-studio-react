@@ -7,8 +7,53 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
 body {
   scroll-behavior: smooth;
+}
+
+.div-block-57 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0;
+}
+
+.div-block-57 .list-item-4 {
+  margin: 0;
+}
+
+.MuiStepLabel-labelContainer > .Mui-active {
+  color: white !important;
+}
+.MuiStepLabel-labelContainer > .Mui-completed {
+  color: white !important;
+}
+.MuiStepLabel-labelContainer > .Mui-disabled {
+  color: gray !important;
+}
+
+.MuiStepLabel-iconContainer > .Mui-active {
+  color: #d1203d !important;
+}
+
+input, textarea { 
+  color: whitesmoke !important;
+}
+
+/*Change text in autofill textbox*/
+input:-webkit-autofill{
+  /* -webkit-text-fill-color: yellow !important; */
+  background-image: none !important;
+  background-color: -internal-light-dark(transparent) !important;
+}
+
+/* .contactClass input::placeholder {
+  color: white;
+} */
+
+label {
+  color: rgba(255, 255, 255, 0.6) !important;
 }
 
 .shontainer {

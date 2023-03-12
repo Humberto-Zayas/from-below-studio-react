@@ -99,14 +99,14 @@ export default function HorizontalLinearStepper() {
           const labelProps = {};
           return (
             <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
+              <StepLabel className='text-block-13' {...labelProps}>{label}</StepLabel>
             </Step>
           );
         })}
       </Stepper>
       {activeStep === steps.length ? (
         <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
+          <Typography sx={{ mt: 2, mb: 1, color: 'white' }}>
             All steps completed - you&apos;re finished
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
@@ -132,7 +132,7 @@ export default function HorizontalLinearStepper() {
             </Box>
           }
           {activeStep === 2 &&
-            <Box sx={{ mt: 1 }}>
+            <Box className='shtest' sx={{ mt: 1}}>
               <ContactForm formCapture={handleFormFinished} date={value} hours={hours} />
             </Box>
           }
@@ -149,12 +149,13 @@ export default function HorizontalLinearStepper() {
               disabled={activeStep === 0}
               onClick={handleBack}
               sx={{ mr: 1 }}
+              style={{ color: 'white' }}
             >
               Back
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
             {activeStep === steps.length - 1 &&
-              <Button onClick={handleNext}>
+              <Button style={{ color: 'white' }} onClick={handleNext}>
                 Finish
               </Button>
             }
