@@ -5,6 +5,7 @@ import logo from '../logo.svg';
 // import './css/util.css';
 // import './css/frombelow.css';
 import AdminStepper from '../components/adminStepper';
+import { Typography, Container } from '@mui/material';
 
 
 const Admin = () => {
@@ -12,8 +13,10 @@ const Admin = () => {
 
   return (
     <>
-      <h1 sx={{ mt: 5 }}>Admin Pane</h1>
-      <AdminStepper></AdminStepper>
+      <Container>
+        <Typography variant="h2" component="h1" style={{ paddingTop: '2em' }}>Admin Pane</Typography>
+        <AdminStepper></AdminStepper>
+      </Container>
     </>
 
   )

@@ -6,14 +6,16 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
-// import BasicDatePicker from '../BasicDatePicker';
-import AdminDatePicker from '../adminDatePicker';
+import BasicDatePicker from '../BasicDatePicker';
 import ContactForm from '../contactForm';
 import SelectableHours from '../SelectableHours';
+import { useQuery } from '@apollo/client';
+import { QUERY_BLACKOUT_DAYS } from '../../utils/queries';
 
 const steps = ['Pick A Date', 'Pick Your Hours', 'Enter Your Information'];
 
 export default function AdminStepper() {
+  const { loading, data } = useQuery(QUERY_BLACKOUT_DAYS);  
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   // const [value, setValue] = React.useState(dayjs(new Date())); // value to bind and update
@@ -100,14 +102,14 @@ export default function AdminStepper() {
           const labelProps = {};
           return (
             <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
+              <StepLabel className='text-block-13' {...labelProps}>{label}</StepLabel>
             </Step>
           );
         })}
       </Stepper>
       {activeStep === steps.length ? (
         <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
+          <Typography sx={{ mt: 2, mb: 1, color: 'white' }}>
             All steps completed - you&apos;re finished
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
@@ -120,8 +122,9 @@ export default function AdminStepper() {
           {activeStep === 0 &&
             <>
               <Box sx={{ mt: 1 }}>
-                <AdminDatePicker
+                <BasicDatePicker
                   value={value}
+                  days={data}
                   handleClick={handleDatePick}
                 />
               </Box>
@@ -129,11 +132,11 @@ export default function AdminStepper() {
           }
           {activeStep === 1 &&
             <Box sx={{ mt: 1 }}>
-              <SelectableHours selectHours={handleHoursPicked} />
+              <SelectableHours recordingDate={value} selectHours={handleHoursPicked} />
             </Box>
           }
           {activeStep === 2 &&
-            <Box sx={{ mt: 1 }}>
+            <Box className='shtest' sx={{ mt: 1}}>
               <ContactForm formCapture={handleFormFinished} date={value} hours={hours} />
             </Box>
           }
@@ -150,12 +153,13 @@ export default function AdminStepper() {
               disabled={activeStep === 0}
               onClick={handleBack}
               sx={{ mr: 1 }}
+              style={{ color: 'white' }}
             >
               Back
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
             {activeStep === steps.length - 1 &&
-              <Button onClick={handleNext}>
+              <Button style={{ color: 'white' }} onClick={handleNext}>
                 Finish
               </Button>
             }
