@@ -60,7 +60,7 @@ export const QUERY_BLACKOUT_DAYS = gql`
 `;
 
 export const QUERY_DAY = gql`
-query day($date: string) {
+query day($date: String!) {
   day(date: $date) {
     _id
     date

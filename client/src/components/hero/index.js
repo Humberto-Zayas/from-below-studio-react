@@ -20,7 +20,7 @@ const style = {
   // bgcolor: 'background.paper',
   // border: '2px solid #000',
   boxShadow: 24,
-  height: '100%',
+  height: '95%',
   border: 'none',
   overflow: 'scroll',
   p: 4,

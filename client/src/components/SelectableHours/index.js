@@ -8,53 +8,72 @@ import Divider from '@mui/material/Divider';
 import InboxIcon from '@mui/icons-material/Inbox';
 import DraftsIcon from '@mui/icons-material/Drafts';
 
+import { useQuery } from '@apollo/client';
+import { QUERY_DAY } from '../../utils/queries';
+
 export default function SelectableHours(props) {
 
   console.log('selectableHours props: ', props.recordingDate.toISOString().split('T')[0])
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-
+  const { loading, data } = useQuery(QUERY_DAY, {
+    variables: { date: props.recordingDate.toISOString().split('T')[0] }
+  });
+  console.log('returned day query: ', data)
   const handleListItemClick = (event, index) => {
-    
+
     setSelectedIndex(index);
     props.selectHours(event.target.innerText)
   };
 
   return (
     <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      <List className='recording-pricing-2-desktop' component="nav" aria-label="Recording Package Selection">
-        <ListItemButton
-         
-          
-          selected={selectedIndex === 0}
-          onClick={(event) => handleListItemClick(event, 0)}
-        >
-          <ListItemText primary="2 Hours/$70" />
-        </ListItemButton>
-        <ListItemButton
-          selected={selectedIndex === 1}
-          onClick={(event) => handleListItemClick(event, 1)}
-        >
-          <ListItemText primary="4 Hours/$130" />
-        </ListItemButton>
-        <ListItemButton
-          selected={selectedIndex === 2}
-          onClick={(event) => handleListItemClick(event, 2)}
-        >
-          <ListItemText primary="8 Hours/$270" />
-        </ListItemButton>
-        <ListItemButton
-          selected={selectedIndex === 3}
-          onClick={(event) => handleListItemClick(event, 3)}
-        >
-          <ListItemText primary="10 Hours/$340" />
-        </ListItemButton>
-        <ListItemButton
-          selected={selectedIndex === 4}
-          onClick={(event) => handleListItemClick(event, 4)}
-        >
-          <ListItemText primary="Full Day 14+ Hours/$550" />
-        </ListItemButton>
-      </List>
+      {data?.day !== null ?
+        <List className='recording-pricing-2-desktop' component="nav" aria-label="Recording Package Selection">
+           {data?.day.hours.map((item, index) => (
+              <ListItemButton 
+                key={item}
+                selected={selectedIndex === index}
+                onClick={(event) => handleListItemClick(event, index)}
+              >
+                <ListItemText style={{color: '#bcbcbc'}} primary={item} />  
+              </ListItemButton>
+            ))}
+          </List>
+        :
+        <List className='recording-pricing-2-desktop' component="nav" aria-label="Recording Package Selection">
+          <ListItemButton
+            selected={selectedIndex === 0}
+            onClick={(event) => handleListItemClick(event, 0)}
+          >
+            <ListItemText style={{color: '#bcbcbc'}} primary="2 Hours/$70" />
+          </ListItemButton>
+          <ListItemButton
+            selected={selectedIndex === 1}
+            onClick={(event) => handleListItemClick(event, 1)}
+          >
+            <ListItemText style={{color: '#bcbcbc'}} primary="4 Hours/$130" />
+          </ListItemButton>
+          <ListItemButton
+            selected={selectedIndex === 2}
+            onClick={(event) => handleListItemClick(event, 2)}
+          >
+            <ListItemText style={{color: '#bcbcbc'}} primary="8 Hours/$270" />
+          </ListItemButton>
+          <ListItemButton
+            selected={selectedIndex === 3}
+            onClick={(event) => handleListItemClick(event, 3)}
+          >
+            <ListItemText style={{color: '#bcbcbc'}} primary="10 Hours/$340" />
+          </ListItemButton>
+          <ListItemButton
+            selected={selectedIndex === 4}
+            onClick={(event) => handleListItemClick(event, 4)}
+          >
+            <ListItemText style={{color: '#bcbcbc'}} primary="Full Day 14+ Hours/$550" />
+          </ListItemButton>
+        </List>
+      }
+
     </Box>
   );
 }
