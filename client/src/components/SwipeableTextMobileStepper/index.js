@@ -41,31 +41,31 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const images = [
   {
-    label: 'San Francisco – Oakland Bay Bridge, United States',
+    label: 'img 1',
     imgPath: img1
   },
   {
-    label: 'Bird',
+    label: 'img 2',
     imgPath: img2
   },
   {
-    label: 'Bali, Indonesia',
+    label: 'img 3',
     imgPath: img3
   },
   {
-    label: 'Goč, Serbia',
+    label: 'img 4',
     imgPath: img4
   },
   {
-    label: 'Goč, Serbia',
+    label: 'img 5',
     imgPath: img5
   },
   {
-    label: 'Goč, Serbia',
+    label: 'img 6',
     imgPath: img6
   },
   {
-    label: 'Goč, Serbia',
+    label: 'img 7',
     imgPath: img7
   },
 ];

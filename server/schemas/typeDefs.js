@@ -45,6 +45,7 @@ const typeDefs = gql`
     messagesToRecipient(username: String!, recipient: String!): [Message!]
     day(date: String!): Day
     days: [Day]
+    blackoutDays: [Day]
   }
   
   type Mutation {

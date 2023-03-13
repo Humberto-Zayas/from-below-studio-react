@@ -64,6 +64,9 @@ const resolvers = {
       return Day.find()
       // .populate('friends');
     },
+    blackoutDays: async () => {
+      return Day.find({disabled: true})
+    },
     day: async (parent, { date }) => {
       console.log('the date: ', date)
       return Day.findOne({ date })

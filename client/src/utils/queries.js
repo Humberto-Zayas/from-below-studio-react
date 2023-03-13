@@ -51,6 +51,14 @@ export const QUERY_DAYS = gql`
   }
 `;
 
+export const QUERY_BLACKOUT_DAYS = gql`
+  query blackoutDays {
+    blackoutDays {
+      date
+    }
+  }
+`;
+
 export const QUERY_DAY = gql`
 query day($date: string) {
   day(date: $date) {

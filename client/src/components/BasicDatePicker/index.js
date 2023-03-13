@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -8,20 +8,28 @@ import dayjs from 'dayjs';
 
 export default function BasicDatePicker(props) {
   const [value, setValue] = React.useState(props.value);
+  // const [blackOutDates, setBlackOutDates] = React.useState(props.days.blackoutDays)
 
   const getDisabledDates = (date) => {
-    let blackoutDates = [
-      "2023-01-27",
-      "2023-01-28",
-      "2023-01-31",
-      "2023-02-01",
-      "2023-03-02",
-      "2023-03-05",
-      "2023-03-18",
-      "2023-03-19",
-    ]
+
+    const blackoutDates = props.days.blackoutDays.map((item) => item.date);
+
+    // let blackoutDates = [
+    //   "2023-01-27",
+    //   "2023-01-28",
+    //   "2023-01-31",
+    //   "2023-02-01",
+    //   "2023-03-02",
+    //   "2023-03-05",
+    //   "2023-03-18",
+    //   "2023-03-19",
+    // ]
     return blackoutDates.includes(date.toISOString().split('T')[0]);
   }
+
+  React.useEffect(() => {
+    // getBlackOutDates()
+  }, [props])
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

@@ -87,6 +87,7 @@ const startApolloServer = async (typeDef, resolvers) => {
   });
 
   db.once("open", () => {
+    
     // app.listen(PORT, () => {
     httpServer.listen(PORT, () => {
       console.log(`API server running on port ${PORT}!`);

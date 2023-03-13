@@ -9,10 +9,13 @@ import dayjs from 'dayjs';
 import BasicDatePicker from '../BasicDatePicker';
 import ContactForm from '../contactForm';
 import SelectableHours from '../SelectableHours';
+import { useQuery } from '@apollo/client';
+import { QUERY_BLACKOUT_DAYS } from '../../utils/queries';
 
 const steps = ['Pick A Date', 'Pick Your Hours', 'Enter Your Information'];
 
 export default function HorizontalLinearStepper() {
+  const { loading, data } = useQuery(QUERY_BLACKOUT_DAYS);  
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   // const [value, setValue] = React.useState(dayjs(new Date())); // value to bind and update
@@ -121,6 +124,7 @@ export default function HorizontalLinearStepper() {
               <Box sx={{ mt: 1 }}>
                 <BasicDatePicker
                   value={value}
+                  days={data}
                   handleClick={handleDatePick}
                 />
               </Box>
@@ -128,7 +132,7 @@ export default function HorizontalLinearStepper() {
           }
           {activeStep === 1 &&
             <Box sx={{ mt: 1 }}>
-              <SelectableHours selectHours={handleHoursPicked} />
+              <SelectableHours recordingDate={value} selectHours={handleHoursPicked} />
             </Box>
           }
           {activeStep === 2 &&

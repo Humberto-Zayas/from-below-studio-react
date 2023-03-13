@@ -10,6 +10,7 @@ import DraftsIcon from '@mui/icons-material/Drafts';
 
 export default function SelectableHours(props) {
 
+  console.log('selectableHours props: ', props.recordingDate.toISOString().split('T')[0])
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const handleListItemClick = (event, index) => {
