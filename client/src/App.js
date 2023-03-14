@@ -33,7 +33,7 @@ const authLink = setContext((_, { headers }) => {
 
 //establish a new link to the GraphQL server//
 const httpLink = createHttpLink({
-  uri: "http://localhost:3001/graphql",
+  uri: "/graphql",
 });
 
 const wsLink = new GraphQLWsLink(createClient({

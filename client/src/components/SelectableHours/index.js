@@ -18,6 +18,10 @@ export default function SelectableHours(props) {
   const { loading, data } = useQuery(QUERY_DAY, {
     variables: { date: props.recordingDate.toISOString().split('T')[0] }
   });
+  const enabledData = data?.day?.hours.filter(item => item.enabled);
+
+  console.log('did it work?.... ', enabledData)
+
   console.log('returned day query: ', data)
   const handleListItemClick = (event, index) => {
 
@@ -27,15 +31,22 @@ export default function SelectableHours(props) {
 
   return (
     <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+      {/* {data?.day.hours.map((item) =>
+        <>
+          <div key={item.hour}>
+            {item.hour} | {item.enabled ? 'true' : 'false '}
+          </div>
+        </>
+      )} */}
       {data?.day !== null ?
         <List className='recording-pricing-2-desktop' component="nav" aria-label="Recording Package Selection">
-           {data?.day.hours.map((item, index) => (
+           {enabledData?.map((item, index) => (
               <ListItemButton 
-                key={item}
+                key={item.hour}
                 selected={selectedIndex === index}
                 onClick={(event) => handleListItemClick(event, index)}
               >
-                <ListItemText style={{color: '#bcbcbc'}} primary={item} />  
+                <ListItemText style={{color: '#bcbcbc'}} primary={item.hour} />  
               </ListItemButton>
             ))}
           </List>

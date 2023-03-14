@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 
+
 export const QUERY_USER = gql`
   query user($username: String!) {
     user(username: $username) {
@@ -46,7 +47,11 @@ export const QUERY_DAYS = gql`
       _id
       date
       disabled
-      hours
+      hours {
+        enabled
+        id
+        hour
+      }
     }
   }
 `;
@@ -65,7 +70,11 @@ query day($date: String!) {
     _id
     date
     disabled
-    hours
+    hours {
+      id
+      enabled
+      hour
+    }
   }
 }
 `;

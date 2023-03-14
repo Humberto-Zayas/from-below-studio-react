@@ -12,11 +12,17 @@ const typeDefs = gql`
     recipient: String
   }
 
+  type Hour {
+    id: ID
+    hour: String
+    enabled: Boolean
+  }
+
   type Day {
     _id: ID
     date: String
     disabled: Boolean
-    hours: [String]
+    hours: [Hour]
   }
 
   type User {

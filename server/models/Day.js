@@ -21,7 +21,11 @@ const daySchema = new Schema({
     required: true,
   },
   // hours: [String]
-  hours: [HourSchema]
+  // hours: [HourSchema]
+  hours: {
+    type: [HourSchema],
+    required: true
+  }
 });
 
 const Day = model('Day', daySchema);
