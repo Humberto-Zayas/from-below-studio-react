@@ -148,12 +148,9 @@ const resolvers = {
       if (context.user) {
         const date = await Day.findOneAndUpdate(
           { date: args.date },
-          // args,
           { $set: { disabled: args.disabled, hours: args.hours } },
           { new: true }
-        )
-        console.log('MongoDB update response: ', date);
-           
+        )           
         return date;
       }
       throw new AuthenticationError('You need to be logged in!');

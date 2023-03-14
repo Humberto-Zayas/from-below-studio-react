@@ -66,7 +66,7 @@ function App() {
     <ApolloProvider client={client}>
       <div id="Home">
         <Router>
-          <Header></Header>
+          {/* <Header></Header> */}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/bootlegstepper" element={<BootlegStepper />} />

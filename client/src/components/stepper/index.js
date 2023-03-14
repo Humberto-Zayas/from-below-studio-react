@@ -31,6 +31,8 @@ export default function HorizontalLinearStepper() {
     hours: null
   });
 
+  console.log('stepper blackout day grab: ', data)
+
   const handleDatePick = (value) => { // passable function to get date picked
     setValue(value); // event to pass
     setFormState({ ...formState, date: value.toISOString().split('T')[0] }); //

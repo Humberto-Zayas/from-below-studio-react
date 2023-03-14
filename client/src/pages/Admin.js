@@ -1,23 +1,17 @@
 import React, { useState } from 'react';
-import logo from '../logo.svg';
-// import './App.css';
-// import './css/normalize.css';
-// import './css/util.css';
-// import './css/frombelow.css';
 import AdminStepper from '../components/adminStepper';
 import { Typography, Container } from '@mui/material';
-
 
 const Admin = () => {
   const [value, setValue] = React.useState('');
 
   return (
-    <>
+    <div style={{minHeight: '100vh', height: 'auto'}} className='about'>
       <Container>
-        <Typography variant="h2" component="h1" style={{ paddingTop: '2em' }}>Admin Pane</Typography>
+        <Typography className='hero-h1 heading oswald' variant="h2" component="h1" style={{ padding: '1em 1em 0em', marginBottom: '1em', color: 'white' }}>Admin <span className='text-span-2'>Panel</span></Typography>
         <AdminStepper></AdminStepper>
       </Container>
-    </>
+    </div>
 
   )
 

@@ -7,6 +7,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 
 export default function BasicDatePicker(props) {
+  console.log('cmon bro: ', props)
   const [value, setValue] = React.useState(props.value);
   // const [blackOutDates, setBlackOutDates] = React.useState(props.days.blackoutDays)
 

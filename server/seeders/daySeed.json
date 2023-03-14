@@ -1,24 +1,92 @@
 [
   {
-    "date" : "2023-02-18", 
+    "date" : "2023-03-22", 
     "disabled" : false,
     "hours": [
-      "2 Hours/$70",
-      "4 Hours/$130",
-      "6 Hours/$200"
+      {
+        "hour": "2 Hours/$70",
+        "enabled": true
+      },
+      {
+        "hour": "4 Hours/$130",
+        "enabled": true
+      },
+      {
+        "hour": "6 Hours/$200",
+        "enabled": true
+      },
+      {
+        "hour": "8 Hours/$270",
+        "enabled": true
+      },
+      {
+        "hour": "10 Hours/$340",
+        "enabled": true
+      },
+      {
+        "hour": "Full Day 14+ Hours/$550",
+        "enabled": true
+      }
     ]
   },
   {
-    "date" : "2023-02-19", 
+    "date" : "2023-03-28", 
     "disabled" : true,
-    "hours": []
+    "hours": [
+      {
+        "hour": "2 Hours/$70",
+        "enabled": false
+      },
+      {
+        "hour": "4 Hours/$130",
+        "enabled": false
+      },
+      {
+        "hour": "6 Hours/$200",
+        "enabled": false
+      },
+      {
+        "hour": "8 Hours/$270",
+        "enabled": false
+      },
+      {
+        "hour": "10 Hours/$340",
+        "enabled": false
+      },
+      {
+        "hour": "Full Day 14+ Hours/$550",
+        "enabled": false
+      }
+    ]
   },
   {
-    "date" : "2023-02-20", 
+    "date" : "2023-03-29", 
     "disabled" : false,
     "hours": [
-      "2 Hours/$70",
-      "4 Hours/$130"
+      {
+        "hour": "2 Hours/$70",
+        "enabled": true
+      },
+      {
+        "hour": "4 Hours/$130",
+        "enabled": true
+      },
+      {
+        "hour": "6 Hours/$200",
+        "enabled": false
+      },
+      {
+        "hour": "8 Hours/$270",
+        "enabled": false
+      },
+      {
+        "hour": "10 Hours/$340",
+        "enabled": false
+      },
+      {
+        "hour": "Full Day 14+ Hours/$550",
+        "enabled": false
+      }
     ]
   }
 ]
