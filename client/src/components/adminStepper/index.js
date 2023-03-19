@@ -16,23 +16,34 @@ import { QUERY_BLACKOUT_DAYS } from '../../utils/queries';
 const steps = ['Pick A Date', 'Pick Your Hours', 'Review'];
 
 export default function AdminStepper() {
-  const { loading, data } = useQuery(QUERY_BLACKOUT_DAYS);
+  const { loading:loadingBlackOutDays, data } = useQuery(QUERY_BLACKOUT_DAYS);
+  const [availablity, setAvailability] = React.useState(null)
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   // const [value, setValue] = React.useState(dayjs(new Date())); // value to bind and update
-  const [value, setValue] = React.useState(''); // recording date chosen
+  const [value, setValue] = React.useState(null); // recording date chosen
   const [hours, setHours] = React.useState(null); // recording hours chosen
-  
+  const [checkedHours, setCheckedHours] = React.useState()
+  // const [queryTheDay, { loading:loadingDay, data:queryDay }] = useLazyQuery(QUERY_DAY, {
+  //   variables: { date: value?.toISOString().split('T')[0]}
+  // })
+  // console.log('skipped query day value on parent: ', queryDay);
 
   const handleDatePick = (value) => { // passable function to get date picked
     setValue(value); // event to pass
+    // queryTheDay();
     setActiveStep(1)
   }
 
   const handleHoursPicked = (value) => { // passable function to hour select list
     setHours(value);
-    setActiveStep(2)
+    // console.log('hour selected: ', value)
+    // setActiveStep(2)
   }
+
+  const handleSetCheckedHours = (checked) => { 
+    setCheckedHours(checked)
+  } 
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
@@ -56,9 +67,15 @@ export default function AdminStepper() {
     setActiveStep(0);
   };
 
+  const updateAvailability = (value) => {
+    setAvailability(value)
+  }
+
   return (
     <Container>
       <Box sx={{ width: '100%', mt: 1 }}>
+        <div>Stats: {checkedHours}</div>
+        <br></br>
         <Stepper activeStep={activeStep}>
           {steps.map((label, index) => {
             const stepProps = {};
@@ -95,13 +112,18 @@ export default function AdminStepper() {
             }
             {activeStep === 1 &&
               <Box sx={{ mt: 1 }}>
-                <AdminSelectableHours recordingDate={value} selectHours={handleHoursPicked} />
+                <AdminSelectableHours updateAvailability={updateAvailability} recordingDate={value} selectHours={handleHoursPicked} handleSetCheckedHours={handleSetCheckedHours} />
               </Box>
             }
             {activeStep === 2 &&
               <Box>
                 <h3>Review</h3>
                 <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+                date: {value.toISOString().split('T')[0]}
+                <br></br>
+                availablity: {availablity ? 'Available' : 'Unavailable'}
+                <br></br>
+                hours: {checkedHours}
               </Box>
             }
 
@@ -116,14 +138,14 @@ export default function AdminStepper() {
                 Back
               </Button>
               <Box sx={{ flex: '1 1 auto' }} />
-              {activeStep === steps.length - 1 &&
+              {/* {activeStep === steps.length - 1 &&
                 <Button style={{ color: 'white' }} onClick={handleNext}>
                   Finish
                 </Button>
-              }
-              {/* <Button onClick={handleNext}>
+              } */}
+              <Button onClick={handleNext}>
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button> */}
+            </Button>
             </Box>
           </React.Fragment>
         )}
