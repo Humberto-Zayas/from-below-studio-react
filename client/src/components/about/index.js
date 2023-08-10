@@ -17,10 +17,10 @@ export default function About() {
         </p>
         <Grid container spacing={2}>
           <Grid style={{overflow: 'hidden', height: '400px'}} lg={6} md={12} sm={12} xs={12}>
-            <SwipeableTextMobileStepper />
+            {/* <SwipeableTextMobileStepper /> */}
           </Grid>
           <Grid style={{overflow: 'hidden', height: '400px'}} lg={6} md={12} sm={12} xs={12}>
-            <SliderTwo />
+            {/* <SliderTwo /> */}
           </Grid>
         </Grid>
         <div className="about-divider"></div>

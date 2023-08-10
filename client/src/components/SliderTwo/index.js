@@ -7,8 +7,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
+// import SwipeableViews from 'react-swipeable-views';
+// import { autoPlay } from 'react-swipeable-views-utils';
 import Modal from '@mui/material/Modal';
 
 import img1 from '../../images/_JP_6436.jpg'
@@ -31,7 +31,7 @@ const style = {
   p: 4,
 };
 
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+// const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const images = [
   {
@@ -84,101 +84,103 @@ function SliderTwo() {
     setActiveStep(step);
   };
 
-  return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Paper
-        square
-        elevation={0}
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          height: 50,
-          pl: 2,
-          position: 'relative',
-          top: '50px',
-          textAlign: 'center',
-          zIndex: 1,
-          bgcolor: 'rgba(0,0,0,0.75)',
-        }}
-      >
-        <Typography style={{width: '100%'}} className='heading-11'>OUTBOARD GEAR & PLUGINS</Typography>
-      </Paper>
-      <AutoPlaySwipeableViews
-      style={{position: 'relative', height: 400, overflow: 'hidden'}}
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-        index={activeStep}
-        onChangeIndex={handleStepChange}
-        enableMouseEvents
-      >
-        {images.map((step, index) => (
-          <div style={{position: 'relative', height: 400}}  key={step.label}>
-            {Math.abs(activeStep - index) <= 2 ? (
-              <Box
-                onClick={() => handleOpen(step.imgPath)}
-                component="img"
-                sx={{
-                  height: 'auto',
-                  display: 'block',
-                  position: 'absolute',
-                  maxWidth: '100%',
-                  overflow: 'hidden',
-                  width: '100%',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                }}
-                src={step.imgPath}
-                alt={step.label}
-              />
-            ) : null}
-          </div>
-        ))}
-      </AutoPlaySwipeableViews>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
+  return null;
+
+  // return (
+  //   <Box sx={{ flexGrow: 1 }}>
+  //     <Paper
+  //       square
+  //       elevation={0}
+  //       sx={{
+  //         display: 'flex',
+  //         alignItems: 'center',
+  //         height: 50,
+  //         pl: 2,
+  //         position: 'relative',
+  //         top: '50px',
+  //         textAlign: 'center',
+  //         zIndex: 1,
+  //         bgcolor: 'rgba(0,0,0,0.75)',
+  //       }}
+  //     >
+  //       <Typography style={{width: '100%'}} className='heading-11'>OUTBOARD GEAR & PLUGINS</Typography>
+  //     </Paper>
+  //     <AutoPlaySwipeableViews
+  //     style={{position: 'relative', height: 400, overflow: 'hidden'}}
+  //       axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+  //       index={activeStep}
+  //       onChangeIndex={handleStepChange}
+  //       enableMouseEvents
+  //     >
+  //       {images.map((step, index) => (
+  //         <div style={{position: 'relative', height: 400}}  key={step.label}>
+  //           {Math.abs(activeStep - index) <= 2 ? (
+  //             <Box
+  //               onClick={() => handleOpen(step.imgPath)}
+  //               component="img"
+  //               sx={{
+  //                 height: 'auto',
+  //                 display: 'block',
+  //                 position: 'absolute',
+  //                 maxWidth: '100%',
+  //                 overflow: 'hidden',
+  //                 width: '100%',
+  //                 top: '50%',
+  //                 left: '50%',
+  //                 transform: 'translate(-50%, -50%)',
+  //               }}
+  //               src={step.imgPath}
+  //               alt={step.label}
+  //             />
+  //           ) : null}
+  //         </div>
+  //       ))}
+  //     </AutoPlaySwipeableViews>
+  //     <Modal
+  //       open={open}
+  //       onClose={handleClose}
+  //       aria-labelledby="modal-modal-title"
+  //       aria-describedby="modal-modal-description"
+  //     >
+  //       <Box sx={style}>
        
-          <img style={{width: '100%', display: 'block', margin: '0 auto'}} src={selectedImage} />
-        </Box>
-      </Modal>
-      <MobileStepper
-        sx={{'& .MuiMobileStepper-dotActive': {backgroundColor: 'white !important'}, '& .MuiMobileStepper-dot' : {boxShadow: '0px 1px 1px white'}}}
-        style={{backgroundColor: 'transparent', position: 'relative', bottom: '100px'}}
-        steps={maxSteps}
-        position="static"
-        activeStep={activeStep}
-        nextButton={
-          <Button
-            style={{color: 'white'}}
-            size="small"
-            onClick={handleNext}
-            disabled={activeStep === maxSteps - 1}
-          >
+  //         <img style={{width: '100%', display: 'block', margin: '0 auto'}} src={selectedImage} />
+  //       </Box>
+  //     </Modal>
+  //     <MobileStepper
+  //       sx={{'& .MuiMobileStepper-dotActive': {backgroundColor: 'white !important'}, '& .MuiMobileStepper-dot' : {boxShadow: '0px 1px 1px white'}}}
+  //       style={{backgroundColor: 'transparent', position: 'relative', bottom: '100px'}}
+  //       steps={maxSteps}
+  //       position="static"
+  //       activeStep={activeStep}
+  //       nextButton={
+  //         <Button
+  //           style={{color: 'white'}}
+  //           size="small"
+  //           onClick={handleNext}
+  //           disabled={activeStep === maxSteps - 1}
+  //         >
             
-            {theme.direction === 'rtl' ? (
-              <KeyboardArrowLeft />
-            ) : (
-              <KeyboardArrowRight />
-            )}
-          </Button>
-        }
-        backButton={
-          <Button style={{color: 'white'}} size="small" onClick={handleBack} disabled={activeStep === 0}>
-            {theme.direction === 'rtl' ? (
-              <KeyboardArrowRight />
-            ) : (
-              <KeyboardArrowLeft />
-            )}
+  //           {theme.direction === 'rtl' ? (
+  //             <KeyboardArrowLeft />
+  //           ) : (
+  //             <KeyboardArrowRight />
+  //           )}
+  //         </Button>
+  //       }
+  //       backButton={
+  //         <Button style={{color: 'white'}} size="small" onClick={handleBack} disabled={activeStep === 0}>
+  //           {theme.direction === 'rtl' ? (
+  //             <KeyboardArrowRight />
+  //           ) : (
+  //             <KeyboardArrowLeft />
+  //           )}
             
-          </Button>
-        }
-      />
-    </Box>
-  );
+  //         </Button>
+  //       }
+  //     />
+  //   </Box>
+  // );
 }
 
 export default SliderTwo;
