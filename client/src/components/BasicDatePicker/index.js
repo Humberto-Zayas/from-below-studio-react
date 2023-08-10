@@ -19,7 +19,7 @@ export default function BasicDatePicker(props) {
         shouldDisableDate={getDisabledDates}
         label="Choose a date"
         value={value}
-        maxDate={'2023-04-19'}
+        maxDate={'2023-12-31'}
         onChange={(newValue) => {
           props.handleClick(newValue);
           setValue(newValue)
