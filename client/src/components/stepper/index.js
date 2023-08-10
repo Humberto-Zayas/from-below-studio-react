@@ -9,18 +9,14 @@ import dayjs from 'dayjs';
 import BasicDatePicker from '../BasicDatePicker';
 import ContactForm from '../contactForm';
 import SelectableHours from '../SelectableHours';
-import { useQuery } from '@apollo/client';
-import { QUERY_BLACKOUT_DAYS } from '../../utils/queries';
 
 const steps = ['Pick A Date', 'Pick Your Hours', 'Enter Your Information'];
 
 export default function HorizontalLinearStepper() {
-  const { loading, data } = useQuery(QUERY_BLACKOUT_DAYS);  
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
-  // const [value, setValue] = React.useState(dayjs(new Date())); // value to bind and update
-  const [value, setValue] = React.useState(''); // recording date chosen
-  const [hours, setHours] = React.useState(null); // recording hours chosen
+  const [value, setValue] = React.useState('');
+  const [hours, setHours] = React.useState(null);
   const [formState, setFormState] = React.useState({
     name: null,
     email: null,
@@ -30,35 +26,35 @@ export default function HorizontalLinearStepper() {
     date: null,
     hours: null
   });
+  const [blackoutDays, setBlackoutDays] = React.useState([]);
 
-  console.log('stepper blackout day grab: ', data)
+  React.useEffect(() => {
+    // Fetch blackout days from your API
+    fetch('/api/blackoutDays')
+      .then(response => response.json())
+      .then(data => {
+        setBlackoutDays(data);
+      })
+      .catch(error => {
+        console.error('Error fetching blackout days:', error);
+      });
+  }, []); // Run only once on component mount
 
-  const handleDatePick = (value) => { // passable function to get date picked
-    setValue(value); // event to pass
-    setFormState({ ...formState, date: value.toISOString().split('T')[0] }); //
-    setActiveStep(1)
-  }
+  const handleDatePick = (value) => {
+    setValue(value);
+    setFormState({ ...formState, date: value.toISOString().split('T')[0] });
+    setActiveStep(1);
+  };
 
-  const handleHoursPicked = (value) => { // passable function to hour select list
+  const handleHoursPicked = (value) => {
     setHours(value);
-    setFormState({ ...formState, hours: value })
-    setActiveStep(2)
-  }
+    setFormState({ ...formState, hours: value });
+    setActiveStep(2);
+  };
 
-  const handleFormFinished = (value) => { // passable function to contact form
-    console.log(value)
-    if (value.target.name === 'name') {
-      setFormState({ ...formState, name: value.target.value })
-    } else if (value.target.name === 'email') {
-      setFormState({ ...formState, email: value.target.value })
-    } else if (value.target.name === 'phoneNumber') {
-      setFormState({ ...formState, phoneNumber: value.target.value })
-    } else if (value.target.name === 'message') {
-      setFormState({ ...formState, message: value.target.value })
-    } else if (value.target.name === 'referral') {
-      setFormState({ ...formState, referral: value.target.value })
-    }
-  }
+  const handleFormFinished = (value) => {
+    // Handle form input
+  };
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
@@ -72,7 +68,7 @@ export default function HorizontalLinearStepper() {
     }
 
     if (formState.name && formState.email && formState.phoneNumber && formState.message && formState.referral) {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setActiveStep(prevActiveStep => prevActiveStep + 1);
       setSkipped(newSkipped);
       setFormState({
         name: null,
@@ -84,12 +80,12 @@ export default function HorizontalLinearStepper() {
         hours: null
       });
     } else {
-      alert("Please fill out all fields before submitting the form.");
+      alert('Please fill out all fields before submitting the form.');
     }
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
   const handleReset = () => {
@@ -99,15 +95,11 @@ export default function HorizontalLinearStepper() {
   return (
     <Box sx={{ width: '100%', mt: 1 }}>
       <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel className='text-block-13' {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
+        {steps.map((label, index) => (
+          <Step key={label}>
+            <StepLabel className='text-block-13'>{label}</StepLabel>
+          </Step>
+        ))}
       </Stepper>
       {activeStep === steps.length ? (
         <React.Fragment>
@@ -121,33 +113,27 @@ export default function HorizontalLinearStepper() {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          {activeStep === 0 &&
-            <>
-              <Box sx={{ mt: 1 }}>
-                <BasicDatePicker
-                  value={value}
-                  days={data}
-                  handleClick={handleDatePick}
-                />
-              </Box>
-            </>
-          }
-          {activeStep === 1 &&
+          {activeStep === 0 && (
+            <Box sx={{ mt: 1 }}>
+              <BasicDatePicker value={value} days={blackoutDays} handleClick={handleDatePick} />
+            </Box>
+          )}
+          {activeStep === 1 && (
             <Box sx={{ mt: 1 }}>
               <SelectableHours recordingDate={value} selectHours={handleHoursPicked} />
             </Box>
-          }
-          {activeStep === 2 &&
+          )}
+          {activeStep === 2 && (
             <Box className='shtest' sx={{ mt: 1}}>
               <ContactForm formCapture={handleFormFinished} date={value} hours={hours} />
             </Box>
-          }
-          {activeStep === 3 &&
+          )}
+          {activeStep === 3 && (
             <Box>
               <h3>Review</h3>
               <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
             </Box>
-          }
+          )}
 
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button
@@ -160,14 +146,11 @@ export default function HorizontalLinearStepper() {
               Back
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
-            {activeStep === steps.length - 1 &&
+            {activeStep === steps.length - 1 && (
               <Button style={{ color: 'white' }} onClick={handleNext}>
                 Finish
               </Button>
-            }
-            {/* <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button> */}
+            )}
           </Box>
         </React.Fragment>
       )}
