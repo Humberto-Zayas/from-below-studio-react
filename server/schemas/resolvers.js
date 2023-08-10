@@ -28,38 +28,6 @@ const resolvers = {
         .select("-__v -password");
       // .populate('thoughts');
     },
-    usersById: async (parent,  args ) => {
-      const stringifiedArgs = JSON.stringify(args._id);
-      return User.find({ '_id': { $in: args._id } }).select("-__v -password");
-    },
-    messages: async (parent, { username }) => {
-      const params = username ? { username } : {};
-      return Message.find(params).sort({ createdAt: -1 });
-    },
-    // messagesByUsername: async (parent, { username }) => {
-    //   const params = username? { username } : {};
-    //   return Message.find(params).sort({ createdAt: -1 });
-    // },
-    // messagesByRecipient: async (parent, { recipient }) => {
-    //   const params = recipient? { recipient } : {};
-    //   return Message.find(params).sort({ createdAt: -1 });
-    // },
-    messagesToRecipient: async (parent, { username, recipient }, context) => {
-      // if(context.user) {
-        return Message.find({ username: username, recipient: recipient }).sort({ createdAt: -1 });
-      // }
-      // throw new AuthenticationError("Not logged in");
-    },
-    //Get All Movies//
-    // movies: async (parent, { username }) => {
-    //   const params = username ? { username } : {};
-    //   return Movie.find(params).sort({ createdAt: -1 });
-    // },
-    //Gets Movie By ID//
-    // movie: async (parent, { _id }) => {
-    //   return Movie.findOne({ _id });
-    // },
-    //Gets All Users//
     days: async () => {
       return Day.find()
       // .populate('friends');
@@ -155,39 +123,6 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
-    //Add A New Movie///
-    // addMovie: async (parent, args, context) => {
-    //   if (context.user) {
-    //     const movie = await Movie.create({
-    //       ...args,
-    //       username: context.user.username,
-    //     });
-    //     //Finds User By ID & Adds Movie//
-    //     await User.findByIdAndUpdate(
-    //       { _id: context.user._id },
-    //       { $push: { savedMovie: movie } },
-    //       { new: true }
-    //     );
-
-    //     return movie;
-    //   }
-    //   //Error If Not Logged In//
-    //   throw new AuthenticationError("You need to be logged in!");
-    // },
-    //Add friend by friendId, then added to friends array//
-    // postMessage: async (parent, {text, recipient}, context) => {
-    //   if (context.user) {
-    //     const message = await Message.create({ username: context.user.username, text: text, recipient: recipient });
-    //     await User.findByIdAndUpdate(
-    //       { _id: context.user._id },
-    //       { $push: { messages: message } },
-    //       { new: true }
-    //     );
-    //     pubsub.publish('MESSAGE_POSTED', { postCreated: message }); 
-    //     return message;
-    //   }
-    //   throw new AuthenticationError('You need to be logged in!');
-    // }, 
     postMessage: async (parent, {username, text, recipient}, context) => {
       if (context.user) {
         const message = await Message.create({ username: username, text: text, recipient: recipient });

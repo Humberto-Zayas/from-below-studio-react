@@ -1,103 +1,172 @@
 require("dotenv").config();
+const { User, Message, Day } = require("./models");
 const express = require("express");
-// import ApolloServer
-const { ApolloServer } =  require('@apollo/server');
-const { expressMiddleware } =  require('@apollo/server/express4');
-const { ApolloServerPluginDrainHttpServer } =  require('@apollo/server/plugin/drainHttpServer');
-const http =  require('http');
-const cors =  require('cors');
-const { json } =  require('body-parser');
-// Import Middleware Function From Auth //
-const { authMiddleware } = require("./utils/auth");
-const { makeExecutableSchema } =  require('@graphql-tools/schema');
-const { WebSocketServer } =  require('ws');
-const { useServer } =  require('graphql-ws/lib/use/ws');
+const http = require("http");
+const cors = require("cors");
 const path = require("path");
-
-// import our typeDefs and resolvers
-const { typeDefs, resolvers } = require("./schemas");
-const schema = makeExecutableSchema({ typeDefs, resolvers });
+const { json } = require("body-parser");
+const { authMiddleware } = require("./utils/auth");
 
 const db = require("./config/connection");
 const app = express();
 const httpServer = http.createServer(app);
 const PORT = process.env.PORT || 3001;
-// create a new Apollo server and pass in our schema data
-const server = new ApolloServer({
-  // typeDefs,
-  // resolvers,
-  schema,
-  plugins: [
-    // Proper shutdown for the HTTP server.
-    ApolloServerPluginDrainHttpServer({ httpServer }),
-
-    // Proper shutdown for the WebSocket server.
-    {
-      async serverWillStart() {
-        return {
-          async drainServer() {
-            await serverCleanup.dispose();
-          },
-        };
-      },
-    },
-  ],
-  // ensures that every request performs an authentication check //
-  context: authMiddleware, //old from Apollo 3, new context to pass auth middleware is inside app.use 
-});
-
-const wsServer = new WebSocketServer({
-  // This is the `httpServer` we created in a previous step.
-  server: httpServer,
-  // Pass a different path here if app.use
-  // serves expressMiddleware at a different path
-  path: '/graphql',
-});
-
-// Hand in the schema we just created and have the
-// WebSocketServer start listening.
-const serverCleanup = useServer({ schema }, wsServer);
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cors()); // Enable CORS for cross-origin requests
 
-// Create a new instance of an Apollo server with the GraphQL schema
-const startApolloServer = async (typeDef, resolvers) => {
-  await server.start();
-  // integrate our Apollo server with the Express application as middleware
-  // server.applyMiddleware({ app });
-  app.use(
-    '/graphql',
-    cors(),
-    json(),
-    expressMiddleware(server, {
-      // context: async ({ req }) => ({ token: req.headers.token }),
-      context: authMiddleware,
-    }),
-  );
-  
-
-  // Serve up static assets
-  if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "../client/build")));
+app.get("/api/me", authMiddleware, async (req, res) => {
+  try {
+    if (req.user) {
+      const userData = await User.findOne({ _id: req.user._id }).select("-__v -password");
+      res.json(userData);
+    } else {
+      throw new AuthenticationError("Not logged in");
+    }
+  } catch (error) {
+    res.status(401).json({ error: error.message });
   }
+});
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client/build/index.html"));
-  });
+app.get("/api/users", async (req, res) => {
+  try {
+    const users = await User.find().select("-__v -password");
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
-  db.once("open", () => {
-    
-    // app.listen(PORT, () => {
-    httpServer.listen(PORT, () => {
-      console.log(`API server running on port ${PORT}!`);
-      // log where we can go to test our GQL API
-      console.log(
-        `Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`
+app.get("/api/users/:username", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username }).select("-__v -password");
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.get("/api/days", async (req, res) => {
+  try {
+    const days = await Day.find();
+    res.json(days);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.get("/api/blackoutDays", async (req, res) => {
+  try {
+    const blackoutDays = await Day.find({ disabled: true });
+    res.json(blackoutDays);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.get("/api/days/:date", async (req, res) => {
+  try {
+    const day = await Day.findOne({ date: req.params.date });
+    if (day) {
+      res.json(day);
+    } else {
+      res.status(404).json({ error: "Day not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/api/users", async (req, res) => {
+  try {
+    const user = await User.create(req.body);
+    const token = signToken(user);
+    res.json({ token, user });
+  } catch (error) {
+    res.status(400).json({ error: "Bad request" });
+  }
+});
+
+app.post("/api/editUser", authMiddleware, async (req, res) => {
+  try {
+    if (req.user) {
+      const user = await User.findOneAndUpdate(
+        { _id: req.user._id },
+        req.body,
+        { new: true }
       );
-    });
-  });
-};
+      const token = signToken(user);
+      res.json({ token, user });
+    } else {
+      throw new AuthenticationError("You need to be logged in!");
+    }
+  } catch (error) {
+    res.status(401).json({ error: error.message });
+  }
+});
 
-// Call the async function to start the server
-startApolloServer(typeDefs, resolvers);
+app.post("/api/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user || !(await user.isCorrectPassword(password))) {
+      throw new AuthenticationError("Incorrect credentials");
+    }
+    const token = signToken(user);
+    res.json({ token, user });
+  } catch (error) {
+    res.status(401).json({ error: error.message });
+  }
+});
+
+app.post("/api/days", async (req, res) => {
+  try {
+    const checkDate = await Day.findOne({ date: req.body.date });
+    if (!checkDate) {
+      const date = await Day.create(req.body);
+      res.json(date);
+    } else {
+      throw new Error("Date already exists");
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+app.post("/api/editDay", authMiddleware, async (req, res) => {
+  try {
+    if (req.user) {
+      const date = await Day.findOneAndUpdate(
+        { date: req.body.date },
+        { $set: { disabled: req.body.disabled, hours: req.body.hours } },
+        { new: true }
+      );
+      res.json(date);
+    } else {
+      throw new AuthenticationError("You need to be logged in!");
+    }
+  } catch (error) {
+    res.status(401).json({ error: error.message });
+  }
+});
+
+// Serve up static assets
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/build")));
+}
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+});
+
+db.once("open", () => {
+  httpServer.listen(PORT, () => {
+    console.log(`API server running on port ${PORT}!`);
+    console.log(`App is accessible at http://localhost:${PORT}`);
+  });
+});
