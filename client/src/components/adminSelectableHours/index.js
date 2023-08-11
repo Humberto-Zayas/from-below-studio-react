@@ -7,7 +7,6 @@ import Switch from '@mui/material/Switch';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useQuery } from '@apollo/client';
 import { QUERY_DAY } from '../../utils/queries';
-
 const label = { inputProps: { 'aria-label': 'Switch demo' } } // works
 const possibleHours = ['02 Hours/$70', '04 Hours/$130', '08 Hours/$270', '10 Hours/$340', 'Full Day 14+ Hours/$550'] // works
 
@@ -19,7 +18,6 @@ export default function AdminSelectableHours(props) {
   const { loading, data } = useQuery(QUERY_DAY, { // works ? need to test unavailable
     variables: { date: props.recordingDate.toISOString().split('T')[0] }
   });
-  // console.log('QUERY_DAY', data)
 
   const hourOptionCheck = () => { // works locally but need to pass data up...
     if (data && data.day !== null) {
