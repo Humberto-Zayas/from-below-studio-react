@@ -1,6 +1,7 @@
 import Grid from '@mui/material/Unstable_Grid2';
 import SwipeableTextMobileStepper from '../../components/SwipeableTextMobileStepper';
 import SliderTwo from '../../components/SliderTwo';
+import ImageCarousel from '../ImageCarousel';
 import Container from '@mui/material/Container';
 import Subfooter from '../../components/subfooter';
 
@@ -17,6 +18,7 @@ export default function About() {
         </p>
         <Grid container spacing={2}>
           <Grid style={{overflow: 'hidden', height: '400px'}} lg={6} md={12} sm={12} xs={12}>
+            <ImageCarousel/>
             {/* <SwipeableTextMobileStepper /> */}
           </Grid>
           <Grid style={{overflow: 'hidden', height: '400px'}} lg={6} md={12} sm={12} xs={12}>

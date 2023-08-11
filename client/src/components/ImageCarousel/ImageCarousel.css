@@ -1,0 +1,13 @@
+.carousel-container {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .carousel-image {
+    width: 100%;
+    height: auto;
+    flex-shrink: 0;
+  }
+  
+  /* Rest of your CSS remains the same */
+  
