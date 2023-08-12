@@ -47,12 +47,12 @@ const ImageCarousel = ({title, images}) => {
 				activeStep={activeStep}
 				nextButton={
 					<Button size="small" onClick={handleNext} disabled={images.length <= 1}>
-						<KeyboardArrowRight style={{color: 'white'}} />
+						<KeyboardArrowRight style={{color: 'white', fontSize: '4em'}} />
 					</Button>
 				}
 				backButton={
 					<Button size="small" onClick={handleBack} disabled={images.length <= 1}>
-						<KeyboardArrowLeft style={{color: 'white'}} />
+						<KeyboardArrowLeft style={{color: 'white', fontSize: '4em'}} />
 					</Button>
 				}
 			/>
