@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import { MobileStepper, Box, Button } from '@mui/material';
+import { MobileStepper, Box, Button, Typography } from '@mui/material';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
+import './ImageCarousel.css';
 
-const images = [
-	'https://placehold.co/600x200',
-	'https://placehold.co/600x200/000000/FFFFFF/png',
-	'https://placehold.co/600x200/000000/FF0000/png'
-];
-
-const ImageCarousel = () => {
+const ImageCarousel = ({title, images}) => {
 	const [activeStep, setActiveStep] = useState(0);
 
 	const handleNext = () => {
@@ -41,21 +36,23 @@ const ImageCarousel = () => {
 					))}
 				</div>
 			</Box>
+			<Typography className="heading-10-copy" variant="h5" align="center" style={{position: 'absolute', width: '100%', top: 0, textAlign: 'center', color: 'white', padding: '10px 0', background: 'rgba(0,0,0,0.8)', textTransform: 'uppercase', fontFamily: 'Lato', fontWeight: '300', letterSpacing: '2px'}}>
+				{title}
+			</Typography>
 			<MobileStepper
-				variant="dots"
+				style={{ background: 'transparent', position: 'absolute', top: '50%', transform: 'translateY(-50%)', width: '100%' }} 
+				variant='dots'
 				steps={images.length}
 				position="static"
 				activeStep={activeStep}
 				nextButton={
 					<Button size="small" onClick={handleNext} disabled={images.length <= 1}>
-						Next
-						<KeyboardArrowRight />
+						<KeyboardArrowRight style={{color: 'white'}} />
 					</Button>
 				}
 				backButton={
 					<Button size="small" onClick={handleBack} disabled={images.length <= 1}>
-						<KeyboardArrowLeft />
-						Back
+						<KeyboardArrowLeft style={{color: 'white'}} />
 					</Button>
 				}
 			/>

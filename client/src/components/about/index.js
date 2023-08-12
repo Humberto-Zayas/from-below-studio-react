@@ -4,7 +4,19 @@ import SliderTwo from '../../components/SliderTwo';
 import ImageCarousel from '../ImageCarousel';
 import Container from '@mui/material/Container';
 import Subfooter from '../../components/subfooter';
+import studio1 from '../../images/_JP_6513.jpg'
 
+const studioImages = [
+	studio1,
+	'https://placehold.co/600x200/000000/FFFFFF/png',
+	'https://placehold.co/600x200/000000/FF0000/png'
+];
+
+const gearImages = [
+	'https://placehold.co/600x200',
+	'https://placehold.co/600x200/000000/FFFFFF/png',
+	'https://placehold.co/600x200/000000/FF0000/png'
+];
 
 export default function About() {
   return (
@@ -18,10 +30,11 @@ export default function About() {
         </p>
         <Grid container spacing={2}>
           <Grid style={{overflow: 'hidden', height: '400px'}} lg={6} md={12} sm={12} xs={12}>
-            <ImageCarousel/>
+            <ImageCarousel images={studioImages} title={'The Studio'}/>
             {/* <SwipeableTextMobileStepper /> */}
           </Grid>
           <Grid style={{overflow: 'hidden', height: '400px'}} lg={6} md={12} sm={12} xs={12}>
+            <ImageCarousel images={gearImages} title={'Outboard Gear & Plugins'}/>
             {/* <SliderTwo /> */}
           </Grid>
         </Grid>
