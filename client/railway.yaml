@@ -1,0 +1,7 @@
+# /client/railway.yaml
+
+services:
+  - name: client
+    type: static
+    disk: 1024
+    buildCommand: npm install && npm run build
