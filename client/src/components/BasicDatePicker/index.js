@@ -1,8 +1,7 @@
 import React from 'react';
-import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker'
 
 export default function BasicDatePicker(props) {
   const [value, setValue] = React.useState(props.value);
@@ -14,17 +13,16 @@ export default function BasicDatePicker(props) {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker
-        disablePast
+      <StaticDatePicker
+        maxDate={props.maxDate}
         shouldDisableDate={getDisabledDates}
-        label="Choose a date"
+        disablePast={true}
         value={value}
-        maxDate={'2023-12-31'}
         onChange={(newValue) => {
           props.handleClick(newValue);
           setValue(newValue)
         }}
-        renderInput={(params) => <TextField {...params} />}
+        showToolbar={false}
       />
     </LocalizationProvider>
   );

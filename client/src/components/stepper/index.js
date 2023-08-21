@@ -15,7 +15,8 @@ const steps = ['Pick A Date', 'Pick Your Hours', 'Enter Your Information'];
 export default function HorizontalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = React.useState(dayjs());
+  const [maxDate, setMaxDate] = React.useState(null);
   const [hours, setHours] = React.useState(null);
   const [formState, setFormState] = React.useState({
     name: null,
@@ -39,6 +40,19 @@ export default function HorizontalLinearStepper() {
         console.error('Error fetching blackout days:', error);
       });
   }, []); // Run only once on component mount
+
+  React.useEffect(() => {
+    const maxDateUrl = 'http://localhost:3001/api/getMaxDate'; // API endpoint to fetch max date
+    fetch(maxDateUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        setMaxDate(data.maxDate);
+      })
+      .catch((error) => {
+        console.error('Error fetching max date:', error);
+      });
+
+  }, []); // Empty dependency array to run only once on component mount
 
   const handleDatePick = (value) => {
     setValue(value);
@@ -115,7 +129,7 @@ export default function HorizontalLinearStepper() {
         <React.Fragment>
           {activeStep === 0 && (
             <Box sx={{ mt: 1 }}>
-              <BasicDatePicker value={value} days={blackoutDays} handleClick={handleDatePick} />
+              <BasicDatePicker value={value} maxDate={maxDate} days={blackoutDays} handleClick={handleDatePick} />
             </Box>
           )}
           {activeStep === 1 && (

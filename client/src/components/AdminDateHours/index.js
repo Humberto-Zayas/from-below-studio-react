@@ -141,7 +141,6 @@ export default function AdminDateHours() {
             value={value}
             onChange={handleDatePick}
             showToolbar={false}
-            style={{ backgroundColor: 'transparent' }}
           />
         </LocalizationProvider>
       </Grid>
