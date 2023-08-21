@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { User, Message, Day } = require("./models");
+const { User, Message, Day, Availability } = require("./models");
 const express = require("express");
 const http = require("http");
 const cors = require("cors");
@@ -173,12 +173,15 @@ app.post("/api/updateOrCreateDay", async (req, res) => {
 
     if (existingDay) {
       // If the day exists, update the hours
-      const updatedDay = await Day.findOneAndUpdate(
-        { date },
-        { $set: { hours: selectedHours } },
-        { new: true }
-      );
-      res.json(updatedDay);
+      existingDay.hours = selectedHours;
+
+      // Enable the day if it's disabled
+      if (existingDay.disabled) {
+        existingDay.disabled = false;
+      }
+
+      await existingDay.save();
+      res.json(existingDay);
     } else {
       // If the day doesn't exist, create a new day with hours and disabled set to false
       const newDay = await Day.create({
@@ -192,6 +195,40 @@ app.post("/api/updateOrCreateDay", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
+
+app.get("/api/getMaxDate", async (req, res) => {
+  try {
+    const availability = await Availability.findOne();
+    if (availability) {
+      res.json({ maxDate: availability.maxDate });
+    } else {
+      res.status(404).json({ error: "Max date not found" });
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+
+app.post("/api/updateMaxDate", async (req, res) => {
+  try {
+    const { maxDate } = req.body;
+
+    let availability = await Availability.findOne();
+
+    if (!availability) {
+      availability = await Availability.create({ maxDate });
+    } else {
+      availability.maxDate = maxDate;
+      await availability.save();
+    }
+
+    res.json(availability);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 
 // Serve up static assets
 if (process.env.NODE_ENV === "production") {

@@ -3,7 +3,9 @@ import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
-import { Grid, List, ListItem, ListItemText, Switch, Typography } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { Grid, List, ListItem, ListItemText, Switch, TextField, Typography } from '@mui/material';
+import './AdminDateHours.css';
 
 const hourOptions = [
   { label: '2 Hours', price: '$70' },
@@ -15,6 +17,7 @@ const hourOptions = [
 
 export default function AdminDateHours() {
   const [value, setValue] = useState(dayjs());
+  const [maxDate, setMaxDate] = useState(null);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [dayData, setDayData] = useState(null);
 
@@ -83,29 +86,33 @@ export default function AdminDateHours() {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={6}>
+      <Grid item sm={7} xs={12}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <p>Max Date</p>
+            <DatePicker 
+              disablePast={true} 
+              value={maxDate} 
+              renderInput={(params) => <TextField {...params} />} 
+              onChange={(newValue) => {
+                setMaxDate(newValue)
+              }}
+            />
+          </div>
           <StaticDatePicker
+            maxDate={maxDate}
             disablePast={true}
             value={value}
             onChange={handleDatePick}
             showToolbar={false}
+            style={{ backgroundColor: 'transparent' }}
           />
         </LocalizationProvider>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item sm={5} xs={12}>
         <List component="nav">
-          {selectedOptions.map((option, index) => (
-            <ListItem key={index}>
-              <ListItemText primary={option.label} secondary={option.price} />
-              <Switch
-                checked={option.enabled}
-                onChange={() => handleOptionToggle(option)}
-              />
-            </ListItem>
-          ))}
           <ListItem>
-            <ListItemText primary="Disabled" />
+            <ListItemText style={{color: 'white'}} primary="Disabled" />
             <Switch
               checked={dayData ? dayData.disabled : true}
               onChange={() => {
@@ -138,13 +145,27 @@ export default function AdminDateHours() {
               }}
             />
           </ListItem>
+          {selectedOptions.map((option, index) => (
+            <ListItem
+              key={index}
+              style={{
+                borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+                borderLeft: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRight: '1px solid rgba(255, 255, 255, 0.2)',
+                borderTop: index === 0 ? '1px solid rgba(255, 255, 255, 0.2)' : 'none',
+                color: 'white',
+              }}
+            >
+              <ListItemText style={{color: 'white'}} primary={option.label} secondary={option.price} />
+              <Switch
+                size="small"
+                checked={option.enabled}
+                onChange={() => handleOptionToggle(option)}
+                disabled={dayData && dayData.disabled} // Disable if the day is disabled
+              />
+            </ListItem>
+          ))}
         </List>
-        <Typography variant="subtitle1" sx={{ marginTop: 2 }}>
-          Selected Options: {selectedOptions
-            .filter((opt) => opt.enabled)
-            .map((opt) => opt.label)
-            .join(', ')}
-        </Typography>
       </Grid>
     </Grid>
   );
