@@ -34,6 +34,19 @@ export default function AdminDateHours() {
   }, [value]);
 
   useEffect(() => {
+    const maxDateUrl = 'http://localhost:3001/api/getMaxDate'; // API endpoint to fetch max date
+    fetch(maxDateUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        setMaxDate(data.maxDate);
+      })
+      .catch((error) => {
+        console.error('Error fetching max date:', error);
+      });
+
+  }, []); // Empty dependency array to run only once on component mount
+
+  useEffect(() => {
     if (dayData && dayData.hours) {
       setSelectedOptions(
         hourOptions.map((opt) => ({
@@ -84,21 +97,44 @@ export default function AdminDateHours() {
       });
   };
 
+  const handleMaxDateChange = (newMaxDate) => {
+    setMaxDate(newMaxDate);
+
+    // Post the updated maxDate to the API
+    const apiUrl = 'http://localhost:3001/api/updateMaxDate';
+    fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        maxDate: newMaxDate,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Max date updated:', data);
+      })
+      .catch((error) => {
+        console.error('Error updating max date:', error);
+      });
+  };
+
   return (
     <Grid container spacing={2}>
       <Grid item sm={7} xs={12}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <p>Max Date</p>
-            <DatePicker 
-              disablePast={true} 
-              value={maxDate} 
-              renderInput={(params) => <TextField {...params} />} 
-              onChange={(newValue) => {
-                setMaxDate(newValue)
-              }}
-            />
-          </div>
+          <List style={{maxWidth: '310px', margin: '0 auto'}} component="nav">
+            <ListItem>
+              <ListItemText style={{ color: 'white' }} primary="Max Date" />
+              <DatePicker
+                disablePast={true}
+                value={maxDate}
+                renderInput={(params) => <TextField style={{border: '1px solid rgba(255,255,255,0.2)', borderRadius: '10px', width: '148px'}} {...params} />}
+                onChange={handleMaxDateChange}
+              />
+            </ListItem>
+          </List>
           <StaticDatePicker
             maxDate={maxDate}
             disablePast={true}
@@ -112,7 +148,7 @@ export default function AdminDateHours() {
       <Grid item sm={5} xs={12}>
         <List component="nav">
           <ListItem>
-            <ListItemText style={{color: 'white'}} primary="Disabled" />
+            <ListItemText style={{ color: 'white' }} primary="Disabled" />
             <Switch
               checked={dayData ? dayData.disabled : true}
               onChange={() => {
@@ -156,7 +192,7 @@ export default function AdminDateHours() {
                 color: 'white',
               }}
             >
-              <ListItemText style={{color: 'white'}} primary={option.label} secondary={option.price} />
+              <ListItemText style={{ color: 'white' }} primary={option.label} secondary={option.price} />
               <Switch
                 size="small"
                 checked={option.enabled}

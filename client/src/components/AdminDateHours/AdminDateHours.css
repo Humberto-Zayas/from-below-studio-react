@@ -39,6 +39,10 @@
   background-color: #d1203d !important;
 }
 
+.MuiIconButton-root {
+  color: white !important;
+}
+
 /* .MuiSwitch-root .MuiSwitch-thumb {
   background-color: rgba(255, 255, 255, 0.1)
 } */
