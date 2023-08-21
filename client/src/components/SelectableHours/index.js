@@ -9,11 +9,11 @@ export default function SelectableHours(props) {
   const [enabledData, setEnabledData] = useState([]);
 
   useEffect(() => {
-    fetch(`/api/day/${props.recordingDate.toISOString().split('T')[0]}`)
+    fetch(`/api/days/${props.recordingDate.toISOString().split('T')[0]}`)
       .then(response => response.json())
       .then(data => {
-        if (data && data.day && data.day.hours) {
-          const enabledHours = data.day.hours.filter(item => item.enabled);
+        if (data && data.date && data.hours) {
+          const enabledHours = data.hours.filter(item => item.enabled);
           setEnabledData(enabledHours);
         } else {
           setEnabledData([]);
