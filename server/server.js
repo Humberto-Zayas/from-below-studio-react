@@ -155,6 +155,35 @@ app.post("/api/editDay", authMiddleware, async (req, res) => {
   }
 });
 
+app.post("/api/updateOrCreateDay", async (req, res) => {
+  try {
+    const { date, selectedHours } = req.body; // Assuming selectedHours is an array of selected hour options
+
+    // Check if the day exists
+    const existingDay = await Day.findOne({ date });
+
+    if (existingDay) {
+      // If the day exists, update the hours
+      const updatedDay = await Day.findOneAndUpdate(
+        { date },
+        { $set: { hours: selectedHours } },
+        { new: true }
+      );
+      res.json(updatedDay);
+    } else {
+      // If the day doesn't exist, create a new day with hours and disabled set to false
+      const newDay = await Day.create({
+        date,
+        hours: selectedHours,
+        disabled: false,
+      });
+      res.json(newDay);
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 // Serve up static assets
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));
