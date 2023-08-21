@@ -1,33 +1,15 @@
 import * as React from 'react';
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
 export default function ContactForm(props) {
-
-  const [formState, setFormState] = useState({
-    name: null,
-    email: null,
-    phoneNumber: null,
-    message: null,
-    date: props.date.toISOString().split('T')[0],
-    hours: props.hours
-  });
-
   const handleChange = (event) => {
     props.formCapture(event)
   }
-
   return (
     <>
       <form>
