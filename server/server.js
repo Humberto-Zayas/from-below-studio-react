@@ -138,22 +138,31 @@ app.post("/api/days", async (req, res) => {
   }
 });
 
-app.post("/api/editDay", authMiddleware, async (req, res) => {
+app.post("/api/editDay", async (req, res) => {
   try {
-    if (req.user) {
-      const date = await Day.findOneAndUpdate(
-        { date: req.body.date },
-        { $set: { disabled: req.body.disabled, hours: req.body.hours } },
-        { new: true }
-      );
-      res.json(date);
+    const { date, disabled } = req.body;
+
+    let existingDay = await Day.findOne({ date });
+
+    if (!existingDay) {
+      existingDay = await Day.create({ date, disabled, hours: [] }); // Initialize hours array for new day
     } else {
-      throw new AuthenticationError("You need to be logged in!");
+      existingDay.disabled = disabled;
+      
+      // Remove hours if the day is disabled
+      if (disabled) {
+        existingDay.hours = [];
+      }
+
+      await existingDay.save();
     }
+
+    res.json(existingDay);
   } catch (error) {
-    res.status(401).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 });
+
 
 app.post("/api/updateOrCreateDay", async (req, res) => {
   try {

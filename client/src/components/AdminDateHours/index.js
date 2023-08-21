@@ -3,12 +3,7 @@ import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
-import Grid from '@mui/material/Grid';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import Switch from '@mui/material/Switch';
-import Typography from '@mui/material/Typography';
+import { Grid, List, ListItem, ListItemText, Switch, Typography } from '@mui/material';
 
 const hourOptions = [
   { label: '2 Hours', price: '$70' },
@@ -109,6 +104,40 @@ export default function AdminDateHours() {
               />
             </ListItem>
           ))}
+          <ListItem>
+            <ListItemText primary="Disabled" />
+            <Switch
+              checked={dayData ? dayData.disabled : true}
+              onChange={() => {
+                if (!dayData) return;
+                const apiUrl = "http://localhost:3001/api/editDay";
+                const newDisabled = !dayData.disabled;
+
+                fetch(apiUrl, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    date: value.format("YYYY-MM-DD"),
+                    disabled: newDisabled,
+                  }),
+                })
+                  .then((response) => response.json())
+                  .then((data) => {
+                    const updatedSelectedOptions = selectedOptions.map(opt => ({
+                      ...opt,
+                      enabled: !newDisabled && opt.enabled, // Toggle off hours if day is disabled
+                    }));
+                    setSelectedOptions(updatedSelectedOptions);
+                    setDayData(data);
+                  })
+                  .catch((error) => {
+                    console.error("Error updating disabled:", error);
+                  });
+              }}
+            />
+          </ListItem>
         </List>
         <Typography variant="subtitle1" sx={{ marginTop: 2 }}>
           Selected Options: {selectedOptions
