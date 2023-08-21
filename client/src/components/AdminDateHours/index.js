@@ -35,6 +35,19 @@ export default function AdminDateHours() {
       });
   }, [value]);
 
+  useEffect(() => {
+    if (dayData && dayData.hours) {
+      setSelectedOptions(
+        hourOptions.map((opt) => ({
+          ...opt,
+          enabled: dayData.hours.some((hour) => hour.hour.includes(opt.label)),
+        }))
+      );
+    } else {
+      setSelectedOptions(hourOptions.map((opt) => ({ ...opt, enabled: false })));
+    }
+  }, [dayData]);
+
   const handleDatePick = (selectedDate) => {
     setValue(selectedDate);
   };
@@ -42,9 +55,9 @@ export default function AdminDateHours() {
   const handleOptionToggle = (option) => {
     if (!dayData) return;
 
-    const updatedOptions = selectedOptions.includes(option)
-      ? selectedOptions.filter((item) => item !== option)
-      : [...selectedOptions, option];
+    const updatedOptions = selectedOptions.map((opt) =>
+      opt.label === option.label ? { ...opt, enabled: !opt.enabled } : opt
+    );
 
     setSelectedOptions(updatedOptions);
 
@@ -56,10 +69,12 @@ export default function AdminDateHours() {
       },
       body: JSON.stringify({
         date: value.format("YYYY-MM-DD"),
-        selectedHours: updatedOptions.map((opt) => ({
-          hour: `${opt.label}/${opt.price}`,
-          enabled: true,
-        })),
+        selectedHours: updatedOptions
+          .filter((opt) => opt.enabled)
+          .map((opt) => ({
+            hour: `${opt.label}/${opt.price}`,
+            enabled: true,
+          })),
       }),
     })
       .then((response) => response.json())
@@ -70,16 +85,6 @@ export default function AdminDateHours() {
         console.error("Error creating or updating day:", error);
       });
   };
-
-  useEffect(() => {
-    if (dayData && dayData.hours) {
-      setSelectedOptions(
-        hourOptions.filter((opt) =>
-          dayData.hours.some((hour) => hour.hour.includes(opt.label))
-        )
-      );
-    }
-  }, [dayData]);
 
   return (
     <Grid container spacing={2}>
@@ -95,18 +100,21 @@ export default function AdminDateHours() {
       </Grid>
       <Grid item xs={6}>
         <List component="nav">
-          {hourOptions.map((option, index) => (
+          {selectedOptions.map((option, index) => (
             <ListItem key={index}>
               <ListItemText primary={option.label} secondary={option.price} />
               <Switch
-                checked={selectedOptions.includes(option)}
+                checked={option.enabled}
                 onChange={() => handleOptionToggle(option)}
               />
             </ListItem>
           ))}
         </List>
         <Typography variant="subtitle1" sx={{ marginTop: 2 }}>
-          Selected Options: {selectedOptions.map((option) => option.label).join(', ')}
+          Selected Options: {selectedOptions
+            .filter((opt) => opt.enabled)
+            .map((opt) => opt.label)
+            .join(', ')}
         </Typography>
       </Grid>
     </Grid>
