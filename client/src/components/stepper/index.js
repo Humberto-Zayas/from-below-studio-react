@@ -62,38 +62,72 @@ export default function HorizontalLinearStepper() {
 
   const handleHoursPicked = (value) => {
     setHours(value);
-    setFormState({ ...formState, hours: value });
+    // Extract the hour value from the selected hour string
+    const selectedHour = value[0].split(" ")[0]; // Assuming value is an array with one element
+    setFormState({ ...formState, hours: selectedHour });
     setActiveStep(2);
-  };
+  };  
 
   const handleFormFinished = (formData) => {
     setFormState({ ...formState, ...formData }); // Merge the captured form data into the state
   };
 
   console.log('parent form state: ', formState);
-  
+
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
 
-  const handleBookSession = () => {
-    // Perform the booking submission using the formState
-    console.log("Booking submitted:", formState);
-    // You can also make an API request here to submit the booking
-    // Reset the form state and move to the next step
-    setFormState({
-      name: null,
-      email: null,
-      phoneNumber: null,
-      message: null,
-      referral: null,
-      date: null,
-      hours: null
-    });
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
+  const handleBookSession = async () => {
+    try {
+      // Perform the booking submission using the formState
+      console.log("Booking submitted:", formState);
+
+      // Prepare the booking data
+      const bookingData = {
+        name: formState.name,
+        email: formState.email,
+        phoneNumber: formState.phoneNumber,
+        message: formState.message,
+        howHeard: formState.referral,
+        date: formState.date,
+        hours: formState.hours,
+      };
+
+      // Make the API request to create the booking
+      const response = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bookingData),
+      });
+
+      if (response.ok) {
+        // Reset the form state and move to the next step
+        setFormState({
+          name: null,
+          email: null,
+          phoneNumber: null,
+          message: null,
+          referral: null,
+          date: null,
+          hours: null,
+        });
+        setActiveStep(prevActiveStep => prevActiveStep + 1);
+        console.log('Booking successfully created.');
+      } else {
+        console.error('Error creating booking:', response.statusText);
+        alert('An error occurred while submitting the booking.');
+      }
+    } catch (error) {
+      console.error('Error creating booking:', error);
+      alert('An error occurred while submitting the booking.');
+    }
   };
-  
+
+
 
   const handleNext = () => {
     let newSkipped = skipped;
@@ -101,14 +135,14 @@ export default function HorizontalLinearStepper() {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
-  
+
     if (formState.name && formState.email && formState.phoneNumber && formState.message && formState.referral) {
       handleBookSession(); // Call the function to handle booking submission
     } else {
       alert('Please fill out all fields before submitting the form.');
     }
   };
-  
+
 
   const handleBack = () => {
     setActiveStep(prevActiveStep => prevActiveStep - 1);

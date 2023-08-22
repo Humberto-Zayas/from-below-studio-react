@@ -24,8 +24,7 @@ app.use('/api', daysRoutes);
 app.post("/api/bookings", async (req, res) => {
   try {
     // Extract booking details from the request body
-    const { name, email, phoneNumber, message, howHeard, date, hours } = req.body;
-    
+    const { name, email, phoneNumber, message, howHeard, date, hours } = req.body;    
     // Create a new booking record in the database
     const booking = await Booking.create({
       name,

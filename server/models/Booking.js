@@ -23,16 +23,10 @@ const BookingSchema = new Schema({
     type: String,
     required: true
   },
-  hours: [{
-    hour: {
-      type: String,
-      required: true
-    },
-    enabled: {
-      type: Boolean,
-      default: true
-    }
-  }],
+  hours: {
+    type: String,
+    required: true
+  },
   status: {
     type: String,
     enum: ['unconfirmed', 'confirmed', 'denied'],
