@@ -66,13 +66,34 @@ export default function HorizontalLinearStepper() {
     setActiveStep(2);
   };
 
-  const handleFormFinished = (value) => {
-    // Handle form input
+  const handleFormFinished = (formData) => {
+    setFormState({ ...formState, ...formData }); // Merge the captured form data into the state
   };
+
+  console.log('parent form state: ', formState);
+  
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
+
+  const handleBookSession = () => {
+    // Perform the booking submission using the formState
+    console.log("Booking submitted:", formState);
+    // You can also make an API request here to submit the booking
+    // Reset the form state and move to the next step
+    setFormState({
+      name: null,
+      email: null,
+      phoneNumber: null,
+      message: null,
+      referral: null,
+      date: null,
+      hours: null
+    });
+    setActiveStep(prevActiveStep => prevActiveStep + 1);
+  };
+  
 
   const handleNext = () => {
     let newSkipped = skipped;
@@ -80,23 +101,14 @@ export default function HorizontalLinearStepper() {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
-
+  
     if (formState.name && formState.email && formState.phoneNumber && formState.message && formState.referral) {
-      setActiveStep(prevActiveStep => prevActiveStep + 1);
-      setSkipped(newSkipped);
-      setFormState({
-        name: null,
-        email: null,
-        phoneNumber: null,
-        message: null,
-        referral: null,
-        date: null,
-        hours: null
-      });
+      handleBookSession(); // Call the function to handle booking submission
     } else {
       alert('Please fill out all fields before submitting the form.');
     }
   };
+  
 
   const handleBack = () => {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
@@ -138,7 +150,7 @@ export default function HorizontalLinearStepper() {
             </Box>
           )}
           {activeStep === 2 && (
-            <Box className='shtest' sx={{ mt: 1}}>
+            <Box className='shtest' sx={{ mt: 1 }}>
               <ContactForm formCapture={handleFormFinished} date={value} hours={hours} />
             </Box>
           )}

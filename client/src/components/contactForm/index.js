@@ -7,9 +7,30 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
 export default function ContactForm(props) {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phoneNumber: '',
+    message: '',
+    referral: ''
+  });
+  
   const handleChange = (event) => {
-    props.formCapture(event)
-  }
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+
+    // Pass the form data to the parent component
+    props.formCapture({
+      ...formData,
+      [name]: value, // Update the changed field
+      date: props.date.toISOString().split('T')[0],
+      hours: props.hours
+    });
+  };
+  
   return (
     <>
       <form>
