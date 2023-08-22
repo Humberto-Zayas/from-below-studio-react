@@ -6,11 +6,12 @@ const cors = require("cors");
 const path = require("path");
 const { json } = require("body-parser");
 const { authMiddleware } = require("./utils/auth");
-
 const db = require("./config/connection");
 const app = express();
 const httpServer = http.createServer(app);
 const PORT = process.env.PORT || 3001;
+const daysRoutes = require('./api/daysRoutes');
+
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -51,47 +52,6 @@ app.get("/api/users/:username", async (req, res) => {
   }
 });
 
-app.get("/api/days", async (req, res) => {
-  try {
-    const days = await Day.find();
-    res.json(days);
-  } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-app.get("/api/blackoutDays", async (req, res) => {
-  try {
-    const blackoutDays = await Day.find({ disabled: true });
-    res.json(blackoutDays);
-  } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-app.get("/api/days/:date", async (req, res) => {
-  try {
-    const day = await Day.findOne({ date: req.params.date });
-    if (day) {
-      res.json(day);
-    } else {
-      res.status(404).json({ error: "Day not found" });
-    }
-  } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-app.post("/api/users", async (req, res) => {
-  try {
-    const user = await User.create(req.body);
-    const token = signToken(user);
-    res.json({ token, user });
-  } catch (error) {
-    res.status(400).json({ error: "Bad request" });
-  }
-});
-
 app.post("/api/editUser", authMiddleware, async (req, res) => {
   try {
     if (req.user) {
@@ -124,111 +84,7 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-app.post("/api/days", async (req, res) => {
-  try {
-    const checkDate = await Day.findOne({ date: req.body.date });
-    if (!checkDate) {
-      const date = await Day.create(req.body);
-      res.json(date);
-    } else {
-      throw new Error("Date already exists");
-    }
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
-
-app.post("/api/editDay", async (req, res) => {
-  try {
-    const { date, disabled } = req.body;
-
-    let existingDay = await Day.findOne({ date });
-
-    if (!existingDay) {
-      existingDay = await Day.create({ date, disabled, hours: [] }); // Initialize hours array for new day
-    } else {
-      existingDay.disabled = disabled;
-      
-      // Remove hours if the day is disabled
-      if (disabled) {
-        existingDay.hours = [];
-      }
-
-      await existingDay.save();
-    }
-
-    res.json(existingDay);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
-
-
-app.post("/api/updateOrCreateDay", async (req, res) => {
-  try {
-    const { date, selectedHours } = req.body; // Assuming selectedHours is an array of selected hour options
-
-    // Check if the day exists
-    const existingDay = await Day.findOne({ date });
-
-    if (existingDay) {
-      // If the day exists, update the hours
-      existingDay.hours = selectedHours;
-
-      // Enable the day if it's disabled
-      if (existingDay.disabled) {
-        existingDay.disabled = false;
-      }
-
-      await existingDay.save();
-      res.json(existingDay);
-    } else {
-      // If the day doesn't exist, create a new day with hours and disabled set to false
-      const newDay = await Day.create({
-        date,
-        hours: selectedHours,
-        disabled: false,
-      });
-      res.json(newDay);
-    }
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
-
-app.get("/api/getMaxDate", async (req, res) => {
-  try {
-    const availability = await Availability.findOne();
-    if (availability) {
-      res.json({ maxDate: availability.maxDate });
-    } else {
-      res.status(404).json({ error: "Max date not found" });
-    }
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
-
-
-app.post("/api/updateMaxDate", async (req, res) => {
-  try {
-    const { maxDate } = req.body;
-
-    let availability = await Availability.findOne();
-
-    if (!availability) {
-      availability = await Availability.create({ maxDate });
-    } else {
-      availability.maxDate = maxDate;
-      await availability.save();
-    }
-
-    res.json(availability);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
-
+app.use('/api', daysRoutes);
 
 // Serve up static assets
 if (process.env.NODE_ENV === "production") {
