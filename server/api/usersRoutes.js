@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { authMiddleware } = require("../utils/auth");
 const { User, Message, Day, Availability } = require("../models");
 
 router.get("/me", authMiddleware, async (req, res) => {
@@ -68,3 +69,6 @@ router.post("/login", async (req, res) => {
     res.status(401).json({ error: error.message });
   }
 });
+
+
+module.exports = router;
