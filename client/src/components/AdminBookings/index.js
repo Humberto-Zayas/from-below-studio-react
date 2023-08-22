@@ -35,9 +35,9 @@ const AdminBookings = () => {
                     <Typography variant="body1">Email: {booking.email}</Typography>
                     <Typography variant="body1">Phone Number: {booking.phoneNumber}</Typography>
                     <Typography variant="body1">Message: {booking.message}</Typography>
-                    <Typography variant="body1">How Did You Hear About Us: {booking.hearAboutUs}</Typography>
+                    <Typography variant="body1">How Did You Hear About Us: {booking.howDidYouHear}</Typography>
                     <Typography variant="body1">Date: {booking.date}</Typography>
-                    <Typography variant="body1">Hours: {booking.hours.join(', ')}</Typography>
+                    <Typography variant="body1">Hours: {booking.hours}</Typography>
                     <Typography variant="body1">Status: {booking.status}</Typography>
                   </CardContent>
                 </Card>
