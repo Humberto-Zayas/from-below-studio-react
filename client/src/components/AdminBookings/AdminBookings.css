@@ -1,0 +1,17 @@
+/* AdminBookings.css */
+
+.custom-table-container {
+  background-color: #141414; /* Darker background color */
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgb(94, 94, 94);
+}
+
+/* Remove bottom border from the last table row */
+.last-row td {
+  border-bottom: none;
+}
+
+.table-row td {
+  border-color: rgb(94,94,94);
+}
