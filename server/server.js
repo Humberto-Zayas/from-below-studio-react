@@ -58,19 +58,71 @@ app.get("/api/bookings", async (req, res) => {
 app.get("/api/bookings/:id", async (req, res) => {
   try {
     const bookingId = req.params.id;
-
     // Retrieve the booking by its ID from the database
     const booking = await Booking.findById(bookingId);
-
     if (!booking) {
       return res.status(404).json({ error: "Booking not found" });
     }
-
     res.json(booking);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+/// New route for confirming or denying a booking
+app.put("/api/bookings/:id", async (req, res) => {
+  try {
+    const bookingId = req.params.id;
+    const { status } = req.body;
+
+    // Update the booking status in the database
+    const updatedBooking = await Booking.findByIdAndUpdate(
+      bookingId,
+      { status },
+      { new: true }
+    );
+
+    if (!updatedBooking) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    if (status === "confirmed") {
+      // Find the day associated with the booking's date
+      const bookingDay = await Day.findOne({ date: updatedBooking.date });
+
+      if (bookingDay) {
+        // Remove the hour block from the day's hours array
+        bookingDay.hours = bookingDay.hours.filter(
+          (hourBlock) => hourBlock.hour !== updatedBooking.hours
+        );
+
+        await bookingDay.save();
+      }
+    } else if (status === "denied") {
+      // Find the day associated with the booking's date
+      const bookingDay = await Day.findOne({ date: updatedBooking.date });
+
+      if (bookingDay) {
+        // Check if the denied hour block already exists in the day's hours array
+        const deniedHourExists = bookingDay.hours.some(
+          (hourBlock) => hourBlock.hour === updatedBooking.hours
+        );
+
+        // If the denied hour doesn't exist, add it back to the day's hours array
+        if (!deniedHourExists) {
+          bookingDay.hours.push({ hour: updatedBooking.hours, enabled: true });
+          await bookingDay.save();
+        }
+      }
+    }
+
+    res.json(updatedBooking);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+
 
 // Serve up static assets
 if (process.env.NODE_ENV === "production") {

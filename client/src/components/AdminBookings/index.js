@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Card, CardContent, CardHeader, Container, Grid } from '@mui/material';
+import { Typography, Card, CardContent, CardHeader, Container, Grid, Button } from '@mui/material';
 
 const AdminBookings = () => {
   const [bookings, setBookings] = useState([]);
@@ -15,6 +15,34 @@ const AdminBookings = () => {
         console.error('Error fetching bookings:', error);
       });
   }, []);
+
+  const handleUpdateStatus = async (bookingId, newStatus) => {
+    try {
+      const response = await fetch(`/api/bookings/${bookingId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          status: newStatus,
+        }),
+      });
+
+      if (response.ok) {
+        // Update the local state with the updated booking
+        const updatedBookings = bookings.map((booking) =>
+          booking._id === bookingId ? { ...booking, status: newStatus } : booking
+        );
+        setBookings(updatedBookings);
+      } else {
+        console.error('Error updating booking status:', response.statusText);
+        alert('An error occurred while updating the booking status.');
+      }
+    } catch (error) {
+      console.error('Error updating booking status:', error);
+      alert('An error occurred while updating the booking status.');
+    }
+  };
 
   return (
     <div>
@@ -39,6 +67,21 @@ const AdminBookings = () => {
                     <Typography variant="body1">Date: {booking.date}</Typography>
                     <Typography variant="body1">Hours: {booking.hours}</Typography>
                     <Typography variant="body1">Status: {booking.status}</Typography>
+                    {/* Buttons to update status */}
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => handleUpdateStatus(booking._id, 'confirmed')}
+                    >
+                      Confirm
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      onClick={() => handleUpdateStatus(booking._id, 'denied')}
+                    >
+                      Deny
+                    </Button>
                   </CardContent>
                 </Card>
               </Grid>
