@@ -1,43 +1,115 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, Collapse, Button, Typography } from '@mui/material';
+import React from 'react';
+import dayjs from 'dayjs';
+import { Card, CardContent, CardHeader, Collapse, Button, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
+import { Email, Phone, Message, Hearing, AccessTime, Edit } from '@mui/icons-material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { styled } from '@mui/system';
+
+const Dot = styled('span')(({ theme, status }) => ({
+  width: 12,
+  height: 12,
+  borderRadius: '50%',
+  display: 'inline-block',
+  marginRight: theme.spacing(1),
+  backgroundColor:
+    status === 'confirmed'
+      ? 'green'
+      : status === 'denied'
+        ? 'red'
+        : '#ccc',
+  border: status === 'unconfirmed' ? '1px solid #ccc' : 'none',
+}));
+
+const ButtonsWrapper = styled('div')({
+  display: 'flex',
+  justifyContent: 'space-between',
+  marginTop: '8px',
+});
 
 const BookingCard = ({ booking, openCardId, toggleCard, handleUpdateStatus }) => {
+  const formattedDate = dayjs(booking.date).format('M/D/YY'); // Format the date using dayjs
+
   return (
     <Card sx={{ backgroundColor: '#202020', color: '#e7e7e7' }}>
       <CardHeader
-        title={`Name: ${booking.name}`}
+        titleTypographyProps={{ variant: 'subtitle1' }}
+        title={`${booking.name} - ${formattedDate}`}
         action={
           <Button size="small" onClick={() => toggleCard(booking._id)}>
-            {openCardId === booking._id ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {openCardId === booking._id ? (
+              <KeyboardArrowUpIcon />
+            ) : (
+              <KeyboardArrowDownIcon />
+            )}
           </Button>
         }
       />
       <Collapse in={openCardId === booking._id}>
         <CardContent>
-          <Typography variant="body1">Booking ID: {booking._id}</Typography>
-          <Typography variant="body1">Email: {booking.email}</Typography>
-          <Typography variant="body1">Phone Number: {booking.phoneNumber}</Typography>
-          <Typography variant="body1">Message: {booking.message}</Typography>
-          <Typography variant="body1">How Did You Hear About Us: {booking.howDidYouHear}</Typography>
-          <Typography variant="body1">Date: {booking.date}</Typography>
-          <Typography variant="body1">Hours: {booking.hours}</Typography>
-          <Typography variant="body1">Status: {booking.status}</Typography>
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={() => handleUpdateStatus(booking._id, 'confirmed')}
-          >
-            Confirm
-          </Button>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={() => handleUpdateStatus(booking._id, 'denied')}
-          >
-            Deny
-          </Button>
+          <List>
+            <ListItem>
+              <ListItemIcon>
+                <Email />
+              </ListItemIcon>
+              <ListItemText primary="Email" secondary={booking.email} />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <Phone />
+              </ListItemIcon>
+              <ListItemText primary="Phone Number" secondary={booking.phoneNumber} />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <Message />
+              </ListItemIcon>
+              <ListItemText primary="Message" secondary={booking.message} />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <Hearing />
+              </ListItemIcon>
+              <ListItemText
+                primary="How Did You Hear About Us"
+                secondary={booking.howDidYouHear}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <AccessTime />
+              </ListItemIcon>
+              <ListItemText
+                primary="Date and Hours"
+                secondary={`${formattedDate}, ${booking.hours}`}
+              />
+              <ListItemIcon>
+                <Edit />
+              </ListItemIcon>
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <Dot status={booking.status} />
+              </ListItemIcon>
+              <ListItemText primary="Status" secondary={booking.status} />
+              <ButtonsWrapper>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => handleUpdateStatus(booking._id, 'confirmed')}
+                >
+                  Confirm
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => handleUpdateStatus(booking._id, 'denied')}
+                >
+                  Deny
+                </Button>
+              </ButtonsWrapper>
+            </ListItem>
+          </List>
         </CardContent>
       </Collapse>
     </Card>

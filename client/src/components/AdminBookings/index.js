@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Card, CardContent, CardHeader, Container, Grid, Button, Collapse, FormControl, Select, MenuItem, TextField } from '@mui/material';
 import BookingCard from './BookingCard';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import dayjs from 'dayjs';
 
 const AdminBookings = () => {
   const [bookings, setBookings] = useState([]);
@@ -107,12 +106,7 @@ const AdminBookings = () => {
               ) {
                 return (
                   <Grid item xs={12} md={6} key={booking._id}>
-                    <BookingCard
-                      booking={booking}
-                      openCardId={openCardId}
-                      toggleCard={toggleCard}
-                      handleUpdateStatus={handleUpdateStatus}
-                    />
+                    <BookingCard booking={booking} openCardId={openCardId} toggleCard={toggleCard} handleUpdateStatus={handleUpdateStatus} />
                   </Grid>
                 );
               }
