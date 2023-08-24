@@ -1,18 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Typography,
-  Card,
-  CardContent,
-  CardHeader,
-  Container,
-  Grid,
-  Button,
-  Collapse,
-  FormControl,
-  Select,
-  MenuItem,
-  TextField,
-} from '@mui/material';
+import { Typography, Card, CardContent, CardHeader, Container, Grid, Button, Collapse, FormControl, Select, MenuItem, TextField } from '@mui/material';
+import BookingCard from './BookingCard';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
@@ -23,7 +11,6 @@ const AdminBookings = () => {
   const [dateFilter, setDateFilter] = useState(''); // Date filter value
 
   useEffect(() => {
-    // Fetch bookings from the API
     fetch('/api/bookings')
       .then((response) => response.json())
       .then((data) => {
@@ -45,9 +32,7 @@ const AdminBookings = () => {
           status: newStatus,
         }),
       });
-
       if (response.ok) {
-        // Update the local state with the updated booking
         const updatedBookings = bookings.map((booking) =>
           booking._id === bookingId ? { ...booking, status: newStatus } : booking
         );
@@ -61,7 +46,6 @@ const AdminBookings = () => {
       alert('An error occurred while updating the booking status.');
     }
   };
-
   const toggleCard = (bookingId) => {
     if (openCardId === bookingId) {
       setOpenCardId(null);
@@ -69,7 +53,6 @@ const AdminBookings = () => {
       setOpenCardId(bookingId);
     }
   };
-
   const resetFilters = () => {
     setStatusFilter('');
     setDateFilter('');
@@ -85,12 +68,16 @@ const AdminBookings = () => {
           {/* Filter toolbar */}
           <FormControl sx={{ minWidth: 120 }}>
             <Select
+              label="Booking Status"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              style={{ color: 'white' }}
               value={statusFilter}
               onChange={(event) => setStatusFilter(event.target.value)}
               displayEmpty
-              inputProps={{ 'aria-label': 'Status' }}
             >
-              <MenuItem value="">All</MenuItem>
+              <MenuItem value="">All Bookings</MenuItem>
               <MenuItem value="unconfirmed">Unconfirmed</MenuItem>
               <MenuItem value="confirmed">Confirmed</MenuItem>
               <MenuItem value="denied">Denied</MenuItem>
@@ -114,50 +101,18 @@ const AdminBookings = () => {
         ) : (
           <Grid container spacing={3}>
             {bookings.map((booking) => {
-              // Apply filters
               if (
                 (statusFilter === '' || booking.status === statusFilter) &&
                 (dateFilter === '' || booking.date === dateFilter)
               ) {
                 return (
                   <Grid item xs={12} md={6} key={booking._id}>
-                    <Card sx={{ backgroundColor: '#202020', color: '#e7e7e7' }}>
-                      <CardHeader
-                        title={`Name: ${booking.name}`}
-                        action={
-                          <Button size="small" onClick={() => toggleCard(booking._id)}>
-                            {openCardId === booking._id ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                          </Button>
-                        }
-                      />
-                      <Collapse in={openCardId === booking._id}>
-                        <CardContent>
-                          <Typography variant="body1">Booking ID: {booking._id}</Typography>
-                          <Typography variant="body1">Email: {booking.email}</Typography>
-                          <Typography variant="body1">Phone Number: {booking.phoneNumber}</Typography>
-                          <Typography variant="body1">Message: {booking.message}</Typography>
-                          <Typography variant="body1">How Did You Hear About Us: {booking.howDidYouHear}</Typography>
-                          <Typography variant="body1">Date: {booking.date}</Typography>
-                          <Typography variant="body1">Hours: {booking.hours}</Typography>
-                          <Typography variant="body1">Status: {booking.status}</Typography>
-                          {/* Buttons to update status */}
-                          <Button
-                            variant="outlined"
-                            color="primary"
-                            onClick={() => handleUpdateStatus(booking._id, 'confirmed')}
-                          >
-                            Confirm
-                          </Button>
-                          <Button
-                            variant="outlined"
-                            color="secondary"
-                            onClick={() => handleUpdateStatus(booking._id, 'denied')}
-                          >
-                            Deny
-                          </Button>
-                        </CardContent>
-                      </Collapse>
-                    </Card>
+                    <BookingCard
+                      booking={booking}
+                      openCardId={openCardId}
+                      toggleCard={toggleCard}
+                      handleUpdateStatus={handleUpdateStatus}
+                    />
                   </Grid>
                 );
               }
