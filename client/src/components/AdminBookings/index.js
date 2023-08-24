@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Paper, Typography, Container, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, IconButton, Collapse } from '@mui/material';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import './AdminBookings.css'; // Import your custom CSS file
+import { Typography, Card, CardContent, CardHeader, Container, Grid, Button } from '@mui/material';
 
 const AdminBookings = () => {
   const [bookings, setBookings] = useState([]);
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
-  const [openCollapseId, setOpenCollapseId] = useState(null);
 
   useEffect(() => {
     // Fetch bookings from the API
@@ -21,32 +16,31 @@ const AdminBookings = () => {
       });
   }, []);
 
-  const handleSort = (column) => {
-    if (sortConfig.key === column) {
-      setSortConfig({
-        key: column,
-        direction: sortConfig.direction === 'asc' ? 'desc' : 'asc',
+  const handleUpdateStatus = async (bookingId, newStatus) => {
+    try {
+      const response = await fetch(`/api/bookings/${bookingId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          status: newStatus,
+        }),
       });
-    } else {
-      setSortConfig({ key: column, direction: 'asc' });
-    }
-  };
 
-  const sortedBookings = [...bookings].sort((a, b) => {
-    if (sortConfig.key !== null) {
-      const aValue = a[sortConfig.key];
-      const bValue = b[sortConfig.key];
-      if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
-      if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
-    }
-    return 0;
-  });
-
-  const toggleCollapse = (bookingId) => {
-    if (openCollapseId === bookingId) {
-      setOpenCollapseId(null);
-    } else {
-      setOpenCollapseId(bookingId);
+      if (response.ok) {
+        // Update the local state with the updated booking
+        const updatedBookings = bookings.map((booking) =>
+          booking._id === bookingId ? { ...booking, status: newStatus } : booking
+        );
+        setBookings(updatedBookings);
+      } else {
+        console.error('Error updating booking status:', response.statusText);
+        alert('An error occurred while updating the booking status.');
+      }
+    } catch (error) {
+      console.error('Error updating booking status:', error);
+      alert('An error occurred while updating the booking status.');
     }
   };
 
@@ -55,57 +49,46 @@ const AdminBookings = () => {
       <Typography variant="h4" gutterBottom>
         Bookings
       </Typography>
-
-      <TableContainer className="custom-table-container">
-        <Table aria-label="collapsible table">
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell style={{color: 'whitesmoke'}} onClick={() => handleSort('name')}>Name</TableCell>
-              <TableCell style={{color: 'whitesmoke'}} align="left" onClick={() => handleSort('email')}>
-                Email
-              </TableCell>
-              <TableCell style={{color: 'whitesmoke'}} align="left" onClick={() => handleSort('date')}>
-                Date
-              </TableCell>
-              <TableCell style={{color: 'whitesmoke'}} align="left" onClick={() => handleSort('hours')}>
-                Hour Block
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sortedBookings.map((booking, index) => (
-              <React.Fragment key={booking._id}>
-                <TableRow className={index === sortedBookings.length - 1 ? 'last-row' : 'table-row'}>
-                  <TableCell>
-                    <IconButton
-                      aria-label="toggle-collapse"
-                      size="small"
-                      onClick={() => toggleCollapse(booking._id)}
+      <Container maxWidth="md">
+        {bookings.length === 0 ? (
+          <Typography variant="body1">No bookings available.</Typography>
+        ) : (
+          <Grid container spacing={3}>
+            {bookings.map((booking) => (
+              <Grid item xs={12} md={6} key={booking._id}>
+                <Card>
+                  <CardHeader title={`Booking ID: ${booking._id}`} />
+                  <CardContent>
+                    <Typography variant="body1">Name: {booking.name}</Typography>
+                    <Typography variant="body1">Email: {booking.email}</Typography>
+                    <Typography variant="body1">Phone Number: {booking.phoneNumber}</Typography>
+                    <Typography variant="body1">Message: {booking.message}</Typography>
+                    <Typography variant="body1">How Did You Hear About Us: {booking.howDidYouHear}</Typography>
+                    <Typography variant="body1">Date: {booking.date}</Typography>
+                    <Typography variant="body1">Hours: {booking.hours}</Typography>
+                    <Typography variant="body1">Status: {booking.status}</Typography>
+                    {/* Buttons to update status */}
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => handleUpdateStatus(booking._id, 'confirmed')}
                     >
-                      {openCollapseId === booking._id ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                    </IconButton>
-                  </TableCell>
-                  <TableCell style={{color: 'whitesmoke'}}>{booking.name}</TableCell>
-                  <TableCell style={{color: 'whitesmoke'}} align="left">{booking.email}</TableCell>
-                  <TableCell style={{color: 'whitesmoke'}} align="left">{booking.date}</TableCell>
-                  <TableCell style={{color: 'whitesmoke'}} align="left">{booking.hours}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell style={{ color: 'whitesmoke', paddingBottom: '0', paddingTop: '0', border: 'none'}} colSpan={3}>
-                    <Collapse in={openCollapseId === booking._id}>
-                      <div  style={{padding: '1em'}} >
-                        <Typography variant="body1">Name: {booking.name}</Typography>
-                        {/* Add more data fields here */}
-                      </div>
-                    </Collapse>
-                  </TableCell>
-                </TableRow>
-              </React.Fragment>
+                      Confirm
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      onClick={() => handleUpdateStatus(booking._id, 'denied')}
+                    >
+                      Deny
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Grid>
             ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          </Grid>
+        )}
+      </Container>
     </div>
   );
 };
