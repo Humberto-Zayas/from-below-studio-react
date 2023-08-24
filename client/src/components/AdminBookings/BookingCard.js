@@ -34,7 +34,13 @@ const BookingCard = ({ booking, openCardId, toggleCard, handleUpdateStatus }) =>
     <Card sx={{ backgroundColor: '#202020', color: '#e7e7e7' }}>
       <CardHeader
         titleTypographyProps={{ variant: 'subtitle1' }}
-        title={`${booking.name} - ${formattedDate}`}
+        title={
+          <span style={{ display: 'flex', alignItems: 'center' }}>
+            <Dot status={booking.status} />
+            {`${booking.name}`}&nbsp;
+            <span style={{color: 'rgba(255,255,255,0.6)'}}>&nbsp;{formattedDate}</span>
+          </span>
+        }
         action={
           <Button size="small" onClick={() => toggleCard(booking._id)}>
             {openCardId === booking._id ? (
