@@ -18,6 +18,7 @@ const Admin = () => {
           Admin <span className='text-span-2'>Panel</span>
         </Typography>
         <Drawer 
+          className='side-drawer'
           anchor="left" 
           open={true} 
           variant="permanent" 

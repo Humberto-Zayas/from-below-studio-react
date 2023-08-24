@@ -21,6 +21,7 @@ const AdminBookings = () => {
   }, []);
 
   const handleUpdateStatus = async (bookingId, newStatus) => {
+    console.log('update status ran')
     try {
       const response = await fetch(`/api/bookings/${bookingId}`, {
         method: 'PUT',
@@ -43,6 +44,23 @@ const AdminBookings = () => {
     } catch (error) {
       console.error('Error updating booking status:', error);
       alert('An error occurred while updating the booking status.');
+    }
+  };
+  const handleDeleteBooking = async (bookingId) => {
+    try {
+      const response = await fetch(`/api/bookings/${bookingId}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        const updatedBookings = bookings.filter((booking) => booking._id !== bookingId);
+        setBookings(updatedBookings);
+      } else {
+        console.error('Error deleting booking:', response.statusText);
+        alert('An error occurred while deleting the booking.');
+      }
+    } catch (error) {
+      console.error('Error deleting booking:', error);
+      alert('An error occurred while deleting the booking.');
     }
   };
   const toggleCard = (bookingId) => {
@@ -106,7 +124,7 @@ const AdminBookings = () => {
               ) {
                 return (
                   <Grid item xs={12} md={6} key={booking._id}>
-                    <BookingCard booking={booking} openCardId={openCardId} toggleCard={toggleCard} handleUpdateStatus={handleUpdateStatus} />
+                    <BookingCard handleDeleteBooking={handleDeleteBooking} booking={booking} openCardId={openCardId} toggleCard={toggleCard} handleUpdateStatus={handleUpdateStatus} />
                   </Grid>
                 );
               }

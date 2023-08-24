@@ -24,7 +24,15 @@ app.use('/api', daysRoutes);
 app.post("/api/bookings", async (req, res) => {
   try {
     // Extract booking details from the request body
-    const { name, email, phoneNumber, message, howHeard, date, hours } = req.body;    
+    const { name, email, phoneNumber, message, howHeard, date, hours } = req.body;
+
+    // Check if the corresponding Day record exists
+    const checkDate = await Day.findOne({ date });
+    if (!checkDate) {
+      // If the Day record doesn't exist, create it with the required fields
+      await Day.create({ date, disabled: false }); // Provide the required fields
+    }
+
     // Create a new booking record in the database
     const booking = await Booking.create({
       name,
@@ -42,6 +50,7 @@ app.post("/api/bookings", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
+
 
 // New route for retrieving bookings
 app.get("/api/bookings", async (req, res) => {
@@ -122,7 +131,26 @@ app.put("/api/bookings/:id", async (req, res) => {
   }
 });
 
+// New route for deleting a booking by ID
+app.delete("/api/bookings/:id", async (req, res) => {
+  try {
+    const bookingId = req.params.id;
 
+    // Find the booking by its ID in the database
+    const booking = await Booking.findById(bookingId);
+
+    if (!booking) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    // Delete the booking
+    await Booking.findByIdAndDelete(bookingId);
+
+    res.json({ message: "Booking deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 // Serve up static assets
 if (process.env.NODE_ENV === "production") {

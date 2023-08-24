@@ -1,5 +1,10 @@
-.MuiDrawer-paper {
+.side-drawer .MuiDrawer-paper {
   background-color: rgba(228, 228, 228, 0.05) !important;
+}
+
+.booking-drawer .MuiDrawer-paper {
+  background-color: black;
+  color: white;
 }
 
 legend span {

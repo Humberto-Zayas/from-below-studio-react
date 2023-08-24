@@ -1,10 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import { Card, CardContent, CardHeader, Collapse, Button, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
-import { Email, Phone, Message, Hearing, AccessTime, Edit } from '@mui/icons-material';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Collapse,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Drawer,
+} from '@mui/material';
+import {
+  Email,
+  Phone,
+  Message,
+  Hearing,
+  AccessTime,
+  Edit,
+  DeleteOutlined as DeleteOutlinedIcon,
+} from '@mui/icons-material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { styled } from '@mui/system';
+import EditBooking from './EditBooking';
 
 const Dot = styled('span')(({ theme, status }) => ({
   width: 12,
@@ -16,8 +36,8 @@ const Dot = styled('span')(({ theme, status }) => ({
     status === 'confirmed'
       ? 'green'
       : status === 'denied'
-        ? 'red'
-        : '#ccc',
+      ? 'red'
+      : '#ccc',
   border: status === 'unconfirmed' ? '1px solid #ccc' : 'none',
 }));
 
@@ -27,8 +47,23 @@ const ButtonsWrapper = styled('div')({
   marginTop: '8px',
 });
 
-const BookingCard = ({ booking, openCardId, toggleCard, handleUpdateStatus }) => {
-  const formattedDate = dayjs(booking.date).format('M/D/YY'); // Format the date using dayjs
+const BookingCard = ({
+  booking,
+  openCardId,
+  toggleCard,
+  handleUpdateStatus,
+  handleDeleteBooking, // New prop for delete functionality
+}) => {
+  const formattedDate = dayjs(booking.date).format('M/D/YY');
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const handleDrawerOpen = () => {
+    setIsDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setIsDrawerOpen(false);
+  };
 
   return (
     <Card sx={{ backgroundColor: '#202020', color: '#e7e7e7' }}>
@@ -38,7 +73,13 @@ const BookingCard = ({ booking, openCardId, toggleCard, handleUpdateStatus }) =>
           <span style={{ display: 'flex', alignItems: 'center' }}>
             <Dot status={booking.status} />
             {`${booking.name}`}&nbsp;
-            <span style={{color: 'rgba(255,255,255,0.6)'}}>&nbsp;{formattedDate}</span>
+            <span style={{ color: 'rgba(255,255,255,0.6)' }}>
+              &nbsp;{formattedDate}
+            </span>
+            <DeleteOutlinedIcon
+              sx={{ marginLeft: 'auto', cursor: 'pointer' }}
+              onClick={() => handleDeleteBooking(booking._id)}
+            />
           </span>
         }
         action={
@@ -64,7 +105,10 @@ const BookingCard = ({ booking, openCardId, toggleCard, handleUpdateStatus }) =>
               <ListItemIcon>
                 <Phone />
               </ListItemIcon>
-              <ListItemText primary="Phone Number" secondary={booking.phoneNumber} />
+              <ListItemText
+                primary="Phone Number"
+                secondary={booking.phoneNumber}
+              />
             </ListItem>
             <ListItem>
               <ListItemIcon>
@@ -90,7 +134,7 @@ const BookingCard = ({ booking, openCardId, toggleCard, handleUpdateStatus }) =>
                 secondary={`${formattedDate}, ${booking.hours}`}
               />
               <ListItemIcon>
-                <Edit />
+                <Edit onClick={handleDrawerOpen} />
               </ListItemIcon>
             </ListItem>
             <ListItem>
@@ -118,6 +162,14 @@ const BookingCard = ({ booking, openCardId, toggleCard, handleUpdateStatus }) =>
           </List>
         </CardContent>
       </Collapse>
+      <Drawer
+        className='booking-drawer'
+        anchor="bottom"
+        open={isDrawerOpen}
+        onClose={handleDrawerClose}
+      >
+        <EditBooking value={booking.date} />
+      </Drawer>
     </Card>
   );
 };
