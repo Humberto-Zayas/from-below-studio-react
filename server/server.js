@@ -83,6 +83,15 @@ app.put("/api/bookings/:id", async (req, res) => {
     const bookingId = req.params.id;
     const { status } = req.body;
 
+    // Define the list of available hour blocks for confirmed bookings
+    const availableHours = [
+      "2 Hours/$70",
+      "4 Hours/$130",
+      "8 Hours/$270",
+      "10 Hours/$340",
+      "Full Day 14+ Hours/$550",
+    ];
+
     // Update the booking status in the database
     const updatedBooking = await Booking.findByIdAndUpdate(
       bookingId,
@@ -104,15 +113,6 @@ app.put("/api/bookings/:id", async (req, res) => {
           (hourBlock) => hourBlock.hour !== updatedBooking.hours
         );
 
-        // Get the list of available hour blocks for confirmed bookings
-        const availableHours = [
-          "2 Hours/$70",
-          "4 Hours/$130",
-          "8 Hours/$270",
-          "10 Hours/$340",
-          "Full Day 14+ Hours/$550",
-        ];
-
         // Check if the day's hours array is empty
         const hoursArrayIsEmpty = bookingDay.hours.length === 0;
 
@@ -122,6 +122,13 @@ app.put("/api/bookings/:id", async (req, res) => {
             if (hour !== updatedBooking.hours) {
               bookingDay.hours.push({ hour, enabled: true });
             }
+          });
+
+          // Sort the hours array based on the specified order
+          bookingDay.hours.sort((a, b) => {
+            const hourA = availableHours.indexOf(a.hour);
+            const hourB = availableHours.indexOf(b.hour);
+            return hourA - hourB;
           });
         }
 
@@ -140,6 +147,14 @@ app.put("/api/bookings/:id", async (req, res) => {
         // If the denied hour doesn't exist, add it back to the day's hours array
         if (!deniedHourExists) {
           bookingDay.hours.push({ hour: updatedBooking.hours, enabled: true });
+
+          // Sort the hours array based on the specified order
+          bookingDay.hours.sort((a, b) => {
+            const hourA = availableHours.indexOf(a.hour);
+            const hourB = availableHours.indexOf(b.hour);
+            return hourA - hourB;
+          });
+
           await bookingDay.save();
         }
       }
