@@ -78,7 +78,6 @@ app.get("/api/bookings/:id", async (req, res) => {
   }
 });
 
-/// New route for confirming or denying a booking
 app.put("/api/bookings/:id", async (req, res) => {
   try {
     const bookingId = req.params.id;
@@ -104,6 +103,27 @@ app.put("/api/bookings/:id", async (req, res) => {
         bookingDay.hours = bookingDay.hours.filter(
           (hourBlock) => hourBlock.hour !== updatedBooking.hours
         );
+
+        // Get the list of available hour blocks for confirmed bookings
+        const availableHours = [
+          "2 Hours/$70",
+          "4 Hours/$130",
+          "8 Hours/$270",
+          "10 Hours/$340",
+          "Full Day 14+ Hours/$550",
+        ];
+
+        // Check if the day's hours array is empty
+        const hoursArrayIsEmpty = bookingDay.hours.length === 0;
+
+        if (hoursArrayIsEmpty) {
+          // If the hours array is empty, add all available hour blocks except the booked hour
+          availableHours.forEach((hour) => {
+            if (hour !== updatedBooking.hours) {
+              bookingDay.hours.push({ hour, enabled: true });
+            }
+          });
+        }
 
         await bookingDay.save();
       }
