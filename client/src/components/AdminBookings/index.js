@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Card, CardContent, CardHeader, Container, Grid, Button, Collapse, FormControl, Select, MenuItem, TextField } from '@mui/material';
+import { Typography, Container, Grid, Button, FormControl, Select, MenuItem, TextField } from '@mui/material';
 import BookingCard from './BookingCard';
 import dayjs from 'dayjs';
 
@@ -77,10 +77,10 @@ const AdminBookings = () => {
 
   return (
     <div>
-      <Typography variant="h4" gutterBottom>
+      {/* <Typography variant="h4" gutterBottom>
         Bookings
-      </Typography>
-      <Container maxWidth="md">
+      </Typography> */}
+      <Container maxWidth="md" sx={{pb: 10}}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
           {/* Filter toolbar */}
           <FormControl sx={{ minWidth: 120 }}>
@@ -109,7 +109,7 @@ const AdminBookings = () => {
               shrink: true,
             }}
           />
-          <Button variant="outlined" color="primary" onClick={resetFilters}>
+          <Button variant="outlined" onClick={resetFilters}>
             Reset Filters
           </Button>
         </div>

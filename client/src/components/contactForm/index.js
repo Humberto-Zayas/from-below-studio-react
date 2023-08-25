@@ -12,7 +12,8 @@ export default function ContactForm(props) {
     email: '',
     phoneNumber: '',
     message: '',
-    referral: ''
+    referral: '',
+    howDidYouHear: '',
   });
   
   const handleChange = (event) => {
@@ -112,7 +113,7 @@ export default function ContactForm(props) {
               },
             }}
               defaultValue=""
-              name="referral"
+              name="howDidYouHear"
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="How did you hear about us"

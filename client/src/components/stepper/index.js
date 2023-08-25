@@ -23,8 +23,8 @@ export default function HorizontalLinearStepper() {
     email: null,
     phoneNumber: null,
     message: null,
-    referral: null,
     date: null,
+    howDidYouHear: null,
     hours: null
   });
   const [blackoutDays, setBlackoutDays] = React.useState([]);
@@ -90,7 +90,7 @@ export default function HorizontalLinearStepper() {
         email: formState.email,
         phoneNumber: formState.phoneNumber,
         message: formState.message,
-        howHeard: formState.referral,
+        howDidYouHear: formState.howDidYouHear,
         date: formState.date,
         hours: formState.hours,
       };
@@ -111,7 +111,7 @@ export default function HorizontalLinearStepper() {
           email: null,
           phoneNumber: null,
           message: null,
-          referral: null,
+          howDidYouHear: null,
           date: null,
           hours: null,
         });
@@ -136,7 +136,7 @@ export default function HorizontalLinearStepper() {
       newSkipped.delete(activeStep);
     }
 
-    if (formState.name && formState.email && formState.phoneNumber && formState.message && formState.referral) {
+    if (formState.name && formState.email && formState.phoneNumber && formState.message && formState.howDidYouHear) {
       handleBookSession(); // Call the function to handle booking submission
     } else {
       alert('Please fill out all fields before submitting the form.');

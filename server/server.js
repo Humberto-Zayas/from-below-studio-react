@@ -24,7 +24,7 @@ app.use('/api', daysRoutes);
 app.post("/api/bookings", async (req, res) => {
   try {
     // Extract booking details from the request body
-    const { name, email, phoneNumber, message, howHeard, date, hours } = req.body;
+    const { name, email, phoneNumber, message, howDidYouHear, date, hours } = req.body;
 
     // Check if the corresponding Day record exists
     const checkDate = await Day.findOne({ date });
@@ -39,7 +39,7 @@ app.post("/api/bookings", async (req, res) => {
       email,
       phoneNumber,
       message,
-      howHeard,
+      howDidYouHear,
       date,
       hours,
       status: 'unconfirmed', // Initial status
@@ -50,7 +50,6 @@ app.post("/api/bookings", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-
 
 // New route for retrieving bookings
 app.get("/api/bookings", async (req, res) => {
@@ -165,6 +164,57 @@ app.put("/api/bookings/:id", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
+
+// update booking date and hour
+app.put("/api/bookings/:id", async (req, res) => {
+  try {
+    const bookingId = req.params.id;
+    const { date, hours } = req.body;
+
+    // Check if the booking with the provided ID exists
+    const booking = await Booking.findById(bookingId);
+    if (!booking) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    // Get the old date and hours for the booking
+    const oldDate = booking.date;
+    const oldHours = booking.hours;
+
+    // Update the booking's date and hours
+    booking.date = date;
+    booking.hours = hours;
+    await booking.save();
+
+    // Check if the old date exists in the Day collection
+    const oldDateExists = await Day.exists({ date: oldDate });
+
+    // If the old date exists, update its hours array
+    if (oldDateExists) {
+      const day = await Day.findOne({ date: oldDate });
+      day.hours = day.hours.filter((hour) => hour !== oldHours);
+      await day.save();
+    }
+
+    // Check if the new date exists in the Day collection
+    const newDateExists = await Day.exists({ date });
+
+    // If the new date exists, update its hours array
+    if (newDateExists) {
+      const day = await Day.findOne({ date });
+      day.hours.push(hours);
+      await day.save();
+    } else {
+      // If the new date doesn't exist, create a new Day entry
+      await Day.create({ date, hours: [hours], disabled: false });
+    }
+
+    res.json({ message: "Booking updated successfully" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 
 // New route for deleting a booking by ID
 app.delete("/api/bookings/:id", async (req, res) => {

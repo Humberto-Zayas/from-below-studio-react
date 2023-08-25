@@ -1,26 +1,7 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  Collapse,
-  Button,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  Drawer,
-} from '@mui/material';
-import {
-  Email,
-  Phone,
-  Message,
-  Hearing,
-  AccessTime,
-  Edit,
-  DeleteOutlined as DeleteOutlinedIcon,
-} from '@mui/icons-material';
+import { Card, CardContent, CardHeader, Collapse, Button, List, ListItem, ListItemText, ListItemIcon, Drawer } from '@mui/material';
+import { Email, Phone, Message, Hearing, AccessTime, Edit, DeleteOutlined as DeleteOutlinedIcon } from '@mui/icons-material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { styled } from '@mui/system';
@@ -34,9 +15,9 @@ const Dot = styled('span')(({ theme, status }) => ({
   marginRight: theme.spacing(1),
   backgroundColor:
     status === 'confirmed'
-      ? 'green'
+      ? '#00ffa2'
       : status === 'denied'
-      ? 'red'
+      ? '#d1203d'
       : '#ccc',
   border: status === 'unconfirmed' ? '1px solid #ccc' : 'none',
 }));
@@ -71,7 +52,7 @@ const BookingCard = ({
         titleTypographyProps={{ variant: 'subtitle1' }}
         title={
           <span style={{ display: 'flex', alignItems: 'center' }}>
-            <Dot status={booking.status} />
+            <Dot className={booking.status === 'confirmed' ? 'confirmed-dot' : ''} status={booking.status} />
             {`${booking.name}`}&nbsp;
             <span style={{ color: 'rgba(255,255,255,0.6)' }}>
               &nbsp;{formattedDate}
@@ -93,17 +74,17 @@ const BookingCard = ({
         }
       />
       <Collapse in={openCardId === booking._id}>
-        <CardContent>
+        <CardContent style={{padding: '0'}}>
           <List>
             <ListItem>
               <ListItemIcon>
-                <Email />
+                <Email style={{color: 'white'}} />
               </ListItemIcon>
               <ListItemText primary="Email" secondary={booking.email} />
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <Phone />
+                <Phone style={{color: 'white'}} />
               </ListItemIcon>
               <ListItemText
                 primary="Phone Number"
@@ -112,13 +93,13 @@ const BookingCard = ({
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <Message />
+                <Message style={{color: 'white'}} />
               </ListItemIcon>
               <ListItemText primary="Message" secondary={booking.message} />
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <Hearing />
+                <Hearing style={{color: 'white'}} />
               </ListItemIcon>
               <ListItemText
                 primary="How Did You Hear About Us"
@@ -127,32 +108,32 @@ const BookingCard = ({
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <AccessTime />
+                <AccessTime style={{color: 'white'}} />
               </ListItemIcon>
               <ListItemText
                 primary="Date and Hours"
                 secondary={`${formattedDate}, ${booking.hours}`}
               />
               <ListItemIcon>
-                <Edit onClick={handleDrawerOpen} />
+                <Edit style={{color: 'white', cursor: 'pointer'}} onClick={handleDrawerOpen} />
               </ListItemIcon>
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <Dot status={booking.status} />
+                <Dot className={booking.status === 'confirmed' ? 'confirmed-dot' : ''} status={booking.status} />
               </ListItemIcon>
               <ListItemText primary="Status" secondary={booking.status} />
               <ButtonsWrapper>
                 <Button
+                  sx={{mr: 2, color: '#00ffa2', borderColor: '#00ffa2'}}
                   variant="outlined"
-                  color="primary"
                   onClick={() => handleUpdateStatus(booking._id, 'confirmed')}
                 >
                   Confirm
                 </Button>
                 <Button
                   variant="outlined"
-                  color="secondary"
+                  sx={{ color: '#d1203d', borderColor: '#d1203d' }}
                   onClick={() => handleUpdateStatus(booking._id, 'denied')}
                 >
                   Deny
@@ -168,7 +149,7 @@ const BookingCard = ({
         open={isDrawerOpen}
         onClose={handleDrawerClose}
       >
-        <EditBooking value={booking.date} />
+        <EditBooking id={booking.id} value={booking.date} hours={booking.hours} />
       </Drawer>
     </Card>
   );

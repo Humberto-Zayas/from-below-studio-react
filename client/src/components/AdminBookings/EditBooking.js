@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Grid, List, ListItem, ListItemText, Typography } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
 import BasicDatePicker from '../BasicDatePicker';
 
-const EditBooking = ({ value }) => {
+const EditBooking = ({ value, hours, id }) => {
   const [blackoutDays, setBlackoutDays] = useState([]);
   const [maxDate, setMaxDate] = useState(null);
-  const [selectedHour, setSelectedHour] = useState(null);
+  const [selectedHour, setSelectedHour] = useState(hours.split("/")[0].trim());
   const [enabledData, setEnabledData] = useState([]);
 
   const hourOptions = [
@@ -45,8 +46,7 @@ const EditBooking = ({ value }) => {
       .then(response => response.json())
       .then(data => {
         if (data && data.date && data.hours) {
-          const enabledHours = data.hours.filter(item => item.enabled);
-          setEnabledData(enabledHours);
+          setEnabledData(data.hours);
         } else {
           setEnabledData([]);
         }
@@ -56,12 +56,16 @@ const EditBooking = ({ value }) => {
       });
   }, [value]);
 
+  console.log('enabledDate: ', enabledData);
+
   const handleHourSelection = (hour) => {
-    setSelectedHour(hour);
+    setSelectedHour(prevSelectedHour => (prevSelectedHour === hour ? null : hour));
   };
+
 
   return (
     <Container maxWidth="md" sx={{ display: 'flex', height: '100%', flexDirection: 'column' }}>
+      <Typography variant='h5' align='center' sx={{pt: 3, pb: 3}}>Edit Booking Date & Time</Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <BasicDatePicker value={value} maxDate={maxDate} days={blackoutDays} />
@@ -71,14 +75,26 @@ const EditBooking = ({ value }) => {
             <Typography variant="h6" gutterBottom>
               Available Hours:
             </Typography>
-            {enabledData.map((hour) => (
+            {hourOptions.map((hourOption) => (
               <ListItem
-                key={hour.hour}
+                key={hourOption.label}
                 button
-                onClick={() => handleHourSelection(hour.hour)}
-                selected={hour.hour === selectedHour}
+                onClick={() => handleHourSelection(hourOption.label)}
+                selected={hourOption.label === selectedHour}
               >
-                <ListItemText primary={hour.hour} secondary={hour.price} />
+                <ListItemText
+                  primary={hourOption.label}
+                  secondary={
+                    <>
+                      {hourOption.price}
+                      {hourOption.label === selectedHour}
+                    </>
+                  }
+                >
+                </ListItemText>
+                {hourOption.label === selectedHour && (
+                  <CheckIcon style={{color: '#00ffa2'}} />
+                )}
               </ListItem>
             ))}
           </List>
