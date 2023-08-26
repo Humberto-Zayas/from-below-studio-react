@@ -33,9 +33,11 @@ const BookingCard = ({
   openCardId,
   toggleCard,
   handleUpdateStatus,
-  handleDeleteBooking, // New prop for delete functionality
+  handleDeleteBooking,
+  handleBookingUpdate,
 }) => {
   const formattedDate = dayjs(booking.date).format('M/D/YY');
+  const [hours, setHours] = useState(booking.hours);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const handleDrawerOpen = () => {
@@ -74,32 +76,29 @@ const BookingCard = ({
         }
       />
       <Collapse in={openCardId === booking._id}>
-        <CardContent style={{padding: '0'}}>
+        <CardContent style={{ padding: '0' }}>
           <List>
             <ListItem>
               <ListItemIcon>
-                <Email style={{color: 'white'}} />
+                <Email style={{ color: 'white' }} />
               </ListItemIcon>
               <ListItemText primary="Email" secondary={booking.email} />
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <Phone style={{color: 'white'}} />
+                <Phone style={{ color: 'white' }} />
               </ListItemIcon>
-              <ListItemText
-                primary="Phone Number"
-                secondary={booking.phoneNumber}
-              />
+              <ListItemText primary="Phone Number" secondary={booking.phoneNumber} />
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <Message style={{color: 'white'}} />
+                <Message style={{ color: 'white' }} />
               </ListItemIcon>
               <ListItemText primary="Message" secondary={booking.message} />
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <Hearing style={{color: 'white'}} />
+                <Hearing style={{ color: 'white' }} />
               </ListItemIcon>
               <ListItemText
                 primary="How Did You Hear About Us"
@@ -108,24 +107,30 @@ const BookingCard = ({
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <AccessTime style={{color: 'white'}} />
+                <AccessTime style={{ color: 'white' }} />
               </ListItemIcon>
               <ListItemText
                 primary="Date and Hours"
-                secondary={`${formattedDate}, ${booking.hours}`}
+                secondary={`${formattedDate}, ${hours}`}
               />
               <ListItemIcon>
-                <Edit style={{color: 'white', cursor: 'pointer'}} onClick={handleDrawerOpen} />
+                <Edit
+                  style={{ color: 'white', cursor: 'pointer' }}
+                  onClick={handleDrawerOpen}
+                />
               </ListItemIcon>
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <Dot className={booking.status === 'confirmed' ? 'confirmed-dot' : ''} status={booking.status} />
+                <Dot
+                  className={booking.status === 'confirmed' ? 'confirmed-dot' : ''}
+                  status={booking.status}
+                />
               </ListItemIcon>
               <ListItemText primary="Status" secondary={booking.status} />
               <ButtonsWrapper>
                 <Button
-                  sx={{mr: 2, color: '#00ffa2', borderColor: '#00ffa2'}}
+                  sx={{ mr: 2, color: '#00ffa2', borderColor: '#00ffa2' }}
                   variant="outlined"
                   onClick={() => handleUpdateStatus(booking._id, 'confirmed')}
                 >
@@ -149,7 +154,12 @@ const BookingCard = ({
         open={isDrawerOpen}
         onClose={handleDrawerClose}
       >
-        <EditBooking id={booking.id} value={booking.date} hours={booking.hours} />
+        <EditBooking
+          id={booking._id}
+          value={booking.date}
+          hours={booking.hours}
+          onBookingUpdate={setHours}
+        />
       </Drawer>
     </Card>
   );

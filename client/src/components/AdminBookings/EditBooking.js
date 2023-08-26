@@ -3,7 +3,7 @@ import { Container, Grid, List, ListItem, ListItemText, Typography } from '@mui/
 import CheckIcon from '@mui/icons-material/Check';
 import BasicDatePicker from '../BasicDatePicker';
 
-const EditBooking = ({ value, hours, id }) => {
+const EditBooking = ({ value, hours, id, onBookingUpdate }) => {
   const [blackoutDays, setBlackoutDays] = useState([]);
   const [maxDate, setMaxDate] = useState(null);
   const [selectedHour, setSelectedHour] = useState(hours.split("/")[0].trim());
@@ -56,16 +56,44 @@ const EditBooking = ({ value, hours, id }) => {
       });
   }, [value]);
 
-  console.log('enabledDate: ', enabledData);
-
   const handleHourSelection = (hour) => {
-    setSelectedHour(prevSelectedHour => (prevSelectedHour === hour ? null : hour));
+    setSelectedHour((prevSelectedHour) => {
+      const newSelectedHour = prevSelectedHour === hour ? null : hour;
+  
+      const selectedHourOption = hourOptions.find((hourOption) => hourOption.label === newSelectedHour);
+  
+      if (selectedHourOption) {
+        const transformedHour = `${selectedHourOption.label}/${selectedHourOption.price}`;
+        
+        fetch(`/api/bookings/datehour/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            date: value,
+            hours: transformedHour,
+          }),
+        })
+          .then((response) => response.json())
+          .then((updatedBooking) => {
+            console.log('Booking updated:', updatedBooking);
+            onBookingUpdate(transformedHour);
+          })
+          .catch((error) => {
+            console.error('Error updating booking:', error);
+          });
+      }
+  
+      return newSelectedHour;
+    });
   };
-
+  
+  
 
   return (
     <Container maxWidth="md" sx={{ display: 'flex', height: '100%', flexDirection: 'column' }}>
-      <Typography variant='h5' align='center' sx={{pt: 3, pb: 3}}>Edit Booking Date & Time</Typography>
+      <Typography variant='h5' align='center' sx={{ pt: 3, pb: 3 }}>Edit Booking Date & Time</Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <BasicDatePicker value={value} maxDate={maxDate} days={blackoutDays} />
@@ -93,7 +121,7 @@ const EditBooking = ({ value, hours, id }) => {
                 >
                 </ListItemText>
                 {hourOption.label === selectedHour && (
-                  <CheckIcon style={{color: '#00ffa2'}} />
+                  <CheckIcon style={{ color: '#00ffa2' }} />
                 )}
               </ListItem>
             ))}

@@ -21,7 +21,6 @@ const AdminBookings = () => {
   }, []);
 
   const handleUpdateStatus = async (bookingId, newStatus) => {
-    console.log('update status ran')
     try {
       const response = await fetch(`/api/bookings/${bookingId}`, {
         method: 'PUT',

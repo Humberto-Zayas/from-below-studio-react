@@ -165,8 +165,7 @@ app.put("/api/bookings/:id", async (req, res) => {
   }
 });
 
-// update booking date and hour
-app.put("/api/bookings/:id", async (req, res) => {
+app.put("/api/bookings/datehour/:id", async (req, res) => {
   try {
     const bookingId = req.params.id;
     const { date, hours } = req.body;
@@ -192,7 +191,7 @@ app.put("/api/bookings/:id", async (req, res) => {
     // If the old date exists, update its hours array
     if (oldDateExists) {
       const day = await Day.findOne({ date: oldDate });
-      day.hours = day.hours.filter((hour) => hour !== oldHours);
+      day.hours = day.hours.filter((hourBlock) => hourBlock.hour !== oldHours);
       await day.save();
     }
 
@@ -202,11 +201,19 @@ app.put("/api/bookings/:id", async (req, res) => {
     // If the new date exists, update its hours array
     if (newDateExists) {
       const day = await Day.findOne({ date });
-      day.hours.push(hours);
+      const newHourBlock = {
+        hour: hours,
+        enabled: true,
+      };
+      day.hours.push(newHourBlock);
       await day.save();
     } else {
       // If the new date doesn't exist, create a new Day entry
-      await Day.create({ date, hours: [hours], disabled: false });
+      const newHourBlock = {
+        hour: hours,
+        enabled: true,
+      };
+      await Day.create({ date, hours: [newHourBlock], disabled: false });
     }
 
     res.json({ message: "Booking updated successfully" });
