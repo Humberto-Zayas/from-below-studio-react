@@ -34,9 +34,8 @@ const BookingCard = ({
   toggleCard,
   handleUpdateStatus,
   handleDeleteBooking,
-  handleBookingUpdate,
 }) => {
-  const formattedDate = dayjs(booking.date).format('M/D/YY');
+  const [formattedDate, setFormattedDate] = useState(dayjs(booking.date).format('M/D/YY'))
   const [hours, setHours] = useState(booking.hours);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -46,6 +45,12 @@ const BookingCard = ({
 
   const handleDrawerClose = () => {
     setIsDrawerOpen(false);
+  };
+
+  const handleBookingUpdateAndFormat = (updatedHours, updatedFormattedDate) => {
+    console.log('booking card day: ', updatedFormattedDate)
+    setHours(updatedHours);
+    setFormattedDate(updatedFormattedDate);
   };
 
   return (
@@ -152,13 +157,14 @@ const BookingCard = ({
         className='booking-drawer'
         anchor="bottom"
         open={isDrawerOpen}
-        onClose={handleDrawerClose}
+       
       >
         <EditBooking
           id={booking._id}
-          value={booking.date}
+          value={formattedDate}
           hours={booking.hours}
-          onBookingUpdate={setHours}
+          onBookingUpdate={handleBookingUpdateAndFormat}
+          closeDrawer={handleDrawerClose}
         />
       </Drawer>
     </Card>
