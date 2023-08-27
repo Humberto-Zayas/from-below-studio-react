@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import AdminDateHours from '../components/AdminDateHours';
 import AdminBookings from '../components/AdminBookings';
-import { Typography, Container, Drawer, List, ListItem, Divider } from '@mui/material';
+import { AppBar, Toolbar, Box, Button, Typography, Container, Drawer, List, ListItem, Divider } from '@mui/material';
 import { CalendarToday, ListAlt } from '@mui/icons-material';
+import LogoutIcon from '@mui/icons-material/Logout';
+import fbslogo from '../images/fbs-red-logo.jpeg'
 import './Admin.css';
+
 
 const Admin = () => {
   const [selectedComponent, setSelectedComponent] = useState('dateHours');
@@ -12,18 +15,57 @@ const Admin = () => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', height: 'auto', backgroundColor: '#f4f6f8' }} className='about'>
-      <Container maxWidth="md" style={{ paddingTop: '1em' }}>
-        <Typography className='hero-h1 heading oswald' variant="h2" component="h1" style={{ marginBottom: '1em', color: 'white' }}>
-          Admin <span className='text-span-2'>Panel</span>
-        </Typography>
-        <Drawer 
-          className='side-drawer'
-          anchor="left" 
-          open={true} 
-          variant="permanent" 
-          sx={{ width: 64, flexShrink: 0 }}>
-          <List>
+    <>
+      <AppBar className='from-below-appbar' position="fixed">
+        <Toolbar sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <img style={{ width: '80px' }} src={fbslogo} />
+          <Typography variant="h5" component="h1" style={{ color: 'white', fontFamily: 'Lato, sans-serif', fontWeight: 300, textTransform: 'uppercase', margin: '0 auto' }}>
+            Dashboard 
+            {/* <span className='text-span-2'>Panel</span> */}
+          </Typography>
+          <Button sx={{width: '80px'}}>
+            <LogoutIcon />
+          </Button>
+        </Toolbar>
+      </AppBar>
+      <Box style={{ minHeight: '100vh', height: 'auto', backgroundColor: '#f4f6f8' }} className='about'
+        sx={{
+          paddingLeft: '1em',
+          paddingRight: '1em',
+          paddingBottom: '6em',
+          '@media (min-width: 768px)': {
+            paddingLeft: '2em',
+            paddingRight: '2em'
+          }
+        }}
+      >
+        <Box
+          sx={{
+            position: 'fixed',
+            width: '100%',
+            bottom: 0,
+            height: 64,
+            left: 0,
+            zIndex: 999,
+            borderTop: '1px solid #212121',
+            '@media (min-width: 768px)': {
+              width: 64,
+              left: 0,
+              paddingTop: 9,
+              height: '100%',
+              borderRight: '1px solid #212121',
+            }
+          }}
+          className='side-drawer'>
+          <List sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            width: 'fit-content',
+            margin: '0 auto',
+            '@media (min-width: 768px)': {
+              flexDirection: 'column'
+            }
+          }}>
             <ListItem style={{ cursor: 'pointer' }} onClick={() => toggleComponent('dateHours')}>
               <CalendarToday style={{ color: 'white' }} />
             </ListItem>
@@ -32,11 +74,13 @@ const Admin = () => {
             </ListItem>
           </List>
           <Divider />
-        </Drawer>
-        {selectedComponent === 'dateHours' && <AdminDateHours />}
-        {selectedComponent === 'bookings' && <AdminBookings />}
-      </Container>
-    </div>
+        </Box>
+        <Container maxWidth="md" style={{ paddingTop: '7em' }}>
+          {selectedComponent === 'dateHours' && <AdminDateHours />}
+          {selectedComponent === 'bookings' && <AdminBookings />}
+        </Container>
+      </Box>
+    </>
   );
 };
 

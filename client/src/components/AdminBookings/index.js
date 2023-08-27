@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Container, Grid, Button, FormControl, Select, MenuItem, TextField } from '@mui/material';
 import BookingCard from './BookingCard';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import dayjs from 'dayjs';
 
 const AdminBookings = () => {
@@ -79,7 +80,7 @@ const AdminBookings = () => {
       {/* <Typography variant="h4" gutterBottom>
         Bookings
       </Typography> */}
-      <Container maxWidth="md" sx={{pb: 10}}>
+      <Container sx={{px: 0}} maxWidth="md">
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
           {/* Filter toolbar */}
           <FormControl sx={{ minWidth: 120 }}>
@@ -93,7 +94,7 @@ const AdminBookings = () => {
               onChange={(event) => setStatusFilter(event.target.value)}
               displayEmpty
             >
-              <MenuItem value="">All Bookings</MenuItem>
+              <MenuItem value="">All</MenuItem>
               <MenuItem value="unconfirmed">Unconfirmed</MenuItem>
               <MenuItem value="confirmed">Confirmed</MenuItem>
               <MenuItem value="denied">Denied</MenuItem>
@@ -109,7 +110,7 @@ const AdminBookings = () => {
             }}
           />
           <Button variant="outlined" onClick={resetFilters}>
-            Reset Filters
+            <RestartAltIcon />
           </Button>
         </div>
         {bookings.length === 0 ? (

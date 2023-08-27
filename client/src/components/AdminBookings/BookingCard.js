@@ -125,7 +125,7 @@ const BookingCard = ({
                 />
               </ListItemIcon>
             </ListItem>
-            <ListItem>
+            <ListItem sx={{flexWrap: 'wrap'}}>
               <ListItemIcon>
                 <Dot
                   className={booking.status === 'confirmed' ? 'confirmed-dot' : ''}
@@ -133,7 +133,7 @@ const BookingCard = ({
                 />
               </ListItemIcon>
               <ListItemText primary="Status" secondary={booking.status} />
-              <ButtonsWrapper>
+              <ButtonsWrapper sx={{margin: '10px auto'}}>
                 <Button
                   sx={{ mr: 2, color: '#00ffa2', borderColor: '#00ffa2' }}
                   variant="outlined"

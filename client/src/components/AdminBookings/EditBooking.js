@@ -101,7 +101,7 @@ const EditBooking = ({ value, hours, id, onBookingUpdate, closeDrawer }) => {
         <Button className="save-button" style={{ position: 'absolute', top: '23px', right: '0px' }} onClick={handleSave}>Save</Button>
       </div>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} md={6} sm={7}>
 
           <BasicDatePicker value={day} maxDate={maxDate} days={blackoutDays}
             handleClick={(value) => {
@@ -110,7 +110,7 @@ const EditBooking = ({ value, hours, id, onBookingUpdate, closeDrawer }) => {
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} md={6} sm={5}>
           <List sx={{ marginTop: '16px' }}>
             <Typography variant="h6" gutterBottom>
               Available Hours:
