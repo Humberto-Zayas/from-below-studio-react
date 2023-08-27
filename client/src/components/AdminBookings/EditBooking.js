@@ -98,7 +98,7 @@ const EditBooking = ({ value, hours, id, onBookingUpdate, closeDrawer }) => {
     <Container maxWidth="md" sx={{ display: 'flex', height: '100%', flexDirection: 'column' }}>
       <div style={{ position: 'relative', width: '100%' }}>
         <Typography variant='h5' align='center' sx={{ pt: 3, pb: 3 }}>Edit Booking</Typography>
-        <Button style={{ position: 'absolute', top: '23px', right: '0px' }} onClick={handleSave}>Save</Button>
+        <Button className="save-button" style={{ position: 'absolute', top: '23px', right: '0px' }} onClick={handleSave}>Save</Button>
       </div>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
