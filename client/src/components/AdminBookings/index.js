@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Container, Grid, Button, FormControl, Select, MenuItem, TextField } from '@mui/material';
+import { Typography, Container, Grid, Button, FormControl, Select, MenuItem, TextField, InputLabel } from '@mui/material';
 import BookingCard from './BookingCard';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import dayjs from 'dayjs';
@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 const AdminBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [openCardId, setOpenCardId] = useState(null); // Keep track of open card
-  const [statusFilter, setStatusFilter] = useState(''); // Status filter value
+  const [statusFilter, setStatusFilter] = useState('All'); // Status filter value
   const [dateFilter, setDateFilter] = useState(''); // Date filter value
 
   useEffect(() => {
@@ -71,69 +71,97 @@ const AdminBookings = () => {
     }
   };
   const resetFilters = () => {
-    setStatusFilter('');
+    setStatusFilter('All');
     setDateFilter('');
   };
 
   return (
-    <div>
-      {/* <Typography variant="h4" gutterBottom>
-        Bookings
-      </Typography> */}
-      <Container sx={{px: 0}} maxWidth="md">
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-          {/* Filter toolbar */}
-          <FormControl sx={{ minWidth: 120 }}>
-            <Select
-              label="Booking Status"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              style={{ color: 'white' }}
-              value={statusFilter}
-              onChange={(event) => setStatusFilter(event.target.value)}
-              displayEmpty
-            >
-              <MenuItem value="">All</MenuItem>
-              <MenuItem value="unconfirmed">Unconfirmed</MenuItem>
-              <MenuItem value="confirmed">Confirmed</MenuItem>
-              <MenuItem value="denied">Denied</MenuItem>
-            </Select>
-          </FormControl>
-          <TextField
-            label="Date Filter"
-            type="date"
-            value={dateFilter}
-            onChange={(event) => setDateFilter(event.target.value)}
-            InputLabelProps={{
-              shrink: true,
+    <Container sx={{ px: 0 }} maxWidth="md">
+      <div style={{ display: 'flex', marginBottom: '1rem' }}>
+        <FormControl sx={{ mr: 2, minWidth: 120 }}>
+          <InputLabel id="demo-simple-select-helper-label">Status</InputLabel>
+          <Select
+            sx={{
+              color: 'rgb(151 151 151)', // Non-focus color
+              borderColor: 'rgb(151 151 151)', // Non-focus border color
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: '#00ffa2 !important', // Focus border color
+              },
+              '.MuiOutlinedInput-notchedOutline': {
+                borderColor: 'rgb(151 151 151)'
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'rgb(200 200 200)', // Hover border color
+              },
+              '& .MuiSelect-icon': {
+                color: 'rgb(151 151 151)', // Replace with your off-white color
+              },
             }}
-          />
-          <Button variant="outlined" onClick={resetFilters}>
-            <RestartAltIcon />
-          </Button>
-        </div>
-        {bookings.length === 0 ? (
-          <Typography variant="body1">No bookings available.</Typography>
-        ) : (
-          <Grid container spacing={3}>
-            {bookings.map((booking) => {
-              if (
-                (statusFilter === '' || booking.status === statusFilter) &&
-                (dateFilter === '' || booking.date === dateFilter)
-              ) {
-                return (
-                  <Grid item xs={12} md={6} key={booking._id}>
-                    <BookingCard handleDeleteBooking={handleDeleteBooking} booking={booking} openCardId={openCardId} toggleCard={toggleCard} handleUpdateStatus={handleUpdateStatus} />
-                  </Grid>
-                );
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            value={statusFilter}
+            label="Status"
+            onChange={(event) => setStatusFilter(event.target.value)}
+          >
+            <MenuItem value="All">All</MenuItem>
+            <MenuItem value="unconfirmed">Unconfirmed</MenuItem>
+            <MenuItem value="confirmed">Confirmed</MenuItem>
+            <MenuItem value="denied">Denied</MenuItem>
+          </Select>
+        </FormControl>
+        <TextField
+          sx={{ 
+            minWidth: '120px',
+            '& .MuiOutlinedInput-root': {
+              color: 'red !important',
+              '& fieldset': {
+                color: 'rgb(151 151 151)',
+                borderColor: 'rgb(151 151 151)',
+              },
+              '&:hover fieldset': {
+                borderColor: 'rgb(151 151 151)',
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: '#00ffa2',
               }
-              return null;
-            })}
-          </Grid>
-        )}
-      </Container>
-    </div>
+            },
+            '& .MuiInputBase-input': {
+              color: 'rgb(151 151 151) !important', // Change the text color here
+            },
+          }}
+          label="Date Filter"
+          type="date"
+          value={dateFilter}
+          onChange={(event) => setDateFilter(event.target.value)}
+          InputLabelProps={{
+            shrink: true,
+            placeholder: 'mm/dd/yyyy'
+          }}
+        />
+        <Button sx={{ ml: 'auto', color: '#00ffa2', borderColor: 'rgba(65, 255, 186, .4)', '&:hover': { borderColor: '#00ffa2'} }} variant="outlined" onClick={resetFilters}>
+          <RestartAltIcon />
+        </Button>
+      </div>
+      {bookings.length === 0 ? (
+        <Typography variant="body1">No bookings available.</Typography>
+      ) : (
+        <Grid container spacing={3}>
+          {bookings.map((booking) => {
+            if (
+              (statusFilter === 'All' || booking.status === statusFilter) &&
+              (dateFilter === '' || booking.date === dateFilter)
+            ) {
+              return (
+                <Grid item xs={12} md={6} key={booking._id}>
+                  <BookingCard handleDeleteBooking={handleDeleteBooking} booking={booking} openCardId={openCardId} toggleCard={toggleCard} handleUpdateStatus={handleUpdateStatus} />
+                </Grid>
+              );
+            }
+            return null;
+          })}
+        </Grid>
+      )}
+    </Container>
   );
 };
 

@@ -23,7 +23,7 @@ const Admin = () => {
             Dashboard 
             {/* <span className='text-span-2'>Panel</span> */}
           </Typography>
-          <Button sx={{width: '80px'}}>
+          <Button sx={{width: '80px', color: '#00ffa2'}}>
             <LogoutIcon />
           </Button>
         </Toolbar>

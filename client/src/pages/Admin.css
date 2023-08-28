@@ -25,3 +25,8 @@ legend span {
 .save-button {
   color: #00ffa2 !important;
 }
+
+::-webkit-calendar-picker-indicator {
+  filter: invert(1)
+          brightness(50%)
+}

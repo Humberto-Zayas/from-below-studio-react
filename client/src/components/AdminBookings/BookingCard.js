@@ -71,7 +71,7 @@ const BookingCard = ({
           </span>
         }
         action={
-          <Button size="small" onClick={() => toggleCard(booking._id)}>
+          <Button sx={{color: '#00ffa2'}} size="small" onClick={() => toggleCard(booking._id)}>
             {openCardId === booking._id ? (
               <KeyboardArrowUpIcon />
             ) : (
@@ -135,7 +135,9 @@ const BookingCard = ({
               <ListItemText primary="Status" secondary={booking.status} />
               <ButtonsWrapper sx={{margin: '10px auto'}}>
                 <Button
-                  sx={{ mr: 2, color: '#00ffa2', borderColor: '#00ffa2' }}
+                  sx={{ mr: 2, color: '#00ffa2', borderColor: 'rgba(65, 255, 186, .4)', '&:hover': {
+                    borderColor: '#00ffa2', // Change the border color on hover
+                  }, }}
                   variant="outlined"
                   onClick={() => handleUpdateStatus(booking._id, 'confirmed')}
                 >
@@ -143,7 +145,7 @@ const BookingCard = ({
                 </Button>
                 <Button
                   variant="outlined"
-                  sx={{ color: '#d1203d', borderColor: '#d1203d' }}
+                  sx={{ color: '#d1203d', borderColor: 'rgb(209 32 61 / 74%)', '&:hover': { borderColor: '#d1203d'} }}
                   onClick={() => handleUpdateStatus(booking._id, 'denied')}
                 >
                   Deny
@@ -157,7 +159,7 @@ const BookingCard = ({
         className='booking-drawer'
         anchor="bottom"
         open={isDrawerOpen}
-       
+        onClose={handleDrawerClose}
       >
         <EditBooking
           id={booking._id}
