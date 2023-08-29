@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import { Card, CardContent, CardHeader, Collapse, Button, List, ListItem, ListItemText, ListItemIcon, Drawer } from '@mui/material';
+import { Card, CardContent, CardHeader, Collapse, Button, List, ListItem, ListItemText, ListItemIcon, Drawer, Modal, Box } from '@mui/material';
 import { Email, Phone, Message, Hearing, AccessTime, Edit, DeleteOutlined as DeleteOutlinedIcon } from '@mui/icons-material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { styled } from '@mui/system';
 import EditBooking from './EditBooking';
+import DeleteBookingModal from './DeleteBookingModal';
 
 const Dot = styled('span')(({ theme, status }) => ({
   width: 12,
@@ -17,8 +18,8 @@ const Dot = styled('span')(({ theme, status }) => ({
     status === 'confirmed'
       ? '#00ffa2'
       : status === 'denied'
-      ? '#d1203d'
-      : '#ccc',
+        ? '#d1203d'
+        : '#ccc',
   border: status === 'unconfirmed' ? '1px solid #ccc' : 'none',
 }));
 
@@ -38,6 +39,7 @@ const BookingCard = ({
   const [formattedDate, setFormattedDate] = useState(dayjs(booking.date).format('M/D/YY'))
   const [hours, setHours] = useState(booking.hours);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setIsDrawerOpen(true);
@@ -53,6 +55,14 @@ const BookingCard = ({
     setFormattedDate(updatedFormattedDate);
   };
 
+  const openDeleteModal = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+  };
+
   return (
     <Card sx={{ backgroundColor: '#202020', color: '#e7e7e7' }}>
       <CardHeader
@@ -66,12 +76,12 @@ const BookingCard = ({
             </span>
             <DeleteOutlinedIcon
               sx={{ marginLeft: 'auto', cursor: 'pointer' }}
-              onClick={() => handleDeleteBooking(booking._id)}
+              onClick={openDeleteModal}
             />
           </span>
         }
         action={
-          <Button sx={{color: '#00ffa2'}} size="small" onClick={() => toggleCard(booking._id)}>
+          <Button sx={{ color: '#00ffa2' }} size="small" onClick={() => toggleCard(booking._id)}>
             {openCardId === booking._id ? (
               <KeyboardArrowUpIcon />
             ) : (
@@ -125,7 +135,7 @@ const BookingCard = ({
                 />
               </ListItemIcon>
             </ListItem>
-            <ListItem sx={{flexWrap: 'wrap'}}>
+            <ListItem sx={{ flexWrap: 'wrap' }}>
               <ListItemIcon>
                 <Dot
                   className={booking.status === 'confirmed' ? 'confirmed-dot' : ''}
@@ -133,11 +143,13 @@ const BookingCard = ({
                 />
               </ListItemIcon>
               <ListItemText primary="Status" secondary={booking.status} />
-              <ButtonsWrapper sx={{margin: '10px auto'}}>
+              <ButtonsWrapper sx={{ margin: '10px auto' }}>
                 <Button
-                  sx={{ mr: 2, color: '#00ffa2', borderColor: 'rgba(65, 255, 186, .4)', '&:hover': {
-                    borderColor: '#00ffa2', // Change the border color on hover
-                  }, }}
+                  sx={{
+                    mr: 2, color: '#00ffa2', borderColor: 'rgba(65, 255, 186, .4)', '&:hover': {
+                      borderColor: '#00ffa2', // Change the border color on hover
+                    },
+                  }}
                   variant="outlined"
                   onClick={() => handleUpdateStatus(booking._id, 'confirmed')}
                 >
@@ -145,7 +157,7 @@ const BookingCard = ({
                 </Button>
                 <Button
                   variant="outlined"
-                  sx={{ color: '#d1203d', borderColor: 'rgb(209 32 61 / 74%)', '&:hover': { borderColor: '#d1203d'} }}
+                  sx={{ color: '#d1203d', borderColor: 'rgb(209 32 61 / 74%)', '&:hover': { borderColor: '#d1203d' } }}
                   onClick={() => handleUpdateStatus(booking._id, 'denied')}
                 >
                   Deny
@@ -154,6 +166,13 @@ const BookingCard = ({
             </ListItem>
           </List>
         </CardContent>
+        <DeleteBookingModal
+          isOpen={isDeleteModalOpen}
+          onClose={closeDeleteModal}
+          onConfirm={() => {
+            handleDeleteBooking(booking._id);
+          }}
+        />
       </Collapse>
       <Drawer
         className='booking-drawer'
