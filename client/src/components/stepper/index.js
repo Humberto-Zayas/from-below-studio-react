@@ -56,7 +56,7 @@ export default function HorizontalLinearStepper() {
 
   const handleDatePick = (value) => {
     setValue(value);
-    setFormState({ ...formState, date: value.toISOString().split('T')[0] });
+    setFormState({ ...formState, date: value });
     setActiveStep(1);
   };
 

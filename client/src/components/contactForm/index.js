@@ -27,7 +27,7 @@ export default function ContactForm(props) {
     props.formCapture({
       ...formData,
       [name]: value, // Update the changed field
-      date: props.date.toISOString().split('T')[0],
+      date: props.date,
       hours: props.hours
     });
   };
@@ -141,7 +141,7 @@ export default function ContactForm(props) {
             InputProps={{
               readOnly: true,
             }}
-            value={props.date.toISOString().split('T')[0]}
+            value={props.date}
           />
           
           <TextField

@@ -9,7 +9,7 @@ export default function SelectableHours(props) {
   const [enabledData, setEnabledData] = useState([]);
 
   useEffect(() => {
-    fetch(`/api/days/${props.recordingDate.toISOString().split('T')[0]}`)
+    fetch(`/api/days/${props.recordingDate}`)
       .then(response => response.json())
       .then(data => {
         if (data && data.date && data.hours) {
