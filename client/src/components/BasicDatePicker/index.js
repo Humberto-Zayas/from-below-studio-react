@@ -17,7 +17,7 @@ export default function BasicDatePicker(props) {
       <StaticDatePicker
         maxDate={props.maxDate}
         shouldDisableDate={getDisabledDates}
-        disablePast={true}
+        // disablePast={true}
         value={value}
         onChange={(newValue) => {
           props.handleClick(newValue.toISOString().split('T')[0]);

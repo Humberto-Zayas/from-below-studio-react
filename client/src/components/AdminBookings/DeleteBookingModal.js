@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Box, Button } from '@mui/material';
+import { Modal, Box, Button, Typography } from '@mui/material';
 
 const DeleteBookingModal = ({ isOpen, onClose, onConfirm }) => {
   return (
@@ -16,25 +16,36 @@ const DeleteBookingModal = ({ isOpen, onClose, onConfirm }) => {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           width: 400,
-          bgcolor: 'background.paper',
-          border: '2px solid #000',
+          bgcolor: 'black',
+          border: '1px solid rgb(49, 49, 49)',
           boxShadow: 24,
           p: 4,
         }}
       >
-        <h2 id="delete-modal-title">Confirm Delete</h2>
-        <p id="delete-modal-description">
+        <Typography align="center" sx={{ color: '#e7e7e7' }} variant="h6" id="delete-modal-title">
+          Confirm Deletion
+        </Typography>
+        <Typography sx={{ color: '#e7e7e7' }} variant="body1" id="delete-modal-description">
           Are you sure you want to delete this booking?
-        </p>
-        <Button onClick={() => {
-          onConfirm();
-          onClose();
-        }}>
-          Confirm
-        </Button>
-        <Button onClick={onClose}>
-          Cancel
-        </Button>
+        </Typography>
+        <Box sx={{ justifyContent: 'center', display: 'flex' }}>
+          <Button
+            sx={{ mr: 2, mt: 2, color: '#d1203d', borderColor: 'rgb(209 32 61 / 74%)', '&:hover': { borderColor: '#d1203d' } }}
+
+            variant="outlined"
+            onClick={() => {
+              onConfirm();
+              onClose();
+            }}>
+            Delete
+          </Button>
+          <Button
+            variant="outlined"
+            sx={{ mt: 2, color: '#00ffa2', borderColor: 'rgba(65, 255, 186, .4)', '&:hover': { borderColor: '#00ffa2' } }}
+            onClick={onClose}>
+            Cancel
+          </Button>
+        </Box>
       </Box>
     </Modal>
   );

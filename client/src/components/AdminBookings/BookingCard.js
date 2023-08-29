@@ -29,13 +29,7 @@ const ButtonsWrapper = styled('div')({
   marginTop: '8px',
 });
 
-const BookingCard = ({
-  booking,
-  openCardId,
-  toggleCard,
-  handleUpdateStatus,
-  handleDeleteBooking,
-}) => {
+const BookingCard = ({ booking, openCardId, toggleCard, handleUpdateStatus, handleDeleteBooking }) => {
   const [formattedDate, setFormattedDate] = useState(dayjs(booking.date).format('M/D/YY'))
   const [hours, setHours] = useState(booking.hours);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -44,21 +38,16 @@ const BookingCard = ({
   const handleDrawerOpen = () => {
     setIsDrawerOpen(true);
   };
-
   const handleDrawerClose = () => {
     setIsDrawerOpen(false);
   };
-
   const handleBookingUpdateAndFormat = (updatedHours, updatedFormattedDate) => {
-    console.log('booking card day: ', updatedFormattedDate)
     setHours(updatedHours);
     setFormattedDate(updatedFormattedDate);
   };
-
   const openDeleteModal = () => {
     setIsDeleteModalOpen(true);
   };
-
   const closeDeleteModal = () => {
     setIsDeleteModalOpen(false);
   };
@@ -129,10 +118,15 @@ const BookingCard = ({
                 secondary={`${formattedDate}, ${hours}`}
               />
               <ListItemIcon>
-                <Edit
-                  style={{ color: 'white', cursor: 'pointer' }}
-                  onClick={handleDrawerOpen}
-                />
+                <Button disabled={booking.status === 'unconfirmed' || booking.status === 'denied'}>
+                  <Edit
+                    style={{
+                      color: booking.status === 'unconfirmed' || booking.status === 'denied' ? '#4e4e4e' : 'white',
+                      cursor: 'pointer',
+                    }}
+                    onClick={handleDrawerOpen}
+                  />
+                </Button>
               </ListItemIcon>
             </ListItem>
             <ListItem sx={{ flexWrap: 'wrap' }}>
