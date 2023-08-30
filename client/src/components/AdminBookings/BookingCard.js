@@ -30,7 +30,7 @@ const ButtonsWrapper = styled('div')({
 });
 
 const BookingCard = ({ booking, openCardId, toggleCard, handleUpdateStatus, handleDeleteBooking }) => {
-  const [formattedDate, setFormattedDate] = useState(dayjs(booking.date).format('M/D/YY'))
+  const [formattedDate, setFormattedDate] = useState(dayjs(booking.date).format('M/DD/YY'))
   const [hours, setHours] = useState(booking.hours);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);

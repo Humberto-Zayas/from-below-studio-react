@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 
 const AdminBookings = () => {
   const [bookings, setBookings] = useState([]);
+  const [pastBookings, setPastBookings] = useState([]);
   const [openCardId, setOpenCardId] = useState(null); // Keep track of open card
   const [statusFilter, setStatusFilter] = useState('All'); // Status filter value
   const [dateFilter, setDateFilter] = useState(''); // Date filter value
@@ -14,12 +15,23 @@ const AdminBookings = () => {
     fetch('/api/bookings')
       .then((response) => response.json())
       .then((data) => {
-        setBookings(data);
+        const currentDate = dayjs().startOf('day');
+        const upcomingBookings = data.filter((booking) =>
+          dayjs(booking.date, 'YYYY-MM-DD').isSame(currentDate) || dayjs(booking.date, 'YYYY-MM-DD').isAfter(currentDate)
+        );
+        const pastBookings = data.filter((booking) =>
+          dayjs(booking.date, 'YYYY-MM-DD').isBefore(currentDate)
+        );
+        setBookings(upcomingBookings);
+        setPastBookings(pastBookings);
       })
       .catch((error) => {
         console.error('Error fetching bookings:', error);
       });
-  }, []);
+  }, []);  
+
+
+  console.log(pastBookings);
 
   const handleUpdateStatus = async (bookingId, newStatus) => {
     try {
@@ -107,6 +119,7 @@ const AdminBookings = () => {
             <MenuItem value="unconfirmed">Unconfirmed</MenuItem>
             <MenuItem value="confirmed">Confirmed</MenuItem>
             <MenuItem value="denied">Denied</MenuItem>
+            <MenuItem value="Past">Past Bookings</MenuItem>
           </Select>
         </FormControl>
         <TextField
