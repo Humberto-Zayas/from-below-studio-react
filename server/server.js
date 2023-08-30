@@ -260,11 +260,20 @@ app.delete("/api/bookings/:id", async (req, res) => {
           existingDay.hours.push(newHour);
         }
 
-        // Sort the hours array by parsing the hour string and sorting numerically
+        // Hour options array in the desired order
+        const hourOptions = [
+          "2 Hours/$70",
+          "4 Hours/$130",
+          "8 Hours/$270",
+          "10 Hours/$340",
+          "Full Day 14+ Hours/$550",
+        ];
+
+        // Sort the hours array based on the custom order defined in hourOptions
         existingDay.hours.sort((a, b) => {
-          const aHourValue = parseInt(a.hour.split(" ")[0]);
-          const bHourValue = parseInt(b.hour.split(" ")[0]);
-          return aHourValue - bHourValue;
+          const aIndex = hourOptions.indexOf(a.hour);
+          const bIndex = hourOptions.indexOf(b.hour);
+          return aIndex - bIndex;
         });
 
         await existingDay.save();
