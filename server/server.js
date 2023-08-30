@@ -222,7 +222,6 @@ app.put("/api/bookings/datehour/:id", async (req, res) => {
   }
 });
 
-
 // New route for deleting a booking by ID
 app.delete("/api/bookings/:id", async (req, res) => {
   try {
@@ -233,6 +232,43 @@ app.delete("/api/bookings/:id", async (req, res) => {
 
     if (!booking) {
       return res.status(404).json({ error: "Booking not found" });
+    }
+
+    // Check if the booking has a date and the day's hours array is not empty
+    if (booking.date && booking.hours) {
+      // Find the existing day in the database
+      const existingDay = await Day.findOne({ date: booking.date });
+
+      if (existingDay) {
+        // Extract the hour title from booking.hours
+        const bookedHourParts = booking.hours.split('/');
+        const bookedHourTitle = bookedHourParts[0].trim(); // Extract the hour title (e.g., "2 Hours")
+        
+        // Find the matching hour by comparing titles
+        const matchingHour = existingDay.hours.find(
+          (existingHour) => existingHour.hour.includes(bookedHourTitle)
+        );
+
+        if (matchingHour) {
+          matchingHour.enabled = true; // Enable the booked hour
+        } else {
+          // If the matching hour doesn't exist, add it to the existingDay.hours array
+          const newHour = {
+            hour: booking.hours, // Use the entire booking.hours string
+            enabled: true
+          };
+          existingDay.hours.push(newHour);
+        }
+
+        // Sort the hours array by parsing the hour string and sorting numerically
+        existingDay.hours.sort((a, b) => {
+          const aHourValue = parseInt(a.hour.split(" ")[0]);
+          const bHourValue = parseInt(b.hour.split(" ")[0]);
+          return aHourValue - bHourValue;
+        });
+
+        await existingDay.save();
+      }
     }
 
     // Delete the booking
