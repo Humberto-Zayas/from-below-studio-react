@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Container, Grid, Button, FormControl, Select, MenuItem, TextField, InputLabel } from '@mui/material';
+import { Container, Grid, Button, FormControl, Select, MenuItem, TextField, InputLabel } from '@mui/material';
 import BookingCard from './BookingCard';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import dayjs from 'dayjs';
 
 const AdminBookings = () => {
@@ -10,6 +12,7 @@ const AdminBookings = () => {
   const [openCardId, setOpenCardId] = useState(null); // Keep track of open card
   const [statusFilter, setStatusFilter] = useState('All'); // Status filter value
   const [dateFilter, setDateFilter] = useState(''); // Date filter value
+  const [sortOrder, setSortOrder] = useState('asc'); // Track sort order
 
   useEffect(() => {
     fetch('/api/bookings')
@@ -74,6 +77,24 @@ const AdminBookings = () => {
     }
   };
 
+  const toggleSortOrder = () => {
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); // Toggle sort order
+  };
+
+  const sortedBookings = [...bookings].sort((a, b) => {
+    // Compare booking dates based on sortOrder
+    return sortOrder === 'asc'
+      ? dayjs(a.date).diff(dayjs(b.date))
+      : dayjs(b.date).diff(dayjs(a.date));
+  });
+
+  const sortedPastBookings = [...pastBookings].sort((a, b) => {
+    // Compare booking dates based on sortOrder
+    return sortOrder === 'asc'
+      ? dayjs(a.date).diff(dayjs(b.date))
+      : dayjs(b.date).diff(dayjs(a.date));
+  });
+
   const toggleCard = (bookingId) => {
     if (openCardId === bookingId) {
       setOpenCardId(null);
@@ -90,7 +111,7 @@ const AdminBookings = () => {
   return (
     <Container sx={{ px: 0 }} maxWidth="md">
       <div style={{ display: 'flex', marginBottom: '1rem' }}>
-        <FormControl sx={{ mr: 2, minWidth: 120 }}>
+        <FormControl sx={{ mr: 2, minWidth: 80 }}>
           <InputLabel id="demo-simple-select-helper-label">Status</InputLabel>
           <Select
             sx={{
@@ -115,7 +136,7 @@ const AdminBookings = () => {
             label="Status"
             onChange={(event) => setStatusFilter(event.target.value)}
           >
-            <MenuItem value="All">All</MenuItem>
+            <MenuItem value="All">Current Bookings</MenuItem>
             <MenuItem value="unconfirmed">Unconfirmed</MenuItem>
             <MenuItem value="confirmed">Confirmed</MenuItem>
             <MenuItem value="denied">Denied</MenuItem>
@@ -124,7 +145,8 @@ const AdminBookings = () => {
         </FormControl>
         <TextField
           sx={{
-            minWidth: '120px',
+            mr: 2,
+            minWidth: 130,
             '& .MuiOutlinedInput-root': {
               color: 'red !important',
               '& fieldset': {
@@ -151,30 +173,49 @@ const AdminBookings = () => {
             placeholder: 'mm/dd/yyyy'
           }}
         />
+        <Button
+          sx={{
+            mr: 2,
+            color: '#00ffa2',
+            borderColor: 'rgba(65, 255, 186, .4)',
+            '&:hover': { borderColor: '#00ffa2' },
+          }}
+          variant="outlined"
+          onClick={toggleSortOrder} // Call toggleSortOrder when the button is clicked
+        >
+          {sortOrder === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+        </Button>
         <Button sx={{ ml: 'auto', color: '#00ffa2', borderColor: 'rgba(65, 255, 186, .4)', '&:hover': { borderColor: '#00ffa2' } }} variant="outlined" onClick={resetFilters}>
           <RestartAltIcon />
         </Button>
       </div>
-      {statusFilter === 'Past' ? (
-        <Grid container spacing={3}>
-          {pastBookings.map((booking) => (
-            <Grid item xs={12} md={6} key={booking._id}>
-              <BookingCard
-                handleDeleteBooking={handleDeleteBooking}
-                booking={booking}
-                openCardId={openCardId}
-                toggleCard={toggleCard}
-                handleUpdateStatus={handleUpdateStatus}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      ) : (
-        <Grid container spacing={3}>
-          {bookings.map((booking) => {
+      <Grid container spacing={3}>
+        {statusFilter === 'Past' ? (
+          sortedPastBookings.map((booking) => {
+            const bookingDate = dayjs(booking.date, 'YYYY-MM-DD');
+            const filterDate = dayjs(dateFilter, 'YYYY-MM-DD');
+            if (dateFilter === '' || bookingDate.isSame(filterDate, 'day')) {
+              return (
+                <Grid item xs={12} md={6} key={booking._id}>
+                  <BookingCard
+                    handleDeleteBooking={handleDeleteBooking}
+                    booking={booking}
+                    openCardId={openCardId}
+                    toggleCard={toggleCard}
+                    handleUpdateStatus={handleUpdateStatus}
+                  />
+                </Grid>
+              );
+            }
+            return null;
+          })
+        ) : (
+          sortedBookings.map((booking) => {
+            const bookingDate = dayjs(booking.date, 'YYYY-MM-DD');
+            const filterDate = dayjs(dateFilter, 'YYYY-MM-DD');
             if (
               (statusFilter === 'All' || booking.status === statusFilter) &&
-              (dateFilter === '' || booking.date === dateFilter)
+              (dateFilter === '' || bookingDate.isSame(filterDate, 'day'))
             ) {
               return (
                 <Grid item xs={12} md={6} key={booking._id}>
@@ -189,9 +230,9 @@ const AdminBookings = () => {
               );
             }
             return null;
-          })}
-        </Grid>
-      )}
+          })
+        )}
+      </Grid>
     </Container>
   );
 };
