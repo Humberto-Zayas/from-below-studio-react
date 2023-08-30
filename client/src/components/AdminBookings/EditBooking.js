@@ -5,7 +5,8 @@ import BasicDatePicker from '../BasicDatePicker';
 import dayjs from 'dayjs';
 
 const EditBooking = ({ value, hours, id, onBookingUpdate, closeDrawer }) => {
-  const [day, setDay] = useState(value)
+  const [day, setDay] = useState(dayjs(value).format('YYYY-MM-DD'));
+  console.log(day)
   const [blackoutDays, setBlackoutDays] = useState([]);
   const [maxDate, setMaxDate] = useState(null);
   const [selectedHour, setSelectedHour] = useState(hours.split("/")[0].trim());
@@ -17,7 +18,7 @@ const EditBooking = ({ value, hours, id, onBookingUpdate, closeDrawer }) => {
     { label: '10 Hours', price: '$340' },
     { label: 'Full Day 14+ Hours', price: '$550' },
   ];
-
+  console.log('enabled data? ', enabledData)
   useEffect(() => {
     // Fetch blackout days from your API
     fetch('/api/blackoutDays')
@@ -105,7 +106,7 @@ const EditBooking = ({ value, hours, id, onBookingUpdate, closeDrawer }) => {
 
           <BasicDatePicker value={day} maxDate={maxDate} days={blackoutDays}
             handleClick={(value) => {
-              setDay(dayjs(value).format('M/D/YY'));
+              setDay(dayjs(value).format('YYYY-MM-DD'));
               setSelectedHour(null)
             }}
           />
