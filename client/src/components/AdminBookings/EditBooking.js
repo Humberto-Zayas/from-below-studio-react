@@ -48,7 +48,14 @@ const EditBooking = ({ value, hours, id, onBookingUpdate, closeDrawer }) => {
       .then(response => response.json())
       .then(data => {
         if (data && data.date && data.hours) {
-          setEnabledData(data.hours);
+          const transformedData = data.hours.map(item => {
+            const parts = item.hour.split('/'); // Split the string into parts
+            return {
+              label: parts[0].trim(), // Extract the label
+              price: parts[1].trim(), // Extract the price
+            };
+          });
+          setEnabledData(transformedData);
         } else {
           setEnabledData([]);
         }
@@ -56,7 +63,7 @@ const EditBooking = ({ value, hours, id, onBookingUpdate, closeDrawer }) => {
       .catch(error => {
         console.error('Error fetching day data:', error);
       });
-  }, [day]);
+  }, [day]);  
 
   const handleHourSelection = (hour) => {
     setSelectedHour((prevSelectedHour) => {
@@ -116,28 +123,59 @@ const EditBooking = ({ value, hours, id, onBookingUpdate, closeDrawer }) => {
             <Typography variant="h6" gutterBottom>
               Available Hours:
             </Typography>
-            {hourOptions.map((hourOption) => (
-              <ListItem
-                key={hourOption.label}
-                button
-                onClick={() => handleHourSelection(hourOption.label)}
-                selected={hourOption.label === selectedHour}
-              >
-                <ListItemText
-                  primary={hourOption.label}
-                  secondary={
-                    <>
-                      {hourOption.price}
-                      {hourOption.label === selectedHour}
-                    </>
-                  }
-                >
-                </ListItemText>
-                {hourOption.label === selectedHour && (
-                  <CheckIcon style={{ color: '#00ffa2' }} />
-                )}
-              </ListItem>
-            ))}
+            {
+              enabledData.length > 0 ?
+                (
+                  enabledData.map((hourOption) => (
+                    <ListItem
+                      key={hourOption.label}
+                      button
+                      onClick={() => handleHourSelection(hourOption.label)}
+                      selected={hourOption.label === selectedHour}
+                    >
+                      <ListItemText
+                        primary={hourOption.label}
+                        secondary={
+                          <>
+                            {hourOption.price}
+                            {hourOption.label === selectedHour}
+                          </>
+                        }
+                      >
+                      </ListItemText>
+                      {hourOption.label === selectedHour && (
+                        <CheckIcon style={{ color: '#00ffa2' }} />
+                      )}
+                    </ListItem>
+                  ))
+                )
+                :
+                (
+                  hourOptions.map((hourOption) => (
+                    <ListItem
+                      key={hourOption.label}
+                      button
+                      onClick={() => handleHourSelection(hourOption.label)}
+                      selected={hourOption.label === selectedHour}
+                    >
+                      <ListItemText
+                        primary={hourOption.label}
+                        secondary={
+                          <>
+                            {hourOption.price}
+                            {hourOption.label === selectedHour}
+                          </>
+                        }
+                      >
+                      </ListItemText>
+                      {hourOption.label === selectedHour && (
+                        <CheckIcon style={{ color: '#00ffa2' }} />
+                      )}
+                    </ListItem>
+                  ))
+                )
+            }
+
           </List>
         </Grid>
       </Grid>
