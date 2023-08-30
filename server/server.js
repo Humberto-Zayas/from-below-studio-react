@@ -190,56 +190,45 @@ app.put("/api/bookings/datehour/:id", async (req, res) => {
 
     // If the old date exists, update its hours array
     if (oldDateExists) {
-      const day = await Day.findOne({ date: oldDate });
+      const oldDay = await Day.findOne({ date: oldDate });
 
-      // Enable the old hour block and remove the new hour block
-      const matchingOldHour = day.hours.find(
+      // Enable the old hour block and add back the old hour block
+      const matchingOldHour = oldDay.hours.find(
         (hourBlock) => hourBlock.hour.includes(oldHours)
       );
       if (matchingOldHour) {
         matchingOldHour.enabled = true;
       }
-      day.hours = day.hours.filter((hourBlock) => hourBlock.hour !== hours);
-
-      await day.save();
+      oldDay.hours.push({ hour: oldHours, enabled: true });
+      await oldDay.save();
     }
 
     // Check if the new date exists in the Day collection
     const newDateExists = await Day.exists({ date });
 
-    // If the new date exists, update its hours array
     if (newDateExists) {
-      const day = await Day.findOne({ date });
+      const newDay = await Day.findOne({ date });
 
       // Disable the corresponding hour block and add the new hour block
-      const correspondingHour = day.hours.find(
+      const correspondingHour = newDay.hours.find(
         (hourBlock) => hourBlock.hour.includes(hours)
       );
       if (correspondingHour) {
         correspondingHour.enabled = false;
       }
 
-      // Remove the old hour block from day.hours
-      day.hours = day.hours.filter((hourBlock) => hourBlock.hour !== hours);
+      // Remove the old hour block from newDay.hours
+      newDay.hours = newDay.hours.filter((hourBlock) => hourBlock.hour !== hours);
 
-      // Hour options array in the desired order
-      const hourOptions = [
-        "2 Hours/$70",
-        "4 Hours/$130",
-        "8 Hours/$270",
-        "10 Hours/$340",
-        "Full Day 14+ Hours/$550",
-      ];
+      // Enable the old hour block
+      const matchingOldHour = newDay.hours.find(
+        (hourBlock) => hourBlock.hour.includes(oldHours)
+      );
+      if (matchingOldHour) {
+        matchingOldHour.enabled = true;
+      }
 
-      // Add the new hour block and sort according to hourOptions array
-      day.hours.push({ hour: oldHours, enabled: true });
-      day.hours.sort((a, b) => {
-        const indexA = hourOptions.indexOf(a.hour);
-        const indexB = hourOptions.indexOf(b.hour);
-        return indexA - indexB;
-      });
-
-      await day.save();
+      await newDay.save();
     } else {
       // If the new date doesn't exist, create a new Day entry
       const newHourBlock = {
@@ -254,6 +243,8 @@ app.put("/api/bookings/datehour/:id", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
+
+
 
 // New route for deleting a booking by ID
 app.delete("/api/bookings/:id", async (req, res) => {

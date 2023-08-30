@@ -6,7 +6,6 @@ import dayjs from 'dayjs';
 
 const EditBooking = ({ value, hours, id, onBookingUpdate, closeDrawer }) => {
   const [day, setDay] = useState(dayjs(value).format('YYYY-MM-DD'));
-  console.log(day)
   const [blackoutDays, setBlackoutDays] = useState([]);
   const [maxDate, setMaxDate] = useState(null);
   const [selectedHour, setSelectedHour] = useState(hours.split("/")[0].trim());
@@ -18,7 +17,6 @@ const EditBooking = ({ value, hours, id, onBookingUpdate, closeDrawer }) => {
     { label: '10 Hours', price: '$340' },
     { label: 'Full Day 14+ Hours', price: '$550' },
   ];
-  console.log('enabled data? ', enabledData)
   useEffect(() => {
     // Fetch blackout days from your API
     fetch('/api/blackoutDays')
@@ -55,6 +53,14 @@ const EditBooking = ({ value, hours, id, onBookingUpdate, closeDrawer }) => {
               price: parts[1].trim(), // Extract the price
             };
           });
+
+          // Sort the transformedData array to match the order of hourOptions
+          transformedData.sort((a, b) => {
+            const indexA = hourOptions.findIndex(option => option.label === a.label);
+            const indexB = hourOptions.findIndex(option => option.label === b.label);
+            return indexA - indexB;
+          });
+
           setEnabledData(transformedData);
         } else {
           setEnabledData([]);
@@ -63,7 +69,7 @@ const EditBooking = ({ value, hours, id, onBookingUpdate, closeDrawer }) => {
       .catch(error => {
         console.error('Error fetching day data:', error);
       });
-  }, [day]);  
+  }, [day]);
 
   const handleHourSelection = (hour) => {
     setSelectedHour((prevSelectedHour) => {
@@ -101,7 +107,6 @@ const EditBooking = ({ value, hours, id, onBookingUpdate, closeDrawer }) => {
     closeDrawer();
   }
 
-
   return (
     <Container maxWidth="md" sx={{ display: 'flex', height: '100%', flexDirection: 'column' }}>
       <div style={{ position: 'relative', width: '100%' }}>
@@ -110,7 +115,6 @@ const EditBooking = ({ value, hours, id, onBookingUpdate, closeDrawer }) => {
       </div>
       <Grid container spacing={2}>
         <Grid item xs={12} md={6} sm={7}>
-
           <BasicDatePicker value={day} maxDate={maxDate} days={blackoutDays}
             handleClick={(value) => {
               setDay(dayjs(value).format('YYYY-MM-DD'));
@@ -175,7 +179,6 @@ const EditBooking = ({ value, hours, id, onBookingUpdate, closeDrawer }) => {
                   ))
                 )
             }
-
           </List>
         </Grid>
       </Grid>
