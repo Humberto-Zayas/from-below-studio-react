@@ -191,7 +191,16 @@ app.put("/api/bookings/datehour/:id", async (req, res) => {
     // If the old date exists, update its hours array
     if (oldDateExists) {
       const day = await Day.findOne({ date: oldDate });
-      day.hours = day.hours.filter((hourBlock) => hourBlock.hour !== oldHours);
+
+      // Enable the old hour block and remove the new hour block
+      const matchingOldHour = day.hours.find(
+        (hourBlock) => hourBlock.hour.includes(oldHours)
+      );
+      if (matchingOldHour) {
+        matchingOldHour.enabled = true;
+      }
+      day.hours = day.hours.filter((hourBlock) => hourBlock.hour !== hours);
+
       await day.save();
     }
 
@@ -201,11 +210,35 @@ app.put("/api/bookings/datehour/:id", async (req, res) => {
     // If the new date exists, update its hours array
     if (newDateExists) {
       const day = await Day.findOne({ date });
-      const newHourBlock = {
-        hour: hours,
-        enabled: true,
-      };
-      day.hours.push(newHourBlock);
+
+      // Disable the corresponding hour block and add the new hour block
+      const correspondingHour = day.hours.find(
+        (hourBlock) => hourBlock.hour.includes(hours)
+      );
+      if (correspondingHour) {
+        correspondingHour.enabled = false;
+      }
+
+      // Remove the old hour block from day.hours
+      day.hours = day.hours.filter((hourBlock) => hourBlock.hour !== hours);
+
+      // Hour options array in the desired order
+      const hourOptions = [
+        "2 Hours/$70",
+        "4 Hours/$130",
+        "8 Hours/$270",
+        "10 Hours/$340",
+        "Full Day 14+ Hours/$550",
+      ];
+
+      // Add the new hour block and sort according to hourOptions array
+      day.hours.push({ hour: oldHours, enabled: true });
+      day.hours.sort((a, b) => {
+        const indexA = hourOptions.indexOf(a.hour);
+        const indexB = hourOptions.indexOf(b.hour);
+        return indexA - indexB;
+      });
+
       await day.save();
     } else {
       // If the new date doesn't exist, create a new Day entry
