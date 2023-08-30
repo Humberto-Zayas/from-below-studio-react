@@ -28,10 +28,7 @@ const AdminBookings = () => {
       .catch((error) => {
         console.error('Error fetching bookings:', error);
       });
-  }, []);  
-
-
-  console.log(pastBookings);
+  }, []);
 
   const handleUpdateStatus = async (bookingId, newStatus) => {
     try {
@@ -58,6 +55,7 @@ const AdminBookings = () => {
       alert('An error occurred while updating the booking status.');
     }
   };
+
   const handleDeleteBooking = async (bookingId) => {
     try {
       const response = await fetch(`/api/bookings/${bookingId}`, {
@@ -75,6 +73,7 @@ const AdminBookings = () => {
       alert('An error occurred while deleting the booking.');
     }
   };
+
   const toggleCard = (bookingId) => {
     if (openCardId === bookingId) {
       setOpenCardId(null);
@@ -82,6 +81,7 @@ const AdminBookings = () => {
       setOpenCardId(bookingId);
     }
   };
+
   const resetFilters = () => {
     setStatusFilter('All');
     setDateFilter('');
@@ -123,7 +123,7 @@ const AdminBookings = () => {
           </Select>
         </FormControl>
         <TextField
-          sx={{ 
+          sx={{
             minWidth: '120px',
             '& .MuiOutlinedInput-root': {
               color: 'red !important',
@@ -151,12 +151,24 @@ const AdminBookings = () => {
             placeholder: 'mm/dd/yyyy'
           }}
         />
-        <Button sx={{ ml: 'auto', color: '#00ffa2', borderColor: 'rgba(65, 255, 186, .4)', '&:hover': { borderColor: '#00ffa2'} }} variant="outlined" onClick={resetFilters}>
+        <Button sx={{ ml: 'auto', color: '#00ffa2', borderColor: 'rgba(65, 255, 186, .4)', '&:hover': { borderColor: '#00ffa2' } }} variant="outlined" onClick={resetFilters}>
           <RestartAltIcon />
         </Button>
       </div>
-      {bookings.length === 0 ? (
-        <Typography variant="body1">No bookings available.</Typography>
+      {statusFilter === 'Past' ? (
+        <Grid container spacing={3}>
+          {pastBookings.map((booking) => (
+            <Grid item xs={12} md={6} key={booking._id}>
+              <BookingCard
+                handleDeleteBooking={handleDeleteBooking}
+                booking={booking}
+                openCardId={openCardId}
+                toggleCard={toggleCard}
+                handleUpdateStatus={handleUpdateStatus}
+              />
+            </Grid>
+          ))}
+        </Grid>
       ) : (
         <Grid container spacing={3}>
           {bookings.map((booking) => {
@@ -166,7 +178,13 @@ const AdminBookings = () => {
             ) {
               return (
                 <Grid item xs={12} md={6} key={booking._id}>
-                  <BookingCard handleDeleteBooking={handleDeleteBooking} booking={booking} openCardId={openCardId} toggleCard={toggleCard} handleUpdateStatus={handleUpdateStatus} />
+                  <BookingCard
+                    handleDeleteBooking={handleDeleteBooking}
+                    booking={booking}
+                    openCardId={openCardId}
+                    toggleCard={toggleCard}
+                    handleUpdateStatus={handleUpdateStatus}
+                  />
                 </Grid>
               );
             }
