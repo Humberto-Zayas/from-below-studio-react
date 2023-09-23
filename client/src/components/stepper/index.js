@@ -127,8 +127,6 @@ export default function HorizontalLinearStepper() {
     }
   };
 
-
-
   const handleNext = () => {
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
@@ -200,7 +198,7 @@ export default function HorizontalLinearStepper() {
               color="inherit"
               disabled={activeStep === 0}
               onClick={handleBack}
-              sx={{ mr: 1 }}
+              sx={{ mr: 1, color: 'white', opacity: activeStep === 0 ? 0 : 1 }}
               style={{ color: 'white' }}
             >
               Back

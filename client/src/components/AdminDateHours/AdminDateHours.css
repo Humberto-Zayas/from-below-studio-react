@@ -39,8 +39,14 @@
   background-color: #d1203d !important;
 }
 
+
+
 .MuiIconButton-root {
   color: white !important;
+}
+
+.MuiPickersArrowSwitcher-root .MuiIconButton-root {
+  color: black !important;
 }
 
 /* .MuiSwitch-root .MuiSwitch-thumb {

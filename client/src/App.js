@@ -2,10 +2,8 @@ import './css/normalize.css';
 import './css/util.css';
 import './css/frombelow.css';
 
-import Home from "./pages/Home"
-import Admin from "./pages/Admin"
-import BootlegStepper from "./components/bootlegstepper"
-import Header from "./components/navbar";
+import Home from "./pages/Home";
+import Admin from "./pages/Admin";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { setContext } from "@apollo/client/link/context";
@@ -66,10 +64,8 @@ function App() {
     <ApolloProvider client={client}>
       <div id="Home">
         <Router basename="/">
-          {/* <Header></Header> */}
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/bootlegstepper" element={<BootlegStepper />} />
             <Route path="/admin" element={<Admin />} />
           </Routes>
         </Router>
