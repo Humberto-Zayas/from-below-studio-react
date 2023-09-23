@@ -80,7 +80,7 @@ function Pricing() {
                     Standard rate
                   </li>
                   <li className="item-pricing list-item-2">
-                    $35*<br /><span className="text-span-7">*per hour/recording only</span>
+                    $50*<br /><span className="text-span-7">*per hour/recording only</span>
                   </li>
                   <li className="list-item-2" >
                     Minimum 2 Hours
@@ -102,19 +102,19 @@ function Pricing() {
                     Recording Blocks
                   </li>
                   <li className="list-item-2">
-                    4 Hours/$130
+                    3 Hours/$150
                   </li>
                   <li className="list-item-2">
-                    6 Hours/$200
+                    4 Hours/$190
                   </li>
                   <li className="list-item-2">
-                    8 Hours/$270
+                    6 Hours/$290
                   </li>
                   <li className="list-item-2">
-                    10 Hours/$340
+                    8 Hours/$390
                   </li>
                   <li className="list-item-2">
-                    Full Day 14+ Hours/$550
+                    10+ Hours/$490
                   </li>
                   <li className="last-item-button list-item-2">
                     <span className="text-span-8">CONTACT</span>
@@ -124,7 +124,7 @@ function Pricing() {
               <Grid lg={4} md={4} sm={12} xs={12}>
                 <ul style={{ listStyleType: 'none', paddingLeft: '0', textAlign: 'center' }} className="recording-pricing-3-desktop w-list-unstyled">
                   <li className="first-item-title list-item-2">
-                    Custom project
+                    Hour Bundles
                   </li>
                   <li className="item-pricing list-item-2">
                     Customize*<br /><span className="text-span-7">*Pricing varies</span>

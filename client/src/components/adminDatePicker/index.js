@@ -22,8 +22,7 @@ export default function AdminDatePicker(props) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
-        disablePast
-        
+        disablePast 
         shouldDisableDate={getDisabledDates}
         label="Basic example"
         value={value}
