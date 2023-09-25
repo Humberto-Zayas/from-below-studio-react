@@ -43,6 +43,7 @@ function Hero() {
         <span className='fbs-button' onClick={handleOpen} variant="contained"><CalendarMonthIcon style={{position: 'relative', top: '6px', left: '-9px'}} />BOOK YOUR SESSION</span>
       </Stack>
 
+
       <Modal
         sx={{overflow: 'scroll'}}
         aria-labelledby="transition-modal-title"
