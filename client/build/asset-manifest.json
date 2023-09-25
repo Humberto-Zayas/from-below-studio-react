@@ -1,0 +1,43 @@
+{
+  "files": {
+    "main.css": "/static/css/main.ea0255a4.css",
+    "main.js": "/static/js/main.ced171d3.js",
+    "static/js/787.a9b460f3.chunk.js": "/static/js/787.a9b460f3.chunk.js",
+    "static/media/avalong-demoshot.jpg": "/static/media/avalong-demoshot.c4f2e7f1e5b8b4354145.jpg",
+    "static/media/mock-floor.jpg": "/static/media/mock-floor.8b91c388f8fdc39fb79d.jpg",
+    "static/media/uad_fairchild_670.jpg": "/static/media/uad_fairchild_670.ab583c88b7d3e2909576.jpg",
+    "static/media/bg_pic1.jpg": "/static/media/bg_pic1.0e513a1416aa03a2ae1f.jpg",
+    "static/media/maxresdefault.jpg": "/static/media/maxresdefault.2edccf3196702cebd268.jpg",
+    "static/media/fontawesome-webfont.eot": "/static/media/fontawesome-webfont.8b43027f47b20503057d.eot",
+    "static/media/fontawesome-webfont.ttf": "/static/media/fontawesome-webfont.1e59d2330b4c6deb84b3.ttf",
+    "static/media/03-avalon-01.jpg": "/static/media/03-avalon-01.9246fb90bbadcdd6ecfb.jpg",
+    "static/media/01-control-room-01.jpg": "/static/media/01-control-room-01.3395405281d24fc798fd.jpg",
+    "static/media/fabfilter-pro-q-2-equalizer-plug-in-tutorial.jpg": "/static/media/fabfilter-pro-q-2-equalizer-plug-in-tutorial.2f17093b913dc6a179a1.jpg",
+    "static/media/FontAwesome.otf": "/static/media/FontAwesome.91f80bba1dfc26a3fa4c.otf",
+    "static/media/pricing-bg-edit1.jpeg": "/static/media/pricing-bg-edit1.d3c30dfd5de800ead3f5.jpeg",
+    "static/media/IMG_20170722_142734_347_1500772896518.jpg": "/static/media/IMG_20170722_142734_347_1500772896518.ee538fb68fd7934beac3.jpg",
+    "static/media/mic-studio-long.jpg": "/static/media/mic-studio-long.ac60205bbe007eb130fd.jpg",
+    "static/media/_JP_6496.jpg": "/static/media/_JP_6496.060c6d93f33051d3d5b0.jpg",
+    "static/media/_JP_6513.jpg": "/static/media/_JP_6513.131a55451eb38a601b48.jpg",
+    "static/media/06-outboard-01.jpg": "/static/media/06-outboard-01.977e837bf54ad4a8781a.jpg",
+    "static/media/fontawesome-webfont.woff": "/static/media/fontawesome-webfont.f691f37e57f04c152e23.woff",
+    "static/media/_JP_6442.jpg": "/static/media/_JP_6442.d85fd948b80b7ed6d665.jpg",
+    "static/media/08-mackie-01.jpg": "/static/media/08-mackie-01.0a0b4ceb591840bcbfea.jpg",
+    "static/media/12-presonus-01.jpg": "/static/media/12-presonus-01.d20d0be64530e0a38678.jpg",
+    "static/media/10-uad-01.jpg": "/static/media/10-uad-01.43006aac3f413265e19e.jpg",
+    "static/media/fontawesome-webfont.woff2": "/static/media/fontawesome-webfont.20fd1704ea223900efa9.woff2",
+    "static/media/_JP_6476.jpg": "/static/media/_JP_6476.b28f4be12ff567c75438.jpg",
+    "static/media/mic-studio.jpg": "/static/media/mic-studio.9f86dc76d0cd7998fd95.jpg",
+    "static/media/06-outboard-01-newbg.jpeg": "/static/media/06-outboard-01-newbg.f50822c8af5551818443.jpeg",
+    "static/media/fbs-ccinfo.png": "/static/media/fbs-ccinfo.f93ca08b37bf8a8bf603.png",
+    "static/media/fbs-red-logo.jpeg": "/static/media/fbs-red-logo.d7b381cf2ecffbaab96b.jpeg",
+    "index.html": "/index.html",
+    "main.ea0255a4.css.map": "/static/css/main.ea0255a4.css.map",
+    "main.ced171d3.js.map": "/static/js/main.ced171d3.js.map",
+    "787.a9b460f3.chunk.js.map": "/static/js/787.a9b460f3.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ea0255a4.css",
+    "static/js/main.ced171d3.js"
+  ]
+}

@@ -4,7 +4,7 @@
 node_modules
 /.pnp
 .pnp.js
-client/build
+# client/build
 
 # testing
 /coverage
@@ -25,4 +25,3 @@ yarn-error.log*
 
 # Local Netlify folder
 .netlify
-
