@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
-
+import GeneralContact from '../GeneralContact';
 import HorizontalLinearStepper from '../stepper'
 
 const style = {
@@ -44,6 +44,7 @@ function Hero() {
       </Stack>
 
       <Modal
+        sx={{overflow: 'scroll'}}
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={open}
@@ -55,14 +56,15 @@ function Hero() {
         }}
       >
          
-        <Fade in={open}>
-          <Box className='div-block-42' sx={style}>
+        {/* <Fade in={open}> */}
+          {/* <Box className='div-block-42' sx={style}>
             <div style={{display: 'flex', justifyContent: 'end'}}>
               <CloseIcon style={{color: 'white'}} onClick={() => setOpen(false)} />
-            </div>
-            <HorizontalLinearStepper></HorizontalLinearStepper>
-          </Box>
-        </Fade>
+            </div> */}
+            {/* <HorizontalLinearStepper></HorizontalLinearStepper> */}
+            <GeneralContact />
+          {/* </Box> */}
+        {/* </Fade> */}
       </Modal>
     </div>
   )

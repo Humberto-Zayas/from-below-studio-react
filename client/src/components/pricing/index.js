@@ -1,15 +1,15 @@
-import * as React from 'react';
-
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid'; // Import Grid from @mui/material
 import Container from '@mui/material/Container';
+import Modal from '@mui/material/Modal';
+import GeneralContact from '../GeneralContact';
+import PropTypes from 'prop-types';
 
-//components
-import BasicTable from '../pricingTable';
+// ... rest of the imports ...
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -45,7 +45,10 @@ function a11yProps(index) {
 }
 
 function Pricing() {
-  const [value, setValue] = React.useState(0);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -60,7 +63,7 @@ function Pricing() {
         </p>
         <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'center' }}>
-            <Tabs TabIndicatorProps={{style: {background:'red'}}} value={value} onChange={handleChange} aria-label="basic tabs example">
+            <Tabs TabIndicatorProps={{ style: { background: 'red' } }} value={value} onChange={handleChange} aria-label="basic tabs example">
               <Tab style={{
                 color: 'white', fontFamily: `Dosis, sans-serif`,
                 fontWeight: 600
@@ -69,18 +72,17 @@ function Pricing() {
                 color: 'white', fontFamily: `Dosis, sans-serif`,
                 fontWeight: 600
               }} label="Mixing" {...a11yProps(1)} />
-
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
             <Grid container spacing={2}>
-              <Grid lg={4} md={4} sm={12} xs={12}>
+              <Grid item lg={4} md={4} sm={12} xs={12}>
                 <ul style={{ listStyleType: 'none', paddingLeft: '0', textAlign: 'center' }} className='recording-pricing-1-desktop'>
                   <li className="first-item-title list-item-2">
                     Standard rate
                   </li>
                   <li className="item-pricing list-item-2">
-                    $50*<br /><span className="text-span-7">*per hour/recording only</span>
+                    $50/HOUR*<br /><span className="text-span-7">*$75/Hour for 3 or more artists</span>
                   </li>
                   <li className="list-item-2" >
                     Minimum 2 Hours
@@ -91,12 +93,12 @@ function Pricing() {
                   <li className="list-item-2">
                     Raw Mix Available
                   </li>
-                  <li className="last-item-button list-item-2" >
-                    <span className="text-span-8">CONTACT</span>
+                  <li onClick={handleOpen} className="last-item-button list-item-2" >
+                    <span onClick={handleOpen} className="text-span-8">CONTACT</span>
                   </li>
                 </ul>
               </Grid>
-              <Grid lg={4} md={4} sm={12} xs={12}>
+              <Grid item lg={4} md={4} sm={12} xs={12}>
                 <ul style={{ listStyleType: 'none', paddingLeft: '0', textAlign: 'center' }} className='recording-pricing-2-desktop'>
                   <li className="first-item-title list-item-2">
                     Recording Blocks
@@ -116,12 +118,12 @@ function Pricing() {
                   <li className="list-item-2">
                     10+ Hours/$490
                   </li>
-                  <li className="last-item-button list-item-2">
+                  <li onClick={handleOpen} className="last-item-button list-item-2">
                     <span className="text-span-8">CONTACT</span>
                   </li>
                 </ul>
               </Grid>
-              <Grid lg={4} md={4} sm={12} xs={12}>
+              <Grid item lg={4} md={4} sm={12} xs={12}>
                 <ul style={{ listStyleType: 'none', paddingLeft: '0', textAlign: 'center' }} className="recording-pricing-3-desktop w-list-unstyled">
                   <li className="first-item-title list-item-2">
                     Hour Bundles
@@ -138,13 +140,12 @@ function Pricing() {
                   <li className="list-item-2">
                     *Pricing based on size of work
                   </li>
-                  <li className="last-item-button list-item-2">
+                  <li onClick={handleOpen} className="last-item-button list-item-2">
                     <span className="text-span-8">CONTACT</span>
                   </li>
                 </ul>
               </Grid>
             </Grid>
-
           </TabPanel>
           <TabPanel value={value} index={1}>
             <ul style={{ listStyleType: 'none', paddingLeft: '0', textAlign: 'center', width: '33%', margin: '0 auto' }} className="mixing-pricing-2-desktop w-list-unstyled">
@@ -158,16 +159,24 @@ function Pricing() {
               <li className="list-item-2">Industry Quality Mix Down</li>
               <li className="list-item-2">Session/Project Bounce</li>
               <li className="list-item-2">3 Revisions Included</li>
-              <li className="last-item-button list-item-2">
+              <li onClick={handleOpen} className="last-item-button list-item-2">
                 <span className="text-span-8">CONTACT</span>
               </li>
             </ul>
           </TabPanel>
-
         </Box>
       </Container>
+      <Modal
+        sx={{ overflow: 'scroll' }}
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+      >
+        <GeneralContact onClose={handleClose} />
+      </Modal>
     </div>
-
   );
 }
 
