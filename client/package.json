@@ -23,9 +23,11 @@
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
     "react-scroll": "^1.8.9",
+    "serve": "^14.2.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "dev": "react-scripts start",
     "start": "serve build -s -n -L -p $PORT",
     "build": "react-scripts build",
     "test": "react-scripts test",
