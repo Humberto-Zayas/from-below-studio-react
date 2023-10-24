@@ -56,15 +56,15 @@ function Hero() {
         }}
       >
          
-        {/* <Fade in={open}> */}
-          {/* <Box className='div-block-42' sx={style}>
+        <Fade in={open}>
+          <Box className='div-block-42' sx={style}>
             <div style={{display: 'flex', justifyContent: 'end'}}>
               <CloseIcon style={{color: 'white'}} onClick={() => setOpen(false)} />
-            </div> */}
-            {/* <HorizontalLinearStepper></HorizontalLinearStepper> */}
-            <GeneralContact />
-          {/* </Box> */}
-        {/* </Fade> */}
+            </div>
+            <HorizontalLinearStepper></HorizontalLinearStepper>
+          </Box>
+        </Fade>
+        {/* <GeneralContact /> */}
       </Modal>
     </div>
   )

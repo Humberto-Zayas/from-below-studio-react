@@ -121,7 +121,6 @@ export default function AdminStepper() {
               <Box>
                 <h3>Review</h3>
                 <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
-                date: {value.toISOString().split('T')[0]}
                 <br />
                 availablity: {availablity ? 'Available' : 'Unavailable'}
                 <br />

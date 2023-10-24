@@ -4,21 +4,50 @@ const express = require("express");
 const http = require("http");
 const cors = require("cors");
 const path = require("path");
-const { json } = require("body-parser");
-const { authMiddleware } = require("./utils/auth");
 const db = require("./config/connection");
 const app = express();
 const httpServer = http.createServer(app);
 const PORT = process.env.PORT || 3001;
 const daysRoutes = require('./api/daysRoutes');
-const usersRoutes = require('./api/usersRoutes');
+const jwt = require('jsonwebtoken');
+const secretKey = 'your_secret_key'; // Replace with your actual secret key
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors()); // Enable CORS for cross-origin requests
 
-app.use('/api', usersRoutes);
 app.use('/api', daysRoutes);
+
+app.post('/api/login', async (req, res) => {
+  // Authenticate user (validate credentials)
+  const { username, password } = req.body;
+
+  try {
+    // Find the user by the username in the database
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      // If the user doesn't exist, respond with an authentication failure message
+      return res.status(401).json({ message: 'Authentication failed' });
+    }
+
+    // Use the isCorrectPassword method to compare the provided password with the stored hashed password
+    const isCorrect = await user.isCorrectPassword(password);
+
+    if (isCorrect) {
+      // If the password is correct, generate a JWT token
+      const token = jwt.sign({ username }, secretKey, { expiresIn: '1h' });
+
+      res.json({ token });
+    } else {
+      // If the password is incorrect, respond with an authentication failure message
+      res.status(401).json({ message: 'Authentication failed' });
+    }
+  } catch (error) {
+    // Handle any database or server errors here
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 // New route for booking
 app.post("/api/bookings", async (req, res) => {

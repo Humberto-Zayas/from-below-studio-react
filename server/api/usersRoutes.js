@@ -56,19 +56,19 @@ router.post("/editUser", authMiddleware, async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (!user || !(await user.isCorrectPassword(password))) {
-      throw new AuthenticationError("Incorrect credentials");
-    }
-    const token = signToken(user);
-    res.json({ token, user });
-  } catch (error) {
-    res.status(401).json({ error: error.message });
-  }
-});
+// router.post("/login", async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+//     const user = await User.findOne({ email });
+//     if (!user || !(await user.isCorrectPassword(password))) {
+//       throw new AuthenticationError("Incorrect credentials");
+//     }
+//     const token = signToken(user);
+//     res.json({ token, user });
+//   } catch (error) {
+//     res.status(401).json({ error: error.message });
+//   }
+// });
 
 
 module.exports = router;
