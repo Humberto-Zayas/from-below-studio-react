@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, Box, Button, Typography, Container, Drawer, List, ListItem, Divider } from '@mui/material';
 import { CalendarToday, ListAlt } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom'; // Import useHistory
 import LogoutIcon from '@mui/icons-material/Logout';
 import fbslogo from '../images/fbs-red-logo.jpeg';
 import './Admin.css';
@@ -11,6 +12,7 @@ import Login from '../components/Login'; // Import the Login component
 const Admin = () => {
   const [selectedComponent, setSelectedComponent] = useState('dateHours');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigation = useNavigate(); // Use useNavigation
 
   // Function to handle user login
   const handleLogin = () => {
@@ -21,6 +23,7 @@ const Admin = () => {
   const handleLogout = () => {
     setIsLoggedIn(false);
     localStorage.removeItem('token'); // Remove the token from localStorage
+    navigation('/'); // Redirect to the home page
   };
 
   useEffect(() => {
