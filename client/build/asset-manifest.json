@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.ea0255a4.css",
-    "main.js": "/static/js/main.ced171d3.js",
+    "main.css": "/static/css/main.445cc5ba.css",
+    "main.js": "/static/js/main.79161233.js",
     "static/js/787.a9b460f3.chunk.js": "/static/js/787.a9b460f3.chunk.js",
     "static/media/avalong-demoshot.jpg": "/static/media/avalong-demoshot.c4f2e7f1e5b8b4354145.jpg",
     "static/media/mock-floor.jpg": "/static/media/mock-floor.8b91c388f8fdc39fb79d.jpg",
@@ -32,12 +32,12 @@
     "static/media/fbs-ccinfo.png": "/static/media/fbs-ccinfo.f93ca08b37bf8a8bf603.png",
     "static/media/fbs-red-logo.jpeg": "/static/media/fbs-red-logo.d7b381cf2ecffbaab96b.jpeg",
     "index.html": "/index.html",
-    "main.ea0255a4.css.map": "/static/css/main.ea0255a4.css.map",
-    "main.ced171d3.js.map": "/static/js/main.ced171d3.js.map",
+    "main.445cc5ba.css.map": "/static/css/main.445cc5ba.css.map",
+    "main.79161233.js.map": "/static/js/main.79161233.js.map",
     "787.a9b460f3.chunk.js.map": "/static/js/787.a9b460f3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ea0255a4.css",
-    "static/js/main.ced171d3.js"
+    "static/css/main.445cc5ba.css",
+    "static/js/main.79161233.js"
   ]
 }
