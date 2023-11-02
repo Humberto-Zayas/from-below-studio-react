@@ -30,7 +30,7 @@ const EditBooking = ({ value, hours, id, onBookingUpdate, closeDrawer }) => {
   }, []); // Run only once on component mount
 
   useEffect(() => {
-    const maxDateUrl = 'http://localhost:3001/api/getMaxDate'; // API endpoint to fetch max date
+    const maxDateUrl = '/api/getMaxDate'; // API endpoint to fetch max date
     fetch(maxDateUrl)
       .then((response) => response.json())
       .then((data) => {

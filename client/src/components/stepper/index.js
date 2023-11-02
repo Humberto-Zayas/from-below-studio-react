@@ -42,7 +42,7 @@ export default function HorizontalLinearStepper() {
   }, []); // Run only once on component mount
 
   React.useEffect(() => {
-    const maxDateUrl = 'http://localhost:3001/api/getMaxDate'; // API endpoint to fetch max date
+    const maxDateUrl = '/api/getMaxDate'; // API endpoint to fetch max date
     fetch(maxDateUrl)
       .then((response) => response.json())
       .then((data) => {

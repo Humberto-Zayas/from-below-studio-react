@@ -22,7 +22,7 @@ export default function AdminDateHours() {
   const [dayData, setDayData] = useState(null);
 
   useEffect(() => {
-    const apiUrl = `http://localhost:3001/api/days/${value.format("YYYY-MM-DD")}`;
+    const apiUrl = `/api/days/${value.format("YYYY-MM-DD")}`;
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
@@ -34,7 +34,7 @@ export default function AdminDateHours() {
   }, [value]);
 
   useEffect(() => {
-    const maxDateUrl = 'http://localhost:3001/api/getMaxDate'; // API endpoint to fetch max date
+    const maxDateUrl = '/api/getMaxDate'; // API endpoint to fetch max date
     fetch(maxDateUrl)
       .then((response) => response.json())
       .then((data) => {
@@ -72,7 +72,7 @@ export default function AdminDateHours() {
 
     setSelectedOptions(updatedOptions);
 
-    const apiUrl = "http://localhost:3001/api/updateOrCreateDay";
+    const apiUrl = "/api/updateOrCreateDay";
     fetch(apiUrl, {
       method: "POST",
       headers: {
@@ -101,7 +101,7 @@ export default function AdminDateHours() {
     setMaxDate(newMaxDate);
 
     // Post the updated maxDate to the API
-    const apiUrl = 'http://localhost:3001/api/updateMaxDate';
+    const apiUrl = '/api/updateMaxDate';
     fetch(apiUrl, {
       method: 'POST',
       headers: {
@@ -152,7 +152,7 @@ export default function AdminDateHours() {
               checked={dayData ? dayData.disabled : true}
               onChange={() => {
                 if (!dayData) return;
-                const apiUrl = "http://localhost:3001/api/editDay";
+                const apiUrl = "/api/editDay";
                 const newDisabled = !dayData.disabled;
 
                 fetch(apiUrl, {
