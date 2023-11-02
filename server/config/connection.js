@@ -3,15 +3,22 @@ const mongoose = require('mongoose');
 let connectionString;
 
 if (process.env.NODE_ENV === 'production') {
-  const mongoUser = process.env.MONGOUSER;
-  const mongoPassword = process.env.MONGOPASSWORD;
-  const mongoHost = process.env.MONGOHOST;
-  const mongoPort = process.env.MONGOPORT;
-
-  connectionString = `mongodb://${mongoUser}:${mongoPassword}@${mongoHost}:${mongoPort}`;
+  connectionString = process.env.MONGODB_CONNECTION_STRING;
 } else {
-  connectionString = 'mongodb://127.0.0.1:27017/from-below';
+  connectionString = process.env.MONGODB_URI_LOCAL || 'mongodb://127.0.0.1:27017/from-below';
 }
+
+
+// if (process.env.NODE_ENV === 'production') {
+//   const mongoUser = process.env.MONGOUSER;
+//   const mongoPassword = process.env.MONGOPASSWORD;
+//   const mongoHost = process.env.MONGOHOST;
+//   const mongoPort = process.env.MONGOPORT;
+
+//   connectionString = `mongodb://${mongoUser}:${mongoPassword}@${mongoHost}:${mongoPort}`;
+// } else {
+//   connectionString = 'mongodb://127.0.0.1:27017/from-below';
+// }
 
 mongoose.connect(connectionString, {
   useNewUrlParser: true,
