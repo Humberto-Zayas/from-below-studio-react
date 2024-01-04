@@ -20,8 +20,6 @@ const daySchema = new Schema({
     type: Boolean,
     required: true,
   },
-  // hours: [String]
-  // hours: [HourSchema]
   hours: {
     type: [HourSchema],
     required: true

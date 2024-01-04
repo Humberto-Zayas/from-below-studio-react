@@ -105,7 +105,7 @@ const Admin = () => {
             <Divider />
           </Box>
         ) : null}
-        <Container maxWidth="md" style={{ paddingTop: '7em' }}>
+        {/* <Container maxWidth="md" style={{ paddingTop: '7em' }}>
           {isLoggedIn ? (
             <>
               {selectedComponent === 'dateHours' && <AdminDateHours />}
@@ -115,6 +115,14 @@ const Admin = () => {
             // Display the Login component when the user is not logged in
             <Login onLogin={handleLogin} />
           )}
+        </Container> */}
+         <Container maxWidth="md" style={{ paddingTop: '7em' }}>
+         
+            <>
+              {selectedComponent === 'dateHours' && <AdminDateHours />}
+              {selectedComponent === 'bookings' && <AdminBookings />}
+            </>
+          
         </Container>
       </Box>
     </>
